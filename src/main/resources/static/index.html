@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale =1.0, maximum-scale = 1.0, user-scalable = no">
+    <title>Information</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/information.css">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart', 'sankey']});
+        google.charts.setOnLoadCallback(drawVisualization);
+
+        function drawVisualization() {
+            // Some raw data (not necessarily accurate)
+            var data = google.visualization.arrayToDataTable([
+                ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+                ['2004/05',  165,      938,         522,             998,           450,      614.6],
+                ['2005/06',  135,      1120,        599,             1268,          288,      682],
+                ['2006/07',  157,      1167,        587,             807,           397,      623],
+                ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+                ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+            ]);
+
+            var options = {
+                title : 'Monthly Coffee Production by Country',
+                vAxis: {title: 'Cups'},
+                hAxis: {title: 'Month'},
+                seriesType: 'bars',
+                series: {4: {type: 'line'}}
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('contactInfo'));
+            chart.draw(data, options);
+        }
+        google.charts.setOnLoadCallback(drawChart1);
+        function drawChart1() {
+            var data = google.visualization.arrayToDataTable([
+                ['Language', 'Speakers (in millions)'],
+                ['Assamese', 13], ['Bengali', 83], ['Bodo', 1.4],
+                ['Dogri', 2.3], ['Gujarati', 46], ['Hindi', 300],
+                ['Kannada', 38], ['Kashmiri', 5.5], ['Konkani', 5],
+                ['Maithili', 20], ['Malayalam', 33], ['Manipuri', 1.5],
+                ['Marathi', 72], ['Nepali', 2.9], ['Oriya', 33],
+                ['Punjabi', 29], ['Sanskrit', 0.01], ['Santhali', 6.5],
+                ['Sindhi', 2.5], ['Tamil', 61], ['Telugu', 74], ['Urdu', 52]
+            ]);
+
+            var options = {
+                title: 'Indian Language Use',
+                legend: 'none',
+                pieSliceText: 'label',
+                slices: {  4: {offset: 0.2},
+                    12: {offset: 0.3},
+                    14: {offset: 0.4},
+                    15: {offset: 0.5},
+                },
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('policy'));
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawChart2);
+
+        function drawChart2() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'From');
+            data.addColumn('string', 'To');
+            data.addColumn('number', 'Weight');
+            data.addRows([
+                [ 'A', 'X', 5 ],
+                [ 'A', 'Y', 7 ],
+                [ 'A', 'Z', 6 ],
+                [ 'B', 'X', 2 ],
+                [ 'B', 'Y', 9 ],
+                [ 'B', 'Z', 4 ]
+            ]);
+
+            // Sets chart options.
+            var options = {
+            };
+
+            // Instantiates and draws our chart, passing in some options.
+            var chart = new google.visualization.Sankey(document.getElementById('partner'));
+            chart.draw(data, options);
+        }
+
+    </script>
+
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+<nav>
+    <ul class="container">
+        <li><a href="home.html">Home</a></li>
+        <li class="nowPage"><a>Analysis</a></li>
+    </ul>
+</nav>
+
+
+
+<div class="container">
+
+    <div style="margin-top:30px;" href="#" class="list-group-item">
+        <div class="row">
+            <div class="col-sm-2"><h4>Search Medicine :</h4></div>
+            <div class="col-sm-2">
+                <select class="form-control">
+                    <option value="">Choose Level</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="User Name">
+            </div>
+            <div class="col-sm-2">
+                <input id="newInput" type="text" class="form-control" placeholder="Medicine Name">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Medicine Name">
+            </div>
+        </div>
+
+
+    </div>
+    <div href="#" class="list-group-item">
+        <div class="row">
+            <div class="col-sm-2"><h4>Search Year :</h4></div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="First Year">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Last Year">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Quarter">
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Month">
+            </div>
+            <div class="col-sm-2">
+                <button id="show" class="btn btn-default" type="button">Search</button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div id="resultArea" class="row" style="display:none">
+        <nav class="col-sm-3" id="myScrollspy">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#contactInfo">Contact us</a></li>
+                        <li><a href="#policy">Terms & Policy</a></li>
+                        <li><a href="#partner">Partner</a></li>
+                        <li class="dropdown"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="infoContentArea" class="col-sm-9">
+            <div id="contactInfo">
+            </div>
+            <div id="policy">
+            </div>
+            <div id="partner">
+            </div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function() {
+        $("#show").click(function() {
+            $("#resultArea").show();
+            drawVisualization();
+            drawChart1();
+            drawChart2();
+        });
+    });
+
+
+</script>
+
+</body>
+</html>
