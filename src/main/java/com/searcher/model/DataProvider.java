@@ -17,6 +17,7 @@ public class DataProvider {
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);
         graphCollection.setDrawSankey(true);
+        graphCollection.setDrawLine(true);
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
         graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
