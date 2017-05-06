@@ -15,6 +15,7 @@ public class DataProvider {
         GraphCollection graphCollection = new GraphCollection();
 
         graphCollection.setDrawPie(true);
+        graphCollection.setDrawCombo(true);
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
         graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
@@ -135,7 +136,70 @@ public class DataProvider {
     }
 
     public ComboArgs mockComboArgsGenerator(){
-        ComboArgs comboArgs = new ComboArgs();
+        ComboArgs comboArgs = new ComboArgs("Monthly Coffee Production by Country", "Cups", "Month");
+
+        ArrayList<String> tempList_1 = new ArrayList<String>();
+        ArrayList<String> tempList_2 = new ArrayList<String>();
+        ArrayList<String> tempList_3 = new ArrayList<String>();
+        ArrayList<String> tempList_4 = new ArrayList<String>();
+        ArrayList<String> tempList_5 = new ArrayList<String>();
+        ArrayList<String> tempList_6 = new ArrayList<String>();
+
+        tempList_1.add("Month");
+        tempList_1.add("Bolivia");
+        tempList_1.add("Ecuador");
+        tempList_1.add("Madagascar");
+        tempList_1.add("Papua New Guinea");
+        tempList_1.add("Rwanda");
+        tempList_1.add("Average");
+
+        tempList_2.add("2004/05");
+        tempList_2.add("165");
+        tempList_2.add("938");
+        tempList_2.add("522");
+        tempList_2.add("998");
+        tempList_2.add("450");
+        tempList_2.add("614.6");
+
+        tempList_3.add("2005/06");
+        tempList_3.add("135");
+        tempList_3.add("1120");
+        tempList_3.add("599");
+        tempList_3.add("1268");
+        tempList_3.add("288");
+        tempList_3.add("682");
+
+        tempList_4.add("2006/07");
+        tempList_4.add("157");
+        tempList_4.add("1167");
+        tempList_4.add("587");
+        tempList_4.add("807");
+        tempList_4.add("397");
+        tempList_4.add("623");
+
+        tempList_5.add("2007/08");
+        tempList_5.add("139");
+        tempList_5.add("1110");
+        tempList_5.add("615");
+        tempList_5.add("968");
+        tempList_5.add("215");
+        tempList_5.add("609.4");
+
+        tempList_6.add("2008/09");
+        tempList_6.add("136");
+        tempList_6.add("691");
+        tempList_6.add("629");
+        tempList_6.add("1026");
+        tempList_6.add("366");
+        tempList_6.add("569.6");
+
+
+        comboArgs.addItemList(tempList_1);
+        comboArgs.addItemList(tempList_2);
+        comboArgs.addItemList(tempList_3);
+        comboArgs.addItemList(tempList_4);
+        comboArgs.addItemList(tempList_5);
+        comboArgs.addItemList(tempList_6);
 
         return comboArgs;
     }

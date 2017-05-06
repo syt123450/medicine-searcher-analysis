@@ -22,8 +22,17 @@ public class ComboArgs {
         this.hAxis = "";
     }
 
+    public ComboArgs(String title, String vAxis, String hAxis){
+        this.argsData = new ArrayList<ArrayList<String>>();
+        this.title = title;
+        this.vAxis = vAxis;
+        this.hAxis = hAxis;
+    }
+
     public void addItemList(ArrayList<String> itemList){
-        this.argsData.add(itemList);
+        ArrayList<ArrayList<String>> tempList = this.getArgsData();
+        tempList.add(itemList);
+        this.setArgsData(tempList);
     }
 
 }
