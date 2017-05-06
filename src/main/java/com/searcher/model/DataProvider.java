@@ -21,6 +21,7 @@ public class DataProvider {
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
         graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
+        graphCollection.setLineArgs(mockLineArgsGenerator());
 
         return graphCollection;
     }
