@@ -6,6 +6,8 @@
     <title>Information</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.2/sockjs.js"></script>
+    <script src="js/stomp.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
@@ -39,8 +41,8 @@
                     4: {offset: 0.2},
                     12: {offset: 0.3},
                     14: {offset: 0.4},
-                    15: {offset: 0.5},
-                },
+                    15: {offset: 0.5}
+                }
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -85,37 +87,32 @@
 
 <div class="container">
 
-    <!--<div class="row">-->
-
-
-    <!--</div>-->
-
     <div class="col-sm-6">
 
         <div id="realTimeArea">
             <div>
                 <svg id="fillgauge1" onclick="gauge1.update(NewValue());"></svg>
-                <p>Factory1</p>
+                <p>Physicians Total Care</p>
             </div>
             <div>
                 <svg id="fillgauge2" onclick="gauge2.update(NewValue());"></svg>
-                <p>Factory2</p>
+                <p>Mylan Pharmaceuticals</p>
             </div>
             <div>
                 <svg id="fillgauge3" onclick="gauge3.update(NewValue());"></svg>
-                <p>Factory3</p>
+                <p>Jets, Sets, & Elephants Beauty</p>
             </div>
             <div>
                 <svg id="fillgauge4" onclick="gauge4.update(NewValue());"></svg>
-                <p>Factory4</p>
+                <p>Hannaford Brothers</p>
             </div>
             <div>
                 <svg id="fillgauge5" onclick="gauge5.update(NewValue());"></svg>
-                <p>Factory5</p>
+                <p>Ventura Corporation</p>
             </div>
             <div>
                 <svg id="fillgauge6" onclick="gauge6.update(NewValue());"></svg>
-                <p>Factory6</p>
+                <p>Nelco Laboratories</p>
             </div>
         </div>
     </div>
@@ -166,6 +163,38 @@
             return (Math.random() * 100).toFixed(1);
         }
     }
+
+
+    $(function () {
+        connect();
+
+        $(window).unload(function(){
+            disconnect();
+        });
+    });
+
+    function connect() {
+        var socket = new SockJS('/endpoint');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/getResponse', function (response) {
+                var responseData = JSON.parse(response.body);
+                console.log(responseData);
+                renderResult(responseData);
+            });
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+    }
+
+    function renderResult(responseData) {
+        console.log(responseData);
+    }
+
 </script>
 </body>
 </html>
