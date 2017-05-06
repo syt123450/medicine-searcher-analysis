@@ -17,14 +17,14 @@ public class DataProvider {
         graphCollection.setDrawPie(true);
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
+        graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
 
         return graphCollection;
     }
 
     public PieArgs mockPieArgsGenerator(){
         // Mock PieArgs
-        PieArgs pieArgs = new PieArgs();
-        pieArgs.setTitle("Indian Language Use");
+        PieArgs pieArgs = new PieArgs("Indian Language Use");
 
         ArrayList<String> tempList_1 = new ArrayList<String>();
         ArrayList<String> tempList_2 = new ArrayList<String>();

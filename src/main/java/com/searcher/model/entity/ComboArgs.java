@@ -15,5 +15,15 @@ public class ComboArgs {
     private String hAxis;
     private ArrayList<ArrayList<String>> argsData;
 
+    public ComboArgs(){
+        this.argsData = new ArrayList<ArrayList<String>>();
+        this.title = "";
+        this.vAxis = "";
+        this.hAxis = "";
+    }
+
+    public void addItemList(ArrayList<String> itemList){
+        this.argsData.add(itemList);
+    }
 
 }

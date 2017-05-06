@@ -12,4 +12,13 @@ import java.util.ArrayList;
 public class SankeyArgs {
     private String title;
     private ArrayList<ArrayList<String>> argsData;
+
+    public SankeyArgs(){
+        this.argsData = new ArrayList<ArrayList<String>>();
+        this.title = "";
+    }
+
+    public void addItemList(ArrayList<String> itemList){
+        this.argsData.add(itemList);
+    }
 }
