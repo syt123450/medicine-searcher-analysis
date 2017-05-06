@@ -14,6 +14,7 @@ public class DataProvider {
     public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
         GraphCollection graphCollection = new GraphCollection();
 
+        graphCollection.setDrawPie(true);
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
 
