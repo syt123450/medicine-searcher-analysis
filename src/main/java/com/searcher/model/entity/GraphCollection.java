@@ -18,4 +18,6 @@ public class GraphCollection {
     private LineArgs lineArgs;
     private ComboArgs comboArgs;
     private SankeyArgs sankeyArgs;
+
+
 }
