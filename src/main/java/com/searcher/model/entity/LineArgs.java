@@ -27,9 +27,9 @@ public class LineArgs {
     }
 
     public LineArgs(String title, String subTitle, String hAxis){
-        title = "";
-        subTitle = "";
-        hAxis = "";
+        this.title = title;
+        this.subTitle = subTitle;
+        this.hAxis = hAxis;
         lineName = new ArrayList<String>();
         argsData = new ArrayList<ArrayList<String>>();
     }
