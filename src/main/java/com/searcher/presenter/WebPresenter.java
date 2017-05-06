@@ -2,6 +2,9 @@ package com.searcher.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.searcher.model.DataProvider;
+import com.searcher.model.entity.GraphCollection;
+import com.searcher.model.entity.WebRequestBean;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +23,10 @@ class WebPresenter {
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     private String queryAnalysis(@RequestBody String body) throws Exception{
 
-        String response = "";
+        WebRequestBean webRequestBean = gson.fromJson(body, WebRequestBean.class);
+        DataProvider dataProvider = new DataProvider();
+        GraphCollection graphCollection = dataProvider.getGraphAnalyse(webRequestBean);
+        String response = gson.toJson(graphCollection);
 
         return response;
     }
