@@ -14,6 +14,10 @@ public class PieArgs {
     private String title;
     private ArrayList<ArrayList<String>> argsData;
 
+    public PieArgs(){
+        argsData = new ArrayList<ArrayList<String>>();
+    }
+
     public void addItemList(ArrayList<String> itemList){
         this.argsData.add(itemList);
     }

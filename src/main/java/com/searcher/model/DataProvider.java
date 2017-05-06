@@ -1,8 +1,6 @@
 package com.searcher.model;
 
-import com.searcher.model.entity.GraphCollection;
-import com.searcher.model.entity.PieArgs;
-import com.searcher.model.entity.WebRequestBean;
+import com.searcher.model.entity.*;
 
 import java.util.ArrayList;
 
@@ -17,6 +15,7 @@ public class DataProvider {
         GraphCollection graphCollection = new GraphCollection();
 
         graphCollection.setPieArgs(mockPieArgsGenerator());
+        graphCollection.setComboArgs(mockComboArgsGenerator());
 
         return graphCollection;
     }
@@ -99,6 +98,18 @@ public class DataProvider {
         pieArgs.addItemList(tempList_8);
 
         return pieArgs;
+    }
+
+    public ComboArgs mockComboArgsGenerator(){
+        ComboArgs comboArgs = new ComboArgs();
+
+        return comboArgs;
+    }
+
+    public SankeyArgs mockSankeyArgsGenerator(){
+        SankeyArgs sankeyArgs = new SankeyArgs();
+
+        return sankeyArgs;
     }
 
 }
