@@ -14,24 +14,38 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart', 'sankey']});
-        google.charts.setOnLoadCallback(drawVisualization);
+        google.charts.load('current', {'packages':['corechart', 'sankey', 'line']});
+//        google.charts.setOnLoadCallback(drawComboChart);
 
-        function drawVisualization() {
+        function drawComboChart(comboArgs) {
             // Some raw data (not necessarily accurate)
-            var data = google.visualization.arrayToDataTable([
-                ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-                ['2004/05',  165,      938,         522,             998,           450,      614.6],
-                ['2005/06',  135,      1120,        599,             1268,          288,      682],
-                ['2006/07',  157,      1167,        587,             807,           397,      623],
-                ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-                ['2008/09',  136,      691,         629,             1026,          366,      569.6]
-            ]);
+
+            var comboValue = comboArgs.argsData;
+
+            console.log(comboValue);
+            for (var i = 1; i < comboValue.length; i++) {
+                var comboItem = comboValue[i];
+                for (var j = 1; j < comboItem.length; j++) {
+                    comboItem[j] = parseInt(comboItem[j]);
+                    comboValue[i] = comboItem;
+                }
+            }
+
+//            var data = google.visualization.arrayToDataTable([
+//                ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+//                ['2004/05',  165,      938,         522,             998,           450,      614.6],
+//                ['2005/06',  135,      1120,        599,             1268,          288,      682],
+//                ['2006/07',  157,      1167,        587,             807,           397,      623],
+//                ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+//                ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+//            ]);
+
+            var data = google.visualization.arrayToDataTable(comboValue);
 
             var options = {
-                title : 'Monthly Coffee Production by Country',
-                vAxis: {title: 'Cups'},
-                hAxis: {title: 'Month'},
+                title : comboArgs.title,
+                vAxis: {title: comboArgs.vAxis},
+                hAxis: {title: comboArgs.hAxis},
                 seriesType: 'bars',
                 series: {5: {type: 'line'}}
             };
@@ -39,49 +53,69 @@
             var chart = new google.visualization.ComboChart(document.getElementById('contactInfo'));
             chart.draw(data, options);
         }
-        google.charts.setOnLoadCallback(drawChart1);
-        function drawChart1() {
-            var data = google.visualization.arrayToDataTable([
-                ['Language', 'Speakers (in millions)'],
-                ['Assamese', 13], ['Bengali', 83], ['Bodo', 1.4],
-                ['Dogri', 2.3], ['Gujarati', 46], ['Hindi', 300],
-                ['Kannada', 38], ['Kashmiri', 5.5], ['Konkani', 5],
-                ['Maithili', 20], ['Malayalam', 33], ['Manipuri', 1.5],
-                ['Marathi', 72], ['Nepali', 2.9], ['Oriya', 33],
-                ['Punjabi', 29], ['Sanskrit', 0.01], ['Santhali', 6.5],
-                ['Sindhi', 2.5], ['Tamil', 61], ['Telugu', 74], ['Urdu', 52]
-            ]);
+//        google.charts.setOnLoadCallback(drawChart1);
+        function drawChart1(pieArgs) {
+
+            console.log(pieArgs);
+
+            var pieValue = pieArgs.argsData;
+            console.log(pieValue);
+            for (var i = 1; i < pieValue.length; i++) {
+                var pieItem = pieValue[i];
+                for (var j = 1; j < pieItem.length; j++) {
+                    pieItem[j] = parseInt(pieItem[j]);
+                    pieValue[i] = pieItem;
+                }
+            }
+
+            console.log(pieValue);
+
+
+            var data = google.visualization.arrayToDataTable(pieValue);
 
             var options = {
-                title: 'Indian Language Use',
+                title: pieArgs.title,
                 legend: 'none',
                 pieSliceText: 'label',
                 slices: {  4: {offset: 0.2},
                     12: {offset: 0.3},
                     14: {offset: 0.4},
-                    15: {offset: 0.5},
-                },
+                    15: {offset: 0.5}
+                }
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('policy'));
             chart.draw(data, options);
         }
 
-        google.charts.setOnLoadCallback(drawChart2);
+//        google.charts.setOnLoadCallback(drawSankeyChart);
 
-        function drawChart2() {
+        function drawSankeyChart(sankeyArgs) {
+
+            var sankeyValue = sankeyArgs.argsData;
+
+            for (var i = 0; i < sankeyValue.length; i++) {
+                var sankeyItem = sankeyValue[i];
+                for (var j = 2; j < sankeyItem.length; j++) {
+                    sankeyItem[j] = parseInt(sankeyItem[j]);
+                    sankeyValue[i] = sankeyItem;
+                }
+            }
+
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'From');
             data.addColumn('string', 'To');
             data.addColumn('number', 'Weight');
-            data.addRows([
-                [ 'A', 'X', 5 ],
-                [ 'A', 'Y', 7 ],
-                [ 'A', 'Z', 6 ],
-                [ 'B', 'X', 2 ],
-                [ 'B', 'Y', 9 ],
-                [ 'B', 'Z', 4 ]
-            ]);
+//            data.addRows([
+//                [ 'A', 'X', 5 ],
+//                [ 'A', 'Y', 7 ],
+//                [ 'A', 'Z', 6 ],
+//                [ 'B', 'X', 2 ],
+//                [ 'B', 'Y', 9 ],
+//                [ 'B', 'Z', 4 ]
+//            ]);
+
+            data.addRows(sankeyValue);
 
             // Sets chart options.
             var options = {
@@ -90,6 +124,69 @@
             // Instantiates and draws our chart, passing in some options.
             var chart = new google.visualization.Sankey(document.getElementById('partner'));
             chart.draw(data, options);
+        }
+
+        function drawLineChart(lineArgs) {
+
+            var lineValue = lineArgs.argsData;
+
+            for (var i = 0; i < lineValue.length; i++) {
+                var lineItem = lineValue[i];
+                for (var j = 0; j < lineItem.length; j++) {
+                    lineItem[j] = parseInt(lineItem[j]);
+                    lineValue[i] = lineItem;
+                }
+            }
+
+            var data = new google.visualization.DataTable();
+
+            data.addColumn('number', lineArgs.hAxis);
+
+
+            var lineName = lineArgs.lineName;
+
+            for (var k = 0; i < lineName.length; i++) {
+                data.addColumn('number', lineName[0]);
+            }
+
+            data.addColumn('number', 'Guardians of the Galaxy');
+            data.addColumn('number', 'The Avengers');
+            data.addColumn('number', 'Transformers: Age of Extinction');
+
+//            data.addRows([
+//                [1,  37.8, 80.8, 41.8],
+//                [2,  30.9, 69.5, 32.4],
+//                [3,  25.4,   57, 25.7],
+//                [4,  11.7, 18.8, 10.5],
+//                [5,  11.9, 17.6, 10.4],
+//                [6,   8.8, 13.6,  7.7],
+//                [7,   7.6, 12.3,  9.6],
+//                [8,  12.3, 29.2, 10.6],
+//                [9,  16.9, 42.9, 14.8],
+//                [10, 12.8, 30.9, 11.6],
+//                [11,  5.3,  7.9,  4.7],
+//                [12,  6.6,  8.4,  5.2],
+//                [13,  4.8,  6.3,  3.6],
+//                [14,  4.2,  6.2,  3.4]
+//            ]);
+
+            data.addRows(lineValue);
+
+            var options = {
+                chart: {
+                    title: lineArgs.title,
+                    subtitle: lineArgs.subTitle
+                }
+//                axes: {
+//                    x: {
+//                        0: {side: 'top'}
+//                    }
+//                }
+            };
+
+            var chart = new google.charts.Line(document.getElementById('lineChart'));
+
+            chart.draw(data, google.charts.Line.convertOptions(options));
         }
 
     </script>
@@ -158,7 +255,7 @@
     </div>
 
 
-    <div id="resultArea" class="row" style="display:none">
+    <div id="resultArea" class="row">
         <nav class="col-sm-3" id="myScrollspy">
             <div class="container-fluid">
                 <div class="container-fluid">
@@ -166,6 +263,7 @@
                         <li class="active"><a href="#contactInfo">Contact us</a></li>
                         <li><a href="#policy">Terms & Policy</a></li>
                         <li><a href="#partner">Partner</a></li>
+                        <li><a href="#lineChart">Partner</a></li>
                         <li class="dropdown"></li>
                     </ul>
                 </div>
@@ -178,6 +276,8 @@
             </div>
             <div id="partner">
             </div>
+            <div id="lineChart">
+            </div>
             <div></div>
         </div>
     </div>
@@ -186,14 +286,58 @@
 <script>
 
     $(function() {
+
+        console.log(111);
+
         $("#show").click(function() {
-            $("#resultArea").show();
-            drawVisualization();
-            drawChart1();
-            drawChart2();
+
+            var postBody = {
+                "commodityLevel": "",
+                "factory": "",
+                "brand": "",
+                "medicine": "",
+                "timeLevel": "",
+                "year": 5,
+                "quarter": 4,
+                "month": 3
+
+            };
+
+            $.ajax({
+                url: '/API/query',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                async: true,
+                data: JSON.stringify(postBody),
+                dataType: 'json',
+                success: function (data) {
+
+                    console.log(data);
+
+                    if (data.drawPie) {
+                        console.log(data.pieArgs);
+                        drawChart1(data.pieArgs);
+                    }
+
+                    if (data.lineArgs) {
+                        console.log(data.lineArgs);
+                        drawLineChart(data.lineArgs);
+
+                    }
+
+                    if (data.drawCombo) {
+                        console.log(data.comboArgs);
+                        drawComboChart(data.comboArgs);
+                    }
+
+                    if (data.drawSankey) {
+                        console.log(data.sankeyArgs);
+                        drawSankeyChart(data.sankeyArgs);
+                    }
+                }
+            });
         });
     });
-
 
 </script>
 

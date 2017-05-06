@@ -24,7 +24,7 @@ div.col-sm-9 div {
     font-size: 28px;
 }
 
-#contactInfo, #policy, #partner, #story, #FAQ {
+#contactInfo, #policy, #partner, #lineChart, #FAQ {
     background-color: #e0f2f0;
     height: auto;
     min-height: 400px;
