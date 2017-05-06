@@ -263,23 +263,109 @@ public class DataProvider {
         lineName.add("Guardians of the Galaxy");
         lineName.add("The Avengers");
         lineName.add("Transformers: Age of Extinction");
+        lineArgs.setLineName(lineName);
 
-        /*
-                [1,  37.8, 80.8, 41.8],
-                [2,  30.9, 69.5, 32.4],
-                [3,  25.4,   57, 25.7],
-                [4,  11.7, 18.8, 10.5],
-                [5,  11.9, 17.6, 10.4],
-                [6,   8.8, 13.6,  7.7],
-                [7,   7.6, 12.3,  9.6],
-                [8,  12.3, 29.2, 10.6],
-                [9,  16.9, 42.9, 14.8],
-                [10, 12.8, 30.9, 11.6],
-                [11,  5.3,  7.9,  4.7],
-                [12,  6.6,  8.4,  5.2],
-                [13,  4.8,  6.3,  3.6],
-                [14,  4.2,  6.2,  3.4]
-         */
+        ArrayList<String> tempList_1 = new ArrayList<String>();
+        ArrayList<String> tempList_2 = new ArrayList<String>();
+        ArrayList<String> tempList_3 = new ArrayList<String>();
+        ArrayList<String> tempList_4 = new ArrayList<String>();
+        ArrayList<String> tempList_5 = new ArrayList<String>();
+        ArrayList<String> tempList_6 = new ArrayList<String>();
+        ArrayList<String> tempList_7 = new ArrayList<String>();
+        ArrayList<String> tempList_8 = new ArrayList<String>();
+        ArrayList<String> tempList_9 = new ArrayList<String>();
+        ArrayList<String> tempList_10 = new ArrayList<String>();
+        ArrayList<String> tempList_11 = new ArrayList<String>();
+        ArrayList<String> tempList_12 = new ArrayList<String>();
+        ArrayList<String> tempList_13 = new ArrayList<String>();
+        ArrayList<String> tempList_14 = new ArrayList<String>();
+
+        tempList_1.add("1");
+        tempList_1.add("37.8");
+        tempList_1.add("80.8");
+        tempList_1.add("41.8");
+
+        tempList_2.add("2");
+        tempList_2.add("30.9");
+        tempList_2.add("69.5");
+        tempList_2.add("32.4");
+
+        tempList_3.add("3");
+        tempList_3.add("25.4");
+        tempList_3.add("57");
+        tempList_3.add("25.7");
+
+        tempList_4.add("4");
+        tempList_4.add("11.7");
+        tempList_4.add("18.8");
+        tempList_4.add("10.5");
+
+        tempList_5.add("5");
+        tempList_5.add("11.9");
+        tempList_5.add("17.6");
+        tempList_5.add("10.4");
+
+        tempList_6.add("6");
+        tempList_6.add("8.8");
+        tempList_6.add("13.6");
+        tempList_6.add("7.7");
+
+        tempList_7.add("7");
+        tempList_7.add("7.6");
+        tempList_7.add("12.3");
+        tempList_7.add("9.6");
+
+        tempList_8.add("8");
+        tempList_8.add("12.3");
+        tempList_8.add("29.2");
+        tempList_8.add("10.6");
+
+        tempList_9.add("9");
+        tempList_9.add("16.9");
+        tempList_9.add("42.9");
+        tempList_9.add("14.8");
+
+        tempList_10.add("10");
+        tempList_10.add("12.8");
+        tempList_10.add("30.9");
+        tempList_10.add("11.6");
+
+        tempList_11.add("11");
+        tempList_11.add("5.3");
+        tempList_11.add("7.9");
+        tempList_11.add("4.7");
+
+        tempList_12.add("12");
+        tempList_12.add("6.6");
+        tempList_12.add("8.4");
+        tempList_12.add("5.2");
+
+        tempList_13.add("13");
+        tempList_13.add("4.8");
+        tempList_13.add("6.3");
+        tempList_13.add("3.6");
+
+        tempList_14.add("14");
+        tempList_14.add("4.2");
+        tempList_14.add("6.2");
+        tempList_14.add("3.4");
+
+        lineArgs.addItemList(tempList_1);
+        lineArgs.addItemList(tempList_2);
+        lineArgs.addItemList(tempList_3);
+        lineArgs.addItemList(tempList_4);
+        lineArgs.addItemList(tempList_5);
+
+        lineArgs.addItemList(tempList_6);
+        lineArgs.addItemList(tempList_7);
+        lineArgs.addItemList(tempList_8);
+        lineArgs.addItemList(tempList_9);
+        lineArgs.addItemList(tempList_10);
+
+        lineArgs.addItemList(tempList_11);
+        lineArgs.addItemList(tempList_12);
+        lineArgs.addItemList(tempList_13);
+        lineArgs.addItemList(tempList_14);
 
         return lineArgs;
     }
