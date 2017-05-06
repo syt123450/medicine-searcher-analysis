@@ -1,345 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width, initial-scale =1.0, maximum-scale = 1.0, user-scalable = no">
     <title>Information</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.2/sockjs.js"></script>
+    <script src="js/stomp.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/information.css">
+
+    <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <script src="./js/liquidFillGauge.js" language="JavaScript"></script>
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart', 'sankey', 'line']});
-//        google.charts.setOnLoadCallback(drawComboChart);
+        google.charts.load("current", {packages: ["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
 
-        function drawComboChart(comboArgs) {
-            // Some raw data (not necessarily accurate)
 
-            var comboValue = comboArgs.argsData;
 
-            console.log(comboValue);
-            for (var i = 1; i < comboValue.length; i++) {
-                var comboItem = comboValue[i];
-                for (var j = 1; j < comboItem.length; j++) {
-                    comboItem[j] = parseInt(comboItem[j]);
-                    comboValue[i] = comboItem;
-                }
-            }
-
-//            var data = google.visualization.arrayToDataTable([
-//                ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-//                ['2004/05',  165,      938,         522,             998,           450,      614.6],
-//                ['2005/06',  135,      1120,        599,             1268,          288,      682],
-//                ['2006/07',  157,      1167,        587,             807,           397,      623],
-//                ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-//                ['2008/09',  136,      691,         629,             1026,          366,      569.6]
-//            ]);
-
-            var data = google.visualization.arrayToDataTable(comboValue);
+        function drawChart(pieArgs) {
+            var data = google.visualization.arrayToDataTable([
+                ['Language', 'Speakers (in millions)'],
+                ['Assamese', 13], ['Bengali', 83], ['Bodo', 1.4],
+                ['Dogri', 2.3], ['Gujarati', 46], ['Hindi', 300],
+                ['Kannada', 38], ['Kashmiri', 5.5], ['Konkani', 5],
+                ['Maithili', 20], ['Malayalam', 33], ['Manipuri', 1.5],
+                ['Marathi', 72], ['Nepali', 2.9], ['Oriya', 33],
+                ['Punjabi', 29], ['Sanskrit', 0.01], ['Santhali', 6.5],
+                ['Sindhi', 2.5], ['Tamil', 61], ['Telugu', 74], ['Urdu', 52]
+            ]);
 
             var options = {
-                title : comboArgs.title,
-                vAxis: {title: comboArgs.vAxis},
-                hAxis: {title: comboArgs.hAxis},
-                seriesType: 'bars',
-                series: {5: {type: 'line'}}
-            };
-
-            var chart = new google.visualization.ComboChart(document.getElementById('contactInfo'));
-            chart.draw(data, options);
-        }
-//        google.charts.setOnLoadCallback(drawChart1);
-        function drawChart1(pieArgs) {
-
-            console.log(pieArgs);
-
-            var pieValue = pieArgs.argsData;
-            console.log(pieValue);
-            for (var i = 1; i < pieValue.length; i++) {
-                var pieItem = pieValue[i];
-                for (var j = 1; j < pieItem.length; j++) {
-                    pieItem[j] = parseInt(pieItem[j]);
-                    pieValue[i] = pieItem;
-                }
-            }
-
-            console.log(pieValue);
-
-
-            var data = google.visualization.arrayToDataTable(pieValue);
-
-            var options = {
-                title: pieArgs.title,
+                title: 'Indian Language Use',
                 legend: 'none',
                 pieSliceText: 'label',
-                slices: {  4: {offset: 0.2},
+//                is3D: true,
+                slices: {
+                    4: {offset: 0.2},
                     12: {offset: 0.3},
                     14: {offset: 0.4},
                     15: {offset: 0.5}
                 }
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('policy'));
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
             chart.draw(data, options);
         }
-
-//        google.charts.setOnLoadCallback(drawSankeyChart);
-
-        function drawSankeyChart(sankeyArgs) {
-
-            var sankeyValue = sankeyArgs.argsData;
-
-            for (var i = 0; i < sankeyValue.length; i++) {
-                var sankeyItem = sankeyValue[i];
-                for (var j = 2; j < sankeyItem.length; j++) {
-                    sankeyItem[j] = parseInt(sankeyItem[j]);
-                    sankeyValue[i] = sankeyItem;
-                }
-            }
-
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'From');
-            data.addColumn('string', 'To');
-            data.addColumn('number', 'Weight');
-//            data.addRows([
-//                [ 'A', 'X', 5 ],
-//                [ 'A', 'Y', 7 ],
-//                [ 'A', 'Z', 6 ],
-//                [ 'B', 'X', 2 ],
-//                [ 'B', 'Y', 9 ],
-//                [ 'B', 'Z', 4 ]
-//            ]);
-
-            data.addRows(sankeyValue);
-
-            // Sets chart options.
-            var options = {
-            };
-
-            // Instantiates and draws our chart, passing in some options.
-            var chart = new google.visualization.Sankey(document.getElementById('partner'));
-            chart.draw(data, options);
-        }
-
-        function drawLineChart(lineArgs) {
-
-            var lineValue = lineArgs.argsData;
-
-            for (var i = 0; i < lineValue.length; i++) {
-                var lineItem = lineValue[i];
-                for (var j = 0; j < lineItem.length; j++) {
-                    lineItem[j] = parseInt(lineItem[j]);
-                    lineValue[i] = lineItem;
-                }
-            }
-
-            var data = new google.visualization.DataTable();
-
-            data.addColumn('number', lineArgs.hAxis);
-
-
-            var lineName = lineArgs.lineName;
-
-            for (var k = 0; i < lineName.length; i++) {
-                data.addColumn('number', lineName[0]);
-            }
-
-            data.addColumn('number', 'Guardians of the Galaxy');
-            data.addColumn('number', 'The Avengers');
-            data.addColumn('number', 'Transformers: Age of Extinction');
-
-//            data.addRows([
-//                [1,  37.8, 80.8, 41.8],
-//                [2,  30.9, 69.5, 32.4],
-//                [3,  25.4,   57, 25.7],
-//                [4,  11.7, 18.8, 10.5],
-//                [5,  11.9, 17.6, 10.4],
-//                [6,   8.8, 13.6,  7.7],
-//                [7,   7.6, 12.3,  9.6],
-//                [8,  12.3, 29.2, 10.6],
-//                [9,  16.9, 42.9, 14.8],
-//                [10, 12.8, 30.9, 11.6],
-//                [11,  5.3,  7.9,  4.7],
-//                [12,  6.6,  8.4,  5.2],
-//                [13,  4.8,  6.3,  3.6],
-//                [14,  4.2,  6.2,  3.4]
-//            ]);
-
-            data.addRows(lineValue);
-
-            var options = {
-                chart: {
-                    title: lineArgs.title,
-                    subtitle: lineArgs.subTitle
-                }
-//                axes: {
-//                    x: {
-//                        0: {side: 'top'}
-//                    }
-//                }
-            };
-
-            var chart = new google.charts.Line(document.getElementById('lineChart'));
-
-            chart.draw(data, google.charts.Line.convertOptions(options));
-        }
-
     </script>
 
+    <style>
+
+        #realTimeArea {
+            margin-top: 50px;
+            display: block;
+        }
+
+        #realTimeArea > div {
+            float: left;
+            width: 50%;
+        }
+
+        #realTimeArea > div > svg {
+            width: 100%;
+        }
+
+        #realTimeArea > div > p {
+            width: 100%;
+            text-align: center;
+        }
+
+    </style>
+
 </head>
-<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+<body>
 
 <nav>
     <ul class="container">
-        <li><a href="home.html">Home</a></li>
-        <li class="nowPage"><a>Analysis</a></li>
+        <li class="nowPage"><a>Home</a></li>
+        <li><a href="analysis.html">Analysis</a></li>
     </ul>
 </nav>
 
-
+<p></p>
 
 <div class="container">
 
-    <div style="margin-top:30px;" href="#" class="list-group-item">
-        <div class="row">
-            <div class="col-sm-2"><h4>Search Medicine :</h4></div>
-            <div class="col-sm-2">
-                <select class="form-control">
-                    <option value="">Choose Level</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+    <div class="col-sm-6">
+
+        <div id="realTimeArea">
+            <div>
+                <svg id="fillgauge1" onclick="gauge1.update(NewValue());"></svg>
+                <p>Physicians Total Care</p>
             </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="User Name">
+            <div>
+                <svg id="fillgauge2" onclick="gauge2.update(NewValue());"></svg>
+                <p>Mylan Pharmaceuticals</p>
             </div>
-            <div class="col-sm-2">
-                <input id="newInput" type="text" class="form-control" placeholder="Medicine Name">
+            <div>
+                <svg id="fillgauge3" onclick="gauge3.update(NewValue());"></svg>
+                <p>Jets, Sets, & Elephants Beauty</p>
             </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="Medicine Name">
+            <div>
+                <svg id="fillgauge4" onclick="gauge4.update(NewValue());"></svg>
+                <p>Hannaford Brothers</p>
+            </div>
+            <div>
+                <svg id="fillgauge5" onclick="gauge5.update(NewValue());"></svg>
+                <p>Ventura Corporation</p>
+            </div>
+            <div>
+                <svg id="fillgauge6" onclick="gauge6.update(NewValue());"></svg>
+                <p>Nelco Laboratories</p>
             </div>
         </div>
-
-
     </div>
-    <div href="#" class="list-group-item">
-        <div class="row">
-            <div class="col-sm-2"><h4>Search Year :</h4></div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="First Year">
-            </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="Last Year">
-            </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="Quarter">
-            </div>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" placeholder="Month">
-            </div>
-            <div class="col-sm-2">
-                <button id="show" class="btn btn-default" type="button">Search</button>
-            </div>
-        </div>
-
-
-    </div>
-
-
-    <div id="resultArea" class="row">
-        <nav class="col-sm-3" id="myScrollspy">
-            <div class="container-fluid">
-                <div class="container-fluid">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#contactInfo">Contact us</a></li>
-                        <li><a href="#policy">Terms & Policy</a></li>
-                        <li><a href="#partner">Partner</a></li>
-                        <li><a href="#lineChart">Partner</a></li>
-                        <li class="dropdown"></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div id="infoContentArea" class="col-sm-9">
-            <div id="contactInfo">
-            </div>
-            <div id="policy">
-            </div>
-            <div id="partner">
-            </div>
-            <div id="lineChart">
-            </div>
-            <div></div>
+    <div class="col-sm-6">
+        <div style="width: 100%; height: 600px" id="piechart">
         </div>
     </div>
+
 </div>
 
-<script>
+<footer>
+    <div id="copyright">Copyright © 2017 CMPE272 Team Ultimate All Rights Reserved.</div>
+</footer>
 
-    $(function() {
+<script language="JavaScript">
 
-        console.log(111);
+    var config1 = liquidFillGaugeDefaultSettings();
+    config1.circleColor = "#FF7777";
+    config1.textColor = "#FF4444";
+    config1.waveTextColor = "#FFAAAA";
+    config1.waveColor = "#FFDDDD";
+    config1.circleThickness = 0.2;
+    config1.textVertPosition = 0.2;
+    config1.waveAnimateTime = 1000;
 
-        $("#show").click(function() {
+    var gauge2 = loadLiquidFillGauge("fillgauge2", 28, config1);
+    var gauge1 = loadLiquidFillGauge("fillgauge1", 55, config1);
+    var gauge3 = loadLiquidFillGauge("fillgauge3", 55, config1);
+    var gauge4 = loadLiquidFillGauge("fillgauge4", 55, config1);
+    var gauge5 = loadLiquidFillGauge("fillgauge5", 55, config1);
+    var gauge6 = loadLiquidFillGauge("fillgauge6", 55, config1);
+    var config2 = liquidFillGaugeDefaultSettings();
+    config2.circleColor = "#D4AB6A";
+    config2.textColor = "#553300";
+    config2.waveTextColor = "#805615";
+    config2.waveColor = "#AA7D39";
+    config2.circleThickness = 0.1;
+    config2.circleFillGap = 0.2;
+    config2.textVertPosition = 0.8;
+    config2.waveAnimateTime = 2000;
+    config2.waveHeight = 0.3;
+    config2.waveCount = 1;
 
-            var postBody = {
-                "commodityLevel": "",
-                "factory": "",
-                "brand": "",
-                "medicine": "",
-                "timeLevel": "",
-                "year": 5,
-                "quarter": 4,
-                "month": 3
+    function NewValue() {
+        if (Math.random() > .5) {
+            return Math.round(Math.random() * 100);
+        } else {
+            return (Math.random() * 100).toFixed(1);
+        }
+    }
 
-            };
 
-            $.ajax({
-                url: '/API/query',
-                type: 'POST',
-                contentType: "application/json; charset=utf-8",
-                async: true,
-                data: JSON.stringify(postBody),
-                dataType: 'json',
-                success: function (data) {
+    $(function () {
+        connect();
 
-                    console.log(data);
-
-                    if (data.drawPie) {
-                        console.log(data.pieArgs);
-                        drawChart1(data.pieArgs);
-                    }
-
-                    if (data.lineArgs) {
-                        console.log(data.lineArgs);
-                        drawLineChart(data.lineArgs);
-
-                    }
-
-                    if (data.drawCombo) {
-                        console.log(data.comboArgs);
-                        drawComboChart(data.comboArgs);
-                    }
-
-                    if (data.drawSankey) {
-                        console.log(data.sankeyArgs);
-                        drawSankeyChart(data.sankeyArgs);
-                    }
-                }
-            });
+        $(window).unload(function(){
+            disconnect();
         });
     });
 
-</script>
+    function connect() {
+        var socket = new SockJS('/endpoint');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/getResponse', function (response) {
+                var responseData = JSON.parse(response.body);
+                console.log(responseData);
+                renderResult(responseData);
+            });
+        });
+    }
 
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+    }
+
+    function renderResult(responseData) {
+        console.log(responseData);
+    }
+
+</script>
 </body>
 </html>

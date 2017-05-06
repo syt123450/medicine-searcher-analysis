@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width, initial-scale =1.0, maximum-scale = 1.0, user-scalable = no">
+    <title>Information</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/information.css">
+    <script src="js/analysis.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+<nav>
+    <ul class="container">
+        <li><a href="index.html">Home</a></li>
+        <li class="nowPage"><a>Analysis</a></li>
+    </ul>
+</nav>
+
+
+<div class="container">
+
+    <div style="margin-top:30px;" href="#" class="list-group-item">
+        <div class="row">
+            <div class="col-sm-2"><h4>Search Medicine :</h4></div>
+            <div class="col-sm-2">
+                <select id="commodity" class="form-control">
+                    <option value="">Commodity Level</option>
+                    <option value="factory">Factory</option>
+                    <option value="brand">Brand</option>
+                    <option value="medicine">Medicine</option>
+                </select>
+            </div>
+            <div id="factory" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Factory Name">
+            </div>
+            <div id="brand" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Brand Name">
+            </div>
+            <div id="medicine" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Medicine Name">
+            </div>
+        </div>
+
+    </div>
+    <div href="#" class="list-group-item">
+        <div class="row">
+            <div class="col-sm-2"><h4>Search Time :</h4></div>
+            <div class="col-sm-2">
+                <select id="time" class="form-control">
+                    <option value="">Time Level</option>
+                    <option value="year">Year</option>
+                    <option value="quarter">Quarter</option>
+                    <option value="month">Month</option>
+                </select>
+            </div>
+            <div id="year" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Year">
+            </div>
+            <div id="quarter" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Quarter">
+            </div>
+            <div id="month" class="col-sm-2">
+                <input type="text" class="form-control" placeholder="Month">
+            </div>
+        </div>
+    </div>
+
+    <div href="#" class="list-group-item">
+        <div class="row">
+
+            <div class="col-sm-2 col-sm-offset-2">
+                <button id="show" class="btn btn-default" type="button">Search</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="resultArea" class="row">
+        <nav class="col-sm-3" id="myScrollspy">
+            <div class="container-fluid">
+                <div class="container-fluid">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li id="comboTitle" class="active"><a href="#combo">Combo Chart</a></li>
+                        <li id="pieTitle"><a href="#pie">Pie Chart</a></li>
+                        <li id="sankeyTitle"><a href="#sankey">Sankey Chart</a></li>
+                        <li id="lineTitle"><a href="#line">Line Chart</a></li>
+                        <li class="dropdown"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="infoContentArea" class="col-sm-9">
+            <div id="combo">
+            </div>
+            <div id="pie">
+            </div>
+            <div id="sankey">
+            </div>
+            <div id="line">
+            </div>
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+        google.charts.load('current', {'packages': ['corechart', 'sankey', 'line']});
+
+        $("#show").click(function () {
+
+            var year = ($("#year input").val() == "")? 0 : parseInt($("#year input").val());
+            var quarter = ($("#quarter input").val() == "")? 0 : parseInt($("#quarter input").val());
+            var month = ($("#month input").val() == "")? 0 : parseInt($("#month input").val());
+
+            var postBody = {
+                "commodityLevel": $("#commodity").val(),
+                "factory": $("#factory input").val(),
+                "brand": $("#brand input").val(),
+                "medicine": $("#medicine input").val(),
+                "timeLevel": $("#time").val(),
+                "year": year,
+                "quarter": quarter,
+                "month": month
+
+            };
+
+            console.log(postBody);
+
+            $.ajax({
+                url: '/API/query',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                async: true,
+                data: JSON.stringify(postBody),
+                dataType: 'json',
+                success: function (data) {
+
+                    console.log(data);
+
+                    hideAllChartTitle();
+                    hideAllChart();
+
+                    if (data.drawPie) {
+                        $("#pieTitle").show();
+                        $("#pie").show();
+                        console.log(data.pieArgs);
+                        drawPieChart(data.pieArgs);
+                    }
+
+                    if (data.lineArgs) {
+                        $("#lineTitle").show();
+                        $("#line").show();
+                        console.log(data.lineArgs);
+                        drawLineChart(data.lineArgs);
+                    }
+
+                    if (data.drawCombo) {
+                        $("#comboTitle").show();
+                        $("#combo").show();
+                        console.log(data.comboArgs);
+                        drawComboChart(data.comboArgs);
+                    }
+
+                    if (data.drawSankey) {
+                        $("#sankeyTitle").show();
+                        $("#sankey").show();
+                        console.log(data.sankeyArgs);
+                        drawSankeyChart(data.sankeyArgs);
+                    }
+                }
+            });
+        });
+
+        $("#commodity").on("change", function () {
+            changeCommodityInput();
+        });
+
+        $("#time").on("change", function () {
+            changeTimeInput();
+        });
+    });
+
+    function hideAllChartTitle() {
+        $("#comboTitle").hide();
+        $("#pieTitle").hide();
+        $("#sankeyTitle").hide();
+        $("#lineTitle").hide();
+    }
+
+    function hideAllChart() {
+        $("#combo").hide();
+        $("#pie").hide();
+        $("#sankey").hide();
+        $("#line").hide();
+    }
+
+</script>
+
+</body>
+</html>

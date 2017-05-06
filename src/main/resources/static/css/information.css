@@ -15,7 +15,7 @@ body {
 }
 
 ul.nav-pills {
-    top: 250px;
+    top: 270px;
     position: fixed;
 }
 
@@ -24,7 +24,7 @@ div.col-sm-9 div {
     font-size: 28px;
 }
 
-#contactInfo, #policy, #partner, #lineChart, #FAQ {
+#combo, #pie, #sankey, #line {
     background-color: #e0f2f0;
     height: auto;
     min-height: 400px;
@@ -33,4 +33,8 @@ div.col-sm-9 div {
     margin-bottom: 40px;
     margin-top: 20px;
     font-size: 15px;
+}
+
+#factory, #brand, #medicine, #year, #quarter, #month {
+    display: none;
 }

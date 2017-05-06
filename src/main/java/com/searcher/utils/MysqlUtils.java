@@ -15,12 +15,12 @@ public class MysqlUtils {
     private static final String saleTransactionTbl = "saleTransaction";
 
     static public void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
-        createSaleTransactionTable();
-
-        for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
-            SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
-            insertIntoSaleTransactionTbl(saleTransaction);
-        }
+//        createSaleTransactionTable();
+//
+//        for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
+//            SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
+//            insertIntoSaleTransactionTbl(saleTransaction);
+//        }
     }
 
     static public void persistSearchTransaction(ArrayList<SearchTransactionBean> searchTransactionBeans) {
@@ -28,54 +28,55 @@ public class MysqlUtils {
     }
 
     private void createSaleTransactionTable(){
-        String sql = "CREATE TABLE IF NOT EXISTS saleTransaction ( " +
-                     "saleTransactionKey    INT     NOT NULL," +
-                     "quantity              INT     NOT NULL," +
-                     "calendarKey           INT     NOT NULL," +
-                     "medicineKey           INT     NOT NULL," +
-                     "storeKey              INT     NOT NULL," +
-                     "customerKey           INT     NOT NULL," +
-                     "factoryKey            INT     NOT NULL," +
-                     "totalPrice            DOUBLE  NOT NULL," +
-                     "PRIMARY KEY (saleTransactionKey) ";
-
-        try {
-            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            Statement stmt  = c.createStatement();
-            stmt.execute( sql );
-
-            stmt.close();
-            conn.close();
-        }catch ( Exception e ) {
-            e.printStackTrace();
-        }
+//        String sql = "CREATE TABLE IF NOT EXISTS saleTransaction ( " +
+//                     "saleTransactionKey    INT     NOT NULL," +
+//                     "quantity              INT     NOT NULL," +
+//                     "calendarKey           INT     NOT NULL," +
+//                     "medicineKey           INT     NOT NULL," +
+//                     "storeKey              INT     NOT NULL," +
+//                     "customerKey           INT     NOT NULL," +
+//                     "factoryKey            INT     NOT NULL," +
+//                     "totalPrice            DOUBLE  NOT NULL," +
+//                     "PRIMARY KEY (saleTransactionKey) ";
+//
+//        try {
+//            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+//            Statement stmt  = c.createStatement();
+//            stmt.execute( sql );
+//
+//            stmt.close();
+//            conn.close();
+//        }catch ( Exception e ) {
+//            e.printStackTrace();
+//        }
     }
 
     private void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction) {
-        int saleTransKey  = saleTransaction.getSaleTransactionId();
-        int quantity      = saleTransaction.getQuantity();
-        int calendarKey   = saleTransaction.getTime();// ??
-        int medicineKey   = saleTransaction.getMedicineId();
-        int storeKey      = saleTransaction.getStoreId();
-        int customerKey   = saleTransaction.getCustomerId();
-        int factoryKey    = saleTransaction.getFactoryId();
-        double totalPrice = saleTransaction.getTotalPrice();
-
-        String sql = String.format( "INSERT INTO saleTransaction " +
-                                    "(saleTransactionKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice)" +
-                                    " VALUES " +
-                                    "(%d, %d, %d, %d, %d, %d, %d, %f)",
-                                    saleTransKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice );
-
-        try {
-            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
-
-            stmt.executeUpdate(sql);
-            stmt.close();
-            conn.close();
-        }catch( Exception e ){
-            e.printStackTrace();
-        }
+//        int saleTransKey  = saleTransaction.getSaleTransactionId();
+//        int quantity      = saleTransaction.getQuantity();
+//        int calendarKey   = saleTransaction.getTime();// ??
+//        int medicineKey   = saleTransaction.getMedicineId();
+//        int storeKey      = saleTransaction.getStoreId();
+//        int customerKey   = saleTransaction.getCustomerId();
+//        int factoryKey    = saleTransaction.getFactoryId();
+//        double totalPrice = saleTransaction.getTotalPrice();
+//
+//        String sql = String.format( "INSERT INTO saleTransaction " +
+//                                    "(saleTransactionKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice)" +
+//                                    " VALUES " +
+//                                    "(%d, %d, %d, %d, %d, %d, %d, %f)",
+//                                    saleTransKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice );
+//
+//        try {
+//            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+//            Statement stmt    = conn.createStatement();
+//
+//            stmt.executeUpdate(sql);
+//            stmt.close();
+//            conn.close();
+//        }catch( Exception e ){
+//            e.printStackTrace();
+//        }
     }
+
 }
