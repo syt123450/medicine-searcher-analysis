@@ -12,13 +12,10 @@ import java.util.ArrayList;
 public class PieArgs {
 
     private String title;
-    private ArrayList<String> argsData;
+    private ArrayList<ArrayList<String>> argsData;
 
-    public PieArgs(){
-        this.argsData = new ArrayList<String>();
+    public void addItemList(ArrayList<String> itemList){
+        this.argsData.add(itemList);
     }
 
-    public void addItem(String item){
-        this.argsData.add(item);
-    }
 }
