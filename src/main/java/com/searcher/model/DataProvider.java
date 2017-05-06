@@ -16,6 +16,7 @@ public class DataProvider {
 
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);
+        graphCollection.setDrawSankey(true);
         graphCollection.setPieArgs(mockPieArgsGenerator());
         graphCollection.setComboArgs(mockComboArgsGenerator());
         graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
@@ -136,6 +137,7 @@ public class DataProvider {
     }
 
     public ComboArgs mockComboArgsGenerator(){
+        // Mock ComboArgs
         ComboArgs comboArgs = new ComboArgs("Monthly Coffee Production by Country", "Cups", "Month");
 
         ArrayList<String> tempList_1 = new ArrayList<String>();
@@ -205,9 +207,81 @@ public class DataProvider {
     }
 
     public SankeyArgs mockSankeyArgsGenerator(){
-        SankeyArgs sankeyArgs = new SankeyArgs();
+        // Mock SankeyArgs
+        SankeyArgs sankeyArgs = new SankeyArgs("某些标题？？？");
+
+        ArrayList<String> tempList_1 = new ArrayList<String>();
+        ArrayList<String> tempList_2 = new ArrayList<String>();
+        ArrayList<String> tempList_3 = new ArrayList<String>();
+        ArrayList<String> tempList_4 = new ArrayList<String>();
+        ArrayList<String> tempList_5 = new ArrayList<String>();
+        ArrayList<String> tempList_6 = new ArrayList<String>();
+
+        tempList_1.add("A");
+        tempList_1.add("X");
+        tempList_1.add("5");
+
+        tempList_2.add("A");
+        tempList_2.add("Y");
+        tempList_2.add("7");
+
+        tempList_3.add("A");
+        tempList_3.add("Z");
+        tempList_3.add("6");
+
+        tempList_4.add("B");
+        tempList_4.add("X");
+        tempList_4.add("2");
+
+        tempList_5.add("B");
+        tempList_5.add("Y");
+        tempList_5.add("9");
+
+        tempList_6.add("B");
+        tempList_6.add("Z");
+        tempList_6.add("4");
+
+        sankeyArgs.addItemList(tempList_1);
+        sankeyArgs.addItemList(tempList_2);
+        sankeyArgs.addItemList(tempList_3);
+        sankeyArgs.addItemList(tempList_4);
+        sankeyArgs.addItemList(tempList_5);
+        sankeyArgs.addItemList(tempList_6);
 
         return sankeyArgs;
+    }
+
+    public LineArgs mockLineArgsGenerator(){
+        // Mock LineArgs
+        LineArgs lineArgs = new LineArgs(
+                "Box Office Earnings in First Two Weeks of Opening",
+                "in millions of dollars (USD)",
+                "Day"
+        );
+
+        ArrayList<String> lineName = new ArrayList<String>();
+        lineName.add("Guardians of the Galaxy");
+        lineName.add("The Avengers");
+        lineName.add("Transformers: Age of Extinction");
+
+        /*
+                [1,  37.8, 80.8, 41.8],
+                [2,  30.9, 69.5, 32.4],
+                [3,  25.4,   57, 25.7],
+                [4,  11.7, 18.8, 10.5],
+                [5,  11.9, 17.6, 10.4],
+                [6,   8.8, 13.6,  7.7],
+                [7,   7.6, 12.3,  9.6],
+                [8,  12.3, 29.2, 10.6],
+                [9,  16.9, 42.9, 14.8],
+                [10, 12.8, 30.9, 11.6],
+                [11,  5.3,  7.9,  4.7],
+                [12,  6.6,  8.4,  5.2],
+                [13,  4.8,  6.3,  3.6],
+                [14,  4.2,  6.2,  3.4]
+         */
+
+        return lineArgs;
     }
 
 }
