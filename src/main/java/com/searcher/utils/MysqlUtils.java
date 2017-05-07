@@ -18,7 +18,7 @@ public class MysqlUtils {
     private static final String PASSWORD = "sesame";
     private static final String saleTransactionTbl = "saleTransaction";
 
-    static public void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
+    public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
         createSaleTransactionTable();
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
@@ -27,11 +27,11 @@ public class MysqlUtils {
         }
     }
 
-    static public void persistSearchTransaction(ArrayList<SearchTransactionBean> searchTransactionBeans) {
+    public static void persistSearchTransaction(ArrayList<SearchTransactionBean> searchTransactionBeans) {
 
     }
 
-    private void createSaleTransactionTable(){
+    private static void createSaleTransactionTable(){
         String sql = "CREATE TABLE IF NOT EXISTS saleTransaction ( " +
                      "saleTransactionKey    INT     NOT NULL," +
                      "quantity              INT     NOT NULL," +
@@ -41,11 +41,11 @@ public class MysqlUtils {
                      "customerKey           INT     NOT NULL," +
                      "factoryKey            INT     NOT NULL," +
                      "totalPrice            DOUBLE  NOT NULL," +
-                     "PRIMARY KEY (saleTransactionKey) ";
+                     "PRIMARY KEY (saleTransactionKey) );";
 
         try {
             Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            Statement stmt  = c.createStatement();
+            Statement stmt  = conn.createStatement();
             stmt.execute( sql );
 
             stmt.close();
@@ -55,7 +55,7 @@ public class MysqlUtils {
         }
     }
 
-    private void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction) {
+    private static void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction) {
         int saleTransKey  = saleTransaction.getSaleTransactionId();
         int quantity      = saleTransaction.getQuantity();
         int calendarKey   = saleTransaction.getTime();// ??
