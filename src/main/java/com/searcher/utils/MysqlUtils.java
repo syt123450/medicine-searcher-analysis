@@ -19,7 +19,11 @@ public class MysqlUtils {
     private static final String saleTransactionTbl = "saleTransaction";
 
     public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
+        // Check table existence
         createSaleTransactionTable();
+
+        // Insert calender for TODAY and get CalendarID
+
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
