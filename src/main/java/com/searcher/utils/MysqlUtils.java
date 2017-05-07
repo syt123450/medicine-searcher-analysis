@@ -22,7 +22,10 @@ public class MysqlUtils {
     private static final String PASSWORD = "sesame";
 
     public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
+        // Insert calender for TODAY
         insertIntoCalenderTbl( new SimpleCalendar() );
+
+        // Get calendarKey
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
