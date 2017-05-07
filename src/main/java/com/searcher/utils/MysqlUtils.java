@@ -3,6 +3,7 @@ package com.searcher.utils;
 import com.searcher.model.entity.SaleTransactionBean;
 import com.searcher.model.entity.SearchTransactionBean;
 
+import javax.xml.transform.Result;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
+import java.sql.*;
 /**
  * Created by ss on 2017/5/3.
  */
@@ -22,10 +24,13 @@ public class MysqlUtils {
     private static final String PASSWORD = "sesame";
 
     public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
+        SimpleCalendar s = new SimpleCalendar();
+
         // Insert calender for TODAY
-        insertIntoCalenderTbl( new SimpleCalendar() );
+        insertIntoCalenderTbl(s);
 
         // Get calendarKey
+        int cKey = getCalendarKeyOfDate( s.getFullDate() );
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
@@ -54,7 +59,7 @@ public class MysqlUtils {
                                     "(%d, %d, %d, %d, %d, %d, %d, %f)",
                                     saleTransKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice );
 
-        runMysql( sql );
+        runMysqlWithUpdate( sql );
     }
 
     private static void insertIntoCalenderTbl( SimpleCalendar c ) {
@@ -65,10 +70,40 @@ public class MysqlUtils {
                                     "('%s', %d, %d, %d, %d)",
                                     c.getFullDate(), c.getDay(), c.getMonth(), c.getQuarter(), c.getYear() );
 
-        runMysql( sql );
+        runMysqlWithUpdate( sql );
     }
 
-    private static void runMysql( String sql ) {
+    private static int getCalendarKeyOfDate( String date ) {
+        String sql = "SELECT calendarKey, fullDate FROM calendar";
+        ResultSet rs = null;
+        int key = -1;
+
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+            Statement stmt    = conn.createStatement();
+
+            rs = stmt.executeQuery(sql);
+
+            // iterate through the java resultset
+            while (rs.next())
+            {
+                String fullDate = rs.getString("fullDate" );
+                if ( fullDate.equals(date) ) {
+                    key = rs.getInt("calendarKey");
+                    break;
+                }
+            }
+
+            stmt.close();
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return key;
+    }
+
+    private static void runMysqlWithUpdate( String sql ) {
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
             Statement stmt    = conn.createStatement();
@@ -79,6 +114,20 @@ public class MysqlUtils {
         }catch( Exception e ){
             e.printStackTrace();
         }
+    }
+
+    //Test code, will DELETE
+    public static void main(String[] args) {
+        //int k = getCalendarKeyOfDate( 1509005131L*1000 );
+        //System.out.println(k);
+        //SimpleCalendar s = new SimpleCalendar();
+
+        // Insert calender for TODAY
+        //insertIntoCalenderTbl(s);
+
+        // Get calendarKey
+        //int cKey = getCalendarKeyOfDate( s.getFullDate() );
+        //System.out.println(cKey);
     }
 }
 
