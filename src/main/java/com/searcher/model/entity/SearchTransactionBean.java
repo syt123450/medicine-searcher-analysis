@@ -8,4 +8,13 @@ import lombok.Data;
 
 @Data
 public class SearchTransactionBean {
+    private int medicineId;
+    private int storeId;
+    private int customerId;
+
+    //public SearchTransactionBean(int m, int s, int c) {
+    //    medicineId = m;
+    //    storeId = s;
+    //    customerId = c;
+    //}
 }

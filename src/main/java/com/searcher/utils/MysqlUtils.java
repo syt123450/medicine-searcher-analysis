@@ -39,7 +39,18 @@ public class MysqlUtils {
     }
 
     public static void persistSearchTransaction(ArrayList<SearchTransactionBean> searchTransactionBeans) {
+        SimpleCalendar s = new SimpleCalendar();
 
+        // Insert calender for TODAY
+        insertIntoCalenderTbl(s);
+
+        // Get calendarKey
+        int cKey = getCalendarKeyOfDate( s.getFullDate() );
+
+        for ( int idx = 0; idx < searchTransactionBeans.size(); idx++ ) {
+            SearchTransactionBean searchTransaction = searchTransactionBeans.get(idx);
+            insertIntoSearchTransactionTbl(searchTransaction, cKey);
+        }
     }
 
     private static void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction, int calendarKey ) {
@@ -60,6 +71,25 @@ public class MysqlUtils {
                                     " VALUES " +
                                     "(%d, %d, %d, %d, %d, %d, %d, %d, %f)",
                                     quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice);
+
+        runMysqlWithUpdate( sql );
+    }
+
+    private static void insertIntoSearchTransactionTbl(SearchTransactionBean searchTransaction, int calendarKey ) {
+        int medicineId  = searchTransaction.getMedicineId();
+        int storeId     = searchTransaction.getStoreId();
+        int customerId  = searchTransaction.getCustomerId();
+
+        int medicineKey = getMedicineKeyFromId(medicineId);
+        int storeKey    = getStoreKeyFromId(storeId);
+        int customerKey = getCustomerKeyFromId(customerId);
+
+        //!!! TO-DO later: change format
+        String sql = String.format( "INSERT INTO searchTransaction " +
+                                    " (medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey)" +
+                                    " VALUES " +
+                                    "(%d, %d, %d, %d, %d, %d, %d)",
+                                    medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey);
 
         runMysqlWithUpdate( sql );
     }
@@ -230,6 +260,10 @@ public class MysqlUtils {
         //s.add( new SaleTransactionBean(12,1509005132L, 4, 3, 2, 345.45 ) );
         //persistSaleTransaction(s);
 
+        //ArrayList<SearchTransactionBean> s = new ArrayList<>();
+        //s.add(new SearchTransactionBean(3, 4, 5));
+        //s.add(new SearchTransactionBean(6, 7, 8));
+        //persistSearchTransaction(s);
     //}
 }
 
