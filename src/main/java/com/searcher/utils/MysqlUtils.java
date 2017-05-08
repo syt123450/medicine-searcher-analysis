@@ -19,7 +19,7 @@ import java.sql.*;
  * Created by ss on 2017/5/3.
  */
 public class MysqlUtils {
-    private static final String URL      = "jdbc:mysql://localhost:3306/226operation?serverTimezone=GMT";
+    private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 
@@ -229,6 +229,7 @@ public class MysqlUtils {
         //s.add( new SaleTransactionBean(10,1509005131L, 3, 2, 3, 123.45) );
         //s.add( new SaleTransactionBean(12,1509005132L, 4, 3, 2, 345.45 ) );
         //persistSaleTransaction(s);
+
     //}
 }
 

@@ -45,4 +45,9 @@ public class ETLDumper implements Runnable {
         }
 
     }
+
+    public static void main( String[] args ) {
+        ETLDumper e = new ETLDumper();
+        e.run();
+    }
 }

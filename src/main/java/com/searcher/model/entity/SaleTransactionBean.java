@@ -31,33 +31,33 @@ public class SaleTransactionBean {
     //    totalPrice = p;
     //}
 
-    public int getQuantity()  {
-        return quantity;
-    }
+    //public int getQuantity()  {
+    //    return quantity;
+    //}
 
-    public long getTime()  {
-        return time;
-    }
+    //public long getTime()  {
+    //    return time;
+    //}
 
-    public int getMedicineId()  {
-        return medicineId;
-    }
+    //public int getMedicineId()  {
+    //    return medicineId;
+    //}
 
-    //public int getMedicineKey() { return medicineKey; }
+    ////public int getMedicineKey() { return medicineKey; }
 
-    public int getStoreId()  {
-        return storeId;
-    }
+    //public int getStoreId()  {
+    //    return storeId;
+    //}
 
-    //public int getStoreKey() { return storeKey; }
+    ////public int getStoreKey() { return storeKey; }
 
-    public int getCustomerId()  {
-        return customerId;
-    }
+    //public int getCustomerId()  {
+    //    return customerId;
+    //}
 
-    //public int getCustomerKey() { return customerKey; }
+    ////public int getCustomerKey() { return customerKey; }
 
-    public double getTotalPrice()  {
-        return totalPrice;
-    }
+    //public double getTotalPrice()  {
+    //    return totalPrice;
+    //}
 }
