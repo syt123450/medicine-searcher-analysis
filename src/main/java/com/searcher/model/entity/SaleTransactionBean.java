@@ -8,24 +8,34 @@ import lombok.Data;
 
 @Data
 public class SaleTransactionBean {
-    private int saleTransactionId;
+    //private int _id;            //Mongodb Obj ID
     private int quantity;
-    private int time;
+    private long time;
     private int medicineId;
+    //private int medicineKey;
     private int storeId;
+    //private int storeKey;
     private int customerId;
-    private int factoryId;
+    //private int customerKey;
     private double totalPrice;
 
-    public int getSaleTransactionId()  {
-        return saleTransactionId;
+    //public int getSaleTransactionId()  {
+    //    return _id;
+    //}
+    public SaleTransactionBean( int q, long t, int mId, int sId, int cId, double p ) {
+        quantity   = q;
+        time       = t;
+        medicineId = mId;
+        storeId    = sId;
+        customerId = cId;
+        totalPrice = p;
     }
 
     public int getQuantity()  {
         return quantity;
     }
 
-    public int getTime()  {
+    public long getTime()  {
         return time;
     }
 
@@ -33,17 +43,19 @@ public class SaleTransactionBean {
         return medicineId;
     }
 
+    //public int getMedicineKey() { return medicineKey; }
+
     public int getStoreId()  {
         return storeId;
     }
+
+    //public int getStoreKey() { return storeKey; }
 
     public int getCustomerId()  {
         return customerId;
     }
 
-    public int getFactoryId()  {
-        return factoryId;
-    }
+    //public int getCustomerKey() { return customerKey; }
 
     public double getTotalPrice()  {
         return totalPrice;

@@ -34,7 +34,7 @@ public class MysqlUtils {
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
-            insertIntoSaleTransactionTbl(saleTransaction);
+            insertIntoSaleTransactionTbl(saleTransaction, cKey);
         }
     }
 
@@ -42,22 +42,24 @@ public class MysqlUtils {
 
     }
 
-    private static void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction) {
-        int saleTransKey  = saleTransaction.getSaleTransactionId();
+    private static void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction, int calendarKey ) {
+        //int saleTransId   = saleTransaction.getSaleTransactionId();     //Mongodb Obj ID
         int quantity      = saleTransaction.getQuantity();
-        int calendarKey   = saleTransaction.getTime();// ??
-        int medicineKey   = saleTransaction.getMedicineId();
-        int storeKey      = saleTransaction.getStoreId();
-        int customerKey   = saleTransaction.getCustomerId();
-        int factoryKey    = saleTransaction.getFactoryId();
+        long time         = saleTransaction.getTime();
+        int medicineId    = saleTransaction.getMedicineId();
+        int medicineKey   = getMedicineKeyFromId(medicineId);
+        int storeId       = saleTransaction.getStoreId();
+        int storeKey      = getStoreKeyFromId(storeId);
+        int customerId    = saleTransaction.getCustomerId();
+        int customerKey   = getCustomerKeyFromId(customerId);
         double totalPrice = saleTransaction.getTotalPrice();
 
         //!!! TO-DO later: change format
         String sql = String.format( "INSERT INTO saleTransaction " +
-                                    "(saleTransactionKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice)" +
+                                    " (quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice)" +
                                     " VALUES " +
-                                    "(%d, %d, %d, %d, %d, %d, %d, %f)",
-                                    saleTransKey, quantity, calendarKey, medicineKey, storeKey, customerKey, factoryKey, totalPrice );
+                                    "(%d, %d, %d, %d, %d, %d, %d, %d, %f)",
+                                    quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice);
 
         runMysqlWithUpdate( sql );
     }
@@ -103,6 +105,96 @@ public class MysqlUtils {
         return key;
     }
 
+    private static int getMedicineKeyFromId( int mId ) {
+        String sql = "SELECT medicineKey, medicineId FROM medicine";
+        ResultSet rs = null;
+        int mKey = -1;
+
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+            Statement stmt    = conn.createStatement();
+
+            rs = stmt.executeQuery(sql);
+
+            // iterate through the java resultset
+            while (rs.next())
+            {
+                int medicineId = rs.getInt("medicineId" );
+                if ( medicineId == mId ) {
+                    mKey = rs.getInt("medicineKey");
+                    break;
+                }
+            }
+
+            stmt.close();
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return mKey;
+    }
+
+    private static int getStoreKeyFromId( int sId ) {
+        String sql = "SELECT storeKey, storeId FROM store";
+        ResultSet rs = null;
+        int sKey = -1;
+
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+            Statement stmt    = conn.createStatement();
+
+            rs = stmt.executeQuery(sql);
+
+            // iterate through the java resultset
+            while (rs.next())
+            {
+                int storeId = rs.getInt("storeId" );
+                if ( storeId == sId ) {
+                    sKey = rs.getInt("storeKey");
+                    break;
+                }
+            }
+
+            stmt.close();
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return sKey;
+    }
+
+    private static int getCustomerKeyFromId( int cId ) {
+        String sql = "SELECT customerKey, customerId FROM customer";
+        ResultSet rs = null;
+        int cKey = -1;
+
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+            Statement stmt    = conn.createStatement();
+
+            rs = stmt.executeQuery(sql);
+
+            // iterate through the java resultset
+            while (rs.next())
+            {
+                int customerId = rs.getInt("customerId" );
+                if ( customerId == cId ) {
+                    cKey = rs.getInt("customerKey");
+                    break;
+                }
+            }
+
+            stmt.close();
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return cKey;
+    }
+
     private static void runMysqlWithUpdate( String sql ) {
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
@@ -117,7 +209,7 @@ public class MysqlUtils {
     }
 
     //Test code, will DELETE
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
         //int k = getCalendarKeyOfDate( 1509005131L*1000 );
         //System.out.println(k);
         //SimpleCalendar s = new SimpleCalendar();
@@ -128,7 +220,16 @@ public class MysqlUtils {
         // Get calendarKey
         //int cKey = getCalendarKeyOfDate( s.getFullDate() );
         //System.out.println(cKey);
-    }
+
+        //System.out.println(getMedicineKeyFromId(3));
+        //System.out.println(getStoreKeyFromId(2));
+        //System.out.println(getCustomerKeyFromId(5));
+
+        //ArrayList<SaleTransactionBean> s = new ArrayList<>();
+        //s.add( new SaleTransactionBean(10,1509005131L, 3, 2, 3, 123.45) );
+        //s.add( new SaleTransactionBean(12,1509005132L, 4, 3, 2, 345.45 ) );
+        //persistSaleTransaction(s);
+    //}
 }
 
 class SimpleCalendar {
