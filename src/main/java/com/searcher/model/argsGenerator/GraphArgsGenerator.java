@@ -1,6 +1,9 @@
 package com.searcher.model.argsGenerator;
 
+import com.searcher.model.entity.PieArgs;
+import com.searcher.model.entity.SankeyArgs;
 import com.searcher.utils.MySQLConnection;
+import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
 import java.sql.ResultSet;
@@ -18,6 +21,9 @@ public class GraphArgsGenerator {
     private int yearPara;
     private int quarterPara;
     private int monthPara;
+
+    private PieArgsGenerator pieArgsGenerator;
+    private SankeyArgsGenerator sankeyArgsGenerator;
 
     public GraphArgsGenerator(
             String commodityLevel,
@@ -46,15 +52,36 @@ public class GraphArgsGenerator {
     public void processData(){
         // Case 1: Both level is empty
         if (this.getCommodityLevel().isEmpty() && this.getTimeLevel().isEmpty()){
-            MySQLConnection mySQLConnection = new MySQLConnection();
-            ResultSet resultSet = mySQLConnection.calcSaleSumByFactoryYear();
-            mySQLConnection.close();
+            pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransactionNoYear, "Shares SaleTransaction of All Factories");
 
-            if (resultSet !=null){
-                PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(resultSet, "Shares SaleTransaction of All Factories");
-            }
+            String[] queries = {SQLStatments.SumSaleTransactionAll_0, SQLStatments.SumSaleTransactionAll_1};
+            sankeyArgsGenerator = new SankeyArgsGenerator(queries, "Test Title");
         }
     }
 
+    public PieArgs getPieArgs(){
+        if (getPieArgsGenerator() !=null){
+            return getPieArgsGenerator().generatePieArgs();
+        }
+        else {
+            return null;
+        }
+    }
+    public SankeyArgs getSankeyArgs(){
+        if (getSankeyArgsGenerator() !=null){
+            return getSankeyArgsGenerator().generateSankeyArgs();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public static void main(String[] args){
+        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
+        graphArgsGenerator.processData();
+        PieArgs pieArgs = graphArgsGenerator.getPieArgs();
+        SankeyArgs sankeyArgs = graphArgsGenerator.getSankeyArgs();
+        System.out.println("");
+    }
 
 }
