@@ -42,6 +42,8 @@ WHERE s.medicineKey <> -1
 AND c.year >= 2012
 AND	s.medicineKey = m.medicineKey
 AND s.calendarKey = c.calendarKey
+AND m.factoryID <> 5
+AND m.factoryID <> 4
 GROUP BY m.factoryName, c.year
 ORDER BY c.year, m.factoryName ASC
 ;
