@@ -4,33 +4,18 @@ package com.searcher.utils;
  * Created by zchholmes on 2017/5/8.
  */
 public class SQLStatments {
+    // Pie No Factory Level No Time Level
     public static final String SumSaleTransaction
             =
-            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
+            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
             "FROM SaleTransaction s, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
-                    "AND c.year >= 2012" +
-                    "AND s.medicineKey = m.medicineKey " +
-                    "AND s.calendarKey = c.calendarKey " +
-            "GROUP BY m.factoryName, c.year;";
-
-    public static final String SumSaleTransactionNoYear
-            =
-            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
-            "FROM SaleTransaction s, Medicine m " +
-            "WHERE s.medicineKey <> -1 " +
-                    "AND s.medicineKey = m.medicineKey " +
+            "AND c.year >= 2012 " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
             "GROUP BY m.factoryName;";
 
-    public static final String SumSaleTransactionNoFactory
-            =
-            "SELECT SUM(s.totalPrice) as totalSum, c.year " +
-            "FROM SaleTransaction s, Calendar c " +
-            "WHERE s.medicineKey <> -1 " +
-                    "AND c.year >= 2012" +
-                    "AND s.calendarKey = c.calendarKey " +
-            "GROUP BY c.year;";
-
+    // Sankey No Factory Level No Time Level part0
     public static final String SumSaleTransactionAll_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
@@ -42,6 +27,7 @@ public class SQLStatments {
             "ORDER BY m.factoryName, totalSum DESC " +
                     ";";
 
+    // Sankey No Factory Level No Time Level part1
     public static final String SumSaleTransactionAll_1
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName " +
@@ -52,5 +38,18 @@ public class SQLStatments {
             "GROUP BY m.medicineName, m.brandName " +
             "ORDER BY m.brandName, totalSum DESC ;" +
                     ";";
+
+    // Line No Factory Level No Time Level
+    public static final String SumSaleTransactionAllFactoryTime
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND c.year >= 2012 " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY m.factoryName, c.year " +
+            "ORDER BY c.year, m.factoryName ASC " +
+            ";";
 
 }

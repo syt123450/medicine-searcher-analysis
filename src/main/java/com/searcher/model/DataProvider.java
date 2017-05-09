@@ -17,8 +17,8 @@ public class DataProvider {
 
         GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
         graphArgsGenerator.processData();
-        PieArgs pieArgs = graphArgsGenerator.getPieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.getSankeyArgs();
+        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
+        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
 
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);

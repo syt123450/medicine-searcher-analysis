@@ -1,5 +1,6 @@
 package com.searcher.model.argsGenerator;
 
+import com.searcher.model.entity.LineArgs;
 import com.searcher.model.entity.PieArgs;
 import com.searcher.model.entity.SankeyArgs;
 import com.searcher.utils.MySQLConnection;
@@ -24,6 +25,7 @@ public class GraphArgsGenerator {
 
     private PieArgsGenerator pieArgsGenerator;
     private SankeyArgsGenerator sankeyArgsGenerator;
+    private LineArgsGenerator lineArgsGenerator;
 
     public GraphArgsGenerator(
             String commodityLevel,
@@ -52,14 +54,22 @@ public class GraphArgsGenerator {
     public void processData(){
         // Case 1: Both level is empty
         if (this.getCommodityLevel().isEmpty() && this.getTimeLevel().isEmpty()){
-            pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransactionNoYear, "Shares SaleTransaction of All Factories");
-
+            // Generate pieArgs
+            pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransaction,
+                    "Shares SaleTransaction of All Factories");
+            // Generate sankeyArgs
             String[] queries = {SQLStatments.SumSaleTransactionAll_0, SQLStatments.SumSaleTransactionAll_1};
-            sankeyArgsGenerator = new SankeyArgsGenerator(queries, "Test Title");
+            sankeyArgsGenerator = new SankeyArgsGenerator(queries,
+                    "Test Title");
+            // Generate lineArgs
+            lineArgsGenerator = new LineArgsGenerator(SQLStatments.SumSaleTransactionAllFactoryTime,
+                    "Sales of All Factories",
+                    "",
+                    "Year");
         }
     }
 
-    public PieArgs getPieArgs(){
+    public PieArgs generatePieArgs(){
         if (getPieArgsGenerator() !=null){
             return getPieArgsGenerator().generatePieArgs();
         }
@@ -67,9 +77,18 @@ public class GraphArgsGenerator {
             return null;
         }
     }
-    public SankeyArgs getSankeyArgs(){
+    public SankeyArgs generateSankeyArgs(){
         if (getSankeyArgsGenerator() !=null){
             return getSankeyArgsGenerator().generateSankeyArgs();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public LineArgs generateLineArgs(){
+        if (getLineArgsGenerator() !=null){
+            return getLineArgsGenerator().generateLineArgs();
         }
         else {
             return null;
@@ -79,8 +98,10 @@ public class GraphArgsGenerator {
     public static void main(String[] args){
         GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
         graphArgsGenerator.processData();
-        PieArgs pieArgs = graphArgsGenerator.getPieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.getSankeyArgs();
+
+        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
+        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
         System.out.println("");
     }
 
