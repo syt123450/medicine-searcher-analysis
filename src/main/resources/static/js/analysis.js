@@ -105,9 +105,10 @@ function drawLineChart(lineArgs) {
         data.addColumn('number', lineName[0]);
     }
 
-    data.addColumn('number', 'Guardians of the Galaxy');
-    data.addColumn('number', 'The Avengers');
-    data.addColumn('number', 'Transformers: Age of Extinction');
+    var lineName = lineArgs.lineName;
+    for (var l = 0; l < lineName.length; l++) {
+        data.addColumn('number', lineName[i]);
+    }
 
     data.addRows(lineValue);
 
