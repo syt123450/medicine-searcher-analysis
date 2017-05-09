@@ -1,5 +1,6 @@
 package com.searcher.model;
 
+import com.searcher.model.argsGenerator.GraphArgsGenerator;
 import com.searcher.model.entity.*;
 
 import java.util.ArrayList;
@@ -14,13 +15,18 @@ public class DataProvider {
     public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
         GraphCollection graphCollection = new GraphCollection();
 
+        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
+        graphArgsGenerator.processData();
+        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
+        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);
         graphCollection.setDrawSankey(true);
         graphCollection.setDrawLine(true);
-        graphCollection.setPieArgs(mockPieArgsGenerator());
+        graphCollection.setPieArgs(pieArgs);
         graphCollection.setComboArgs(mockComboArgsGenerator());
-        graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
+        graphCollection.setSankeyArgs(sankeyArgs);
         graphCollection.setLineArgs(mockLineArgsGenerator());
 
         return graphCollection;

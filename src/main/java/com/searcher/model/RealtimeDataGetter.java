@@ -15,7 +15,7 @@ public class RealtimeDataGetter {
 
         try {
             responseContent = Request.Get(REAL_TIME_URL).execute().returnContent().asString();
-            System.out.println(responseContent);
+//            System.out.println(responseContent);
         } catch (Exception e) {
 
         }
