@@ -18,16 +18,19 @@ public class DataProvider {
         GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
         graphArgsGenerator.processData();
         PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
+        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
 
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);
         graphCollection.setDrawSankey(true);
         graphCollection.setDrawLine(true);
         graphCollection.setPieArgs(pieArgs);
-        graphCollection.setComboArgs(mockComboArgsGenerator());
-        graphCollection.setSankeyArgs(sankeyArgs);
-        graphCollection.setLineArgs(mockLineArgsGenerator());
+        graphCollection.setComboArgs(comboArgs);
+//        graphCollection.setSankeyArgs(sankeyArgs);
+        graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
+        graphCollection.setLineArgs(lineArgs);
 
         return graphCollection;
     }
@@ -155,7 +158,7 @@ public class DataProvider {
         ArrayList<String> tempList_5 = new ArrayList<String>();
         ArrayList<String> tempList_6 = new ArrayList<String>();
 
-        tempList_1.add("Month");
+        tempList_1.add("");
         tempList_1.add("Bolivia");
         tempList_1.add("Ecuador");
         tempList_1.add("Madagascar");

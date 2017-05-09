@@ -5,6 +5,7 @@ package com.searcher.utils;
  */
 public class SQLStatments {
 
+    // Pie for yesterday
     public static final String yesterdayPie
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
@@ -16,7 +17,7 @@ public class SQLStatments {
             "GROUP BY m.factoryName " +
             ";";
 
-    // Pie No Factory Level No Time Level
+    // (NFL,NTL) Pie
     public static final String SumSaleTransaction
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
@@ -27,7 +28,7 @@ public class SQLStatments {
             "AND s.calendarKey = c.calendarKey " +
             "GROUP BY m.factoryName;";
 
-    // Sankey No Factory Level No Time Level part0
+    // (NFL,NTL) Sankey part0
     public static final String SumSaleTransactionAll_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
@@ -39,7 +40,7 @@ public class SQLStatments {
             "ORDER BY m.factoryName, totalSum DESC " +
                     ";";
 
-    // Sankey No Factory Level No Time Level part1
+    // (NFL,NTL) Sankey part1
     public static final String SumSaleTransactionAll_1
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName " +
@@ -51,7 +52,7 @@ public class SQLStatments {
             "ORDER BY m.brandName, totalSum DESC ;" +
                     ";";
 
-    // Line No Factory Level No Time Level
+    // (NFL,NTL) Line
     public static final String SumSaleTransactionAllFactoryTime
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
@@ -64,4 +65,31 @@ public class SQLStatments {
             "ORDER BY c.year, m.factoryName ASC " +
             ";";
 
+    // (NFL,NTL) Combo Main Columns
+    public static final String SumSaleTransactionAllFactoryTimeSum
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND c.year >=2012 " +
+            "AND s.medicineKey = m.medicineKey " +
+            "GROUP BY c.year, m.factoryName " +
+            "ORDER BY c.year, m.factoryName, totalSum DESC " +
+            ";";
+
+    // (NFL,NTL) Combo AVG Line
+    public static final String AvgSaleTransactionAllFactoryTime
+            =
+            "SELECT AVG(t.totalSum) as avgSum, t.year " +
+            "FROM ( " +
+                "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
+                "FROM SaleTransaction s, Medicine m, Calendar c " +
+                "WHERE s.medicineKey <> -1 " +
+                "AND c.year >=2012 " +
+                "AND s.medicineKey = m.medicineKey " +
+                "GROUP BY c.year, m.factoryName " +
+                "ORDER BY c.year, m.factoryName, totalSum DESC " +
+            ") as t " +
+            "GROUP BY t.year " +
+            ";";
 }

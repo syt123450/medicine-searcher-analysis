@@ -24,11 +24,11 @@ public class GenData {
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 
-    //public static void main(String[] args) {
-    //updateMedicineTbl();
-    //updateCalendarTbl();
-    //updateSaleTransactionTbl() ;
-    //}
+    public static void main(String[] args) {
+    updateMedicineTbl();
+    updateCalendarTbl();
+    updateSaleTransactionTbl() ;
+    }
 
     public static void updateMedicineTbl() {
         String sql = "SELECT * FROM medicine";
