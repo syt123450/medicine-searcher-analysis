@@ -146,7 +146,7 @@ public class GenData {
                 updateFullDateStmt = conn.createStatement();
                 updateFullDateStmt.executeUpdate(fullDateSql);
 
-                quarterSql = String.format("update calendar set quarter=%d where month=%d", (month-1)/3, month);
+                quarterSql = String.format("update calendar set quarter=%d where month=%d", (month-1)/3 + 1, month);
                 updateQuarterStmt = conn.createStatement();
                 updateQuarterStmt.executeUpdate(quarterSql);
             }
