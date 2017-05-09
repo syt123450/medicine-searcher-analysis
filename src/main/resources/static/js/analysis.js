@@ -102,11 +102,6 @@ function drawLineChart(lineArgs) {
     var lineName = lineArgs.lineName;
 
     for (var k = 0; i < lineName.length; i++) {
-        data.addColumn('number', lineName[0]);
-    }
-
-    var lineName = lineArgs.lineName;
-    for (var l = 0; l < lineName.length; l++) {
         data.addColumn('number', lineName[i]);
     }
 
