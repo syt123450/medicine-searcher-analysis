@@ -1,0 +1,21 @@
+#realTimeArea {
+    margin-top: 25px;
+    display: block;
+}
+
+#realTimeArea > div {
+    float: left;
+    width: 50%;
+}
+
+#realTimeArea > div > svg {
+    width: 50%;
+    margin-left: 25%;
+}
+
+#realTimeArea > div > p {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}

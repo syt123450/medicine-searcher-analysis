@@ -12,6 +12,7 @@
     <script src="js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
 
     <script src="http://d3js.org/d3.v3.min.js" language="JavaScript"></script>
     <script src="./js/liquidFillGauge.js" language="JavaScript"></script>
@@ -20,27 +21,69 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages: ["corechart"]});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(requestYesterdayData);
+
+//        function drawChart(pieArgs) {
+//            var data = google.visualization.arrayToDataTable([
+//                ['Language', 'Speakers (in millions)'],
+//                ['Assamese', 13], ['Bengali', 83], ['Bodo', 1.4],
+//                ['Dogri', 2.3], ['Gujarati', 46], ['Hindi', 300],
+//                ['Kannada', 38], ['Kashmiri', 5.5], ['Konkani', 5],
+//                ['Maithili', 20], ['Malayalam', 33], ['Manipuri', 1.5],
+//                ['Marathi', 72], ['Nepali', 2.9], ['Oriya', 33],
+//                ['Punjabi', 29], ['Sanskrit', 0.01], ['Santhali', 6.5],
+//                ['Sindhi', 2.5], ['Tamil', 61], ['Telugu', 74], ['Urdu', 52]
+//            ]);
+//
+//            var options = {
+//                title: 'Indian Language Use',
+//                legend: 'none',
+//                pieSliceText: 'label',
+////                is3D: true,
+//                slices: {
+//                    4: {offset: 0.2},
+//                    12: {offset: 0.3},
+//                    14: {offset: 0.4},
+//                    15: {offset: 0.5}
+//                }
+//            };
+//
+//            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+//            chart.draw(data, options);
+//        }
 
 
+        function requestYesterdayData() {
+            $.ajax({
+                url: '/API/yesterday',
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                async: true,
+                dataType: 'json',
+                success: function (pieArgs) {
+                    drawPieChart(pieArgs);
+                }
+            });
+        }
 
-        function drawChart(pieArgs) {
-            var data = google.visualization.arrayToDataTable([
-                ['Language', 'Speakers (in millions)'],
-                ['Assamese', 13], ['Bengali', 83], ['Bodo', 1.4],
-                ['Dogri', 2.3], ['Gujarati', 46], ['Hindi', 300],
-                ['Kannada', 38], ['Kashmiri', 5.5], ['Konkani', 5],
-                ['Maithili', 20], ['Malayalam', 33], ['Manipuri', 1.5],
-                ['Marathi', 72], ['Nepali', 2.9], ['Oriya', 33],
-                ['Punjabi', 29], ['Sanskrit', 0.01], ['Santhali', 6.5],
-                ['Sindhi', 2.5], ['Tamil', 61], ['Telugu', 74], ['Urdu', 52]
-            ]);
+        function drawPieChart(pieArgs) {
+
+            var pieValue = pieArgs.argsData;
+
+            for (var i = 1; i < pieValue.length; i++) {
+                var pieItem = pieValue[i];
+                for (var j = 1; j < pieItem.length; j++) {
+                    pieItem[j] = parseInt(pieItem[j]);
+                    pieValue[i] = pieItem;
+                }
+            }
+
+            var data = google.visualization.arrayToDataTable(pieValue);
 
             var options = {
-                title: 'Indian Language Use',
+                title: pieArgs.title,
                 legend: 'none',
                 pieSliceText: 'label',
-//                is3D: true,
                 slices: {
                     4: {offset: 0.2},
                     12: {offset: 0.3},
@@ -49,33 +92,11 @@
                 }
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.PieChart(document.getElementById('pie'));
             chart.draw(data, options);
         }
+
     </script>
-
-    <style>
-
-        #realTimeArea {
-            margin-top: 50px;
-            display: block;
-        }
-
-        #realTimeArea > div {
-            float: left;
-            width: 50%;
-        }
-
-        #realTimeArea > div > svg {
-            width: 100%;
-        }
-
-        #realTimeArea > div > p {
-            width: 100%;
-            text-align: center;
-        }
-
-    </style>
 
 </head>
 <body>
@@ -95,28 +116,28 @@
 
         <div id="realTimeArea">
             <div>
-                <svg id="fillgauge1" onclick="gauge1.update(NewValue());"></svg>
+                <svg id="fillgauge1"></svg>
+                <p>Accra-Pac</p>
+            </div>
+            <div>
+                <svg id="fillgauge2"></svg>
                 <p>Physicians Total Care</p>
             </div>
             <div>
-                <svg id="fillgauge2" onclick="gauge2.update(NewValue());"></svg>
-                <p>Mylan Pharmaceuticals</p>
+                <svg id="fillgauge3"></svg>
+                <p>Procter & Gamble</p>
             </div>
             <div>
-                <svg id="fillgauge3" onclick="gauge3.update(NewValue());"></svg>
-                <p>Jets, Sets, & Elephants Beauty</p>
+                <svg id="fillgauge4"></svg>
+                <p>Hello Products</p>
             </div>
             <div>
-                <svg id="fillgauge4" onclick="gauge4.update(NewValue());"></svg>
-                <p>Hannaford Brothers</p>
+                <svg id="fillgauge5"></svg>
+                <p>Greenstone</p>
             </div>
             <div>
-                <svg id="fillgauge5" onclick="gauge5.update(NewValue());"></svg>
-                <p>Ventura Corporation</p>
-            </div>
-            <div>
-                <svg id="fillgauge6" onclick="gauge6.update(NewValue());"></svg>
-                <p>Nelco Laboratories</p>
+                <svg id="fillgauge6" ></svg>
+                <p>Teva Parenteral Medicines</p>
             </div>
         </div>
     </div>
@@ -139,35 +160,37 @@
     config1.waveTextColor = "#FFAAAA";
     config1.waveColor = "#FFDDDD";
     config1.circleThickness = 0.2;
-    config1.textVertPosition = 0.2;
+    config1.textVertPosition = 0.5;
     config1.waveAnimateTime = 1000;
 
-    var gauge2 = loadLiquidFillGauge("fillgauge2", 28, config1);
-    var gauge1 = loadLiquidFillGauge("fillgauge1", 55, config1);
-    var gauge3 = loadLiquidFillGauge("fillgauge3", 55, config1);
-    var gauge4 = loadLiquidFillGauge("fillgauge4", 55, config1);
-    var gauge5 = loadLiquidFillGauge("fillgauge5", 55, config1);
-    var gauge6 = loadLiquidFillGauge("fillgauge6", 55, config1);
     var config2 = liquidFillGaugeDefaultSettings();
-    config2.circleColor = "#D4AB6A";
+    config2.circleColor = "#AA7D39";
     config2.textColor = "#553300";
     config2.waveTextColor = "#805615";
-    config2.waveColor = "#AA7D39";
-    config2.circleThickness = 0.1;
-    config2.circleFillGap = 0.2;
-    config2.textVertPosition = 0.8;
-    config2.waveAnimateTime = 2000;
-    config2.waveHeight = 0.3;
-    config2.waveCount = 1;
+    config2.waveColor = "#D4AB6A";
+    config2.circleThickness = 0.2;
+//    config2.circleFillGap = 0.2;
+    config2.textVertPosition = 0.5;
+    config2.waveAnimateTime = 1000;
+//    config2.waveHeight = 0.3;
+//    config2.waveCount = 1;
 
-    function NewValue() {
-        if (Math.random() > .5) {
-            return Math.round(Math.random() * 100);
-        } else {
-            return (Math.random() * 100).toFixed(1);
-        }
-    }
+    var config3 = liquidFillGaugeDefaultSettings();
+    config3.circleColor = "#508fd1";
+    config3.textColor = "#1700b2";
+    config3.waveTextColor = "#0015ff";
+    config3.waveColor = "#9fd4d4";
+    config3.circleThickness = 0.2;
+    //    config2.circleFillGap = 0.2;
+    config3.textVertPosition = 0.5;
+    config3.waveAnimateTime = 1000;
 
+    var gauge1 = loadLiquidFillGauge("fillgauge1", 16.6, config1);
+    var gauge2 = loadLiquidFillGauge("fillgauge2", 16.6, config1);
+    var gauge3 = loadLiquidFillGauge("fillgauge3", 16.6, config1);
+    var gauge4 = loadLiquidFillGauge("fillgauge4", 16.6, config1);
+    var gauge5 = loadLiquidFillGauge("fillgauge5", 16.6, config1);
+    var gauge6 = loadLiquidFillGauge("fillgauge6", 16.6, config1);
 
     $(function () {
         connect();
@@ -197,6 +220,12 @@
 
     function renderResult(responseData) {
         console.log(responseData);
+        gauge1.update(responseData[0]);
+        gauge2.update(responseData[1]);
+        gauge3.update(responseData[2]);
+        gauge4.update(responseData[3]);
+        gauge5.update(responseData[4]);
+        gauge6.update(responseData[5]);
     }
 
 </script>

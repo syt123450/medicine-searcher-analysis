@@ -3,7 +3,9 @@ package com.searcher.presenter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.searcher.model.DataProvider;
+import com.searcher.model.YesterdayInfoGetter;
 import com.searcher.model.entity.GraphCollection;
+import com.searcher.model.entity.PieArgs;
 import com.searcher.model.entity.WebRequestBean;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -34,6 +36,10 @@ class WebPresenter {
     @RequestMapping("/yesterday")
     private String getYesterdayPercentage() {
 
-        return "";
+        YesterdayInfoGetter yesterdayInfoGetter = new YesterdayInfoGetter();
+        PieArgs pieArgs = yesterdayInfoGetter.get();
+        String response = gson.toJson(pieArgs);
+
+        return response;
     }
 }
