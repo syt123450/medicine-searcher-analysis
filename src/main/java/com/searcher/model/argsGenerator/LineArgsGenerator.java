@@ -38,13 +38,14 @@ public class LineArgsGenerator {
                 int count = 0;
                 while(resultSet.next()){
                     if (resultSet.getInt("year") !=year){
+                        if (count !=0){
+                            lineArgs.addItemList(tempList);
+                        }
                         tempList = new ArrayList<String>();
                         year = resultSet.getInt("year");
                         tempList.add(Integer.toString(year));
                         count++;
-                        if (count !=1){
-                            lineArgs.addItemList(tempList);
-                        }
+
                     }
                     if (count <=1){
                         lineName.add(resultSet.getString("factoryName"));

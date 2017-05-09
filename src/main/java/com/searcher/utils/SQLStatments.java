@@ -64,4 +64,19 @@ public class SQLStatments {
             "ORDER BY c.year, m.factoryName ASC " +
             ";";
 
+//    public static final String SumSaleTransactionAllFactoryTime
+//            =
+//            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName, c.year " +
+//                    "FROM SaleTransaction s, Medicine m, Calendar c " +
+//                    "WHERE s.medicineKey <> -1 " +
+//                    "AND c.year >= 2012 " +
+//                    "AND s.medicineKey = m.medicineKey " +
+//                    "AND s.calendarKey = c.calendarKey " +
+//                    "AND m.factoryID <> 5 " +
+//                    "AND m.factoryID <> 4 " +
+//                    "AND m.factoryID <> 3 " +
+//                    "GROUP BY m.factoryName, c.year " +
+//                    "ORDER BY c.year, m.factoryName ASC " +
+//                    ";";
+
 }

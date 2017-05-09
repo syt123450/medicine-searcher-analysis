@@ -18,7 +18,8 @@ public class DataProvider {
         GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
         graphArgsGenerator.processData();
         PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
 
         graphCollection.setDrawPie(true);
         graphCollection.setDrawCombo(true);
@@ -26,8 +27,9 @@ public class DataProvider {
         graphCollection.setDrawLine(true);
         graphCollection.setPieArgs(pieArgs);
         graphCollection.setComboArgs(mockComboArgsGenerator());
-        graphCollection.setSankeyArgs(sankeyArgs);
-        graphCollection.setLineArgs(mockLineArgsGenerator());
+//        graphCollection.setSankeyArgs(sankeyArgs);
+        graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
+        graphCollection.setLineArgs(lineArgs);
 
         return graphCollection;
     }
