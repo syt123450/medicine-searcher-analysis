@@ -82,13 +82,49 @@ function drawSankeyChart(sankeyArgs) {
     chart.draw(data, options);
 }
 
+// function drawLineChart(lineArgs) {
+//
+//     var lineValue = lineArgs.argsData;
+//
+//     for (var i = 0; i < lineValue.length; i++) {
+//         var lineItem = lineValue[i];
+//         for (var j = 1; j < lineItem.length; j++) {
+//             lineItem[j] = parseInt(lineItem[j]);
+//             lineValue[i] = lineItem;
+//         }
+//     }
+//
+//     var data = new google.visualization.DataTable();
+//
+//     data.addColumn('string', lineArgs.hAxis);
+//
+//
+//     var lineName = lineArgs.lineName;
+//
+//     for (var k = 0; k < lineName.length; k++) {
+//         data.addColumn('number', lineName[k]);
+//     }
+//
+//     data.addRows(lineValue);
+//
+//     var options = {
+//         chart: {
+//             title: lineArgs.title,
+//             subtitle: lineArgs.subTitle
+//         }
+//     };
+//
+//     var chart = new google.charts.Line(document.getElementById('line'));
+//
+//     chart.draw(data, google.charts.Line.convertOptions(options));
+// }
+
 function drawLineChart(lineArgs) {
 
     var lineValue = lineArgs.argsData;
-
     for (var i = 0; i < lineValue.length; i++) {
         var lineItem = lineValue[i];
-        for (var j = 0; j < lineItem.length; j++) {
+        for (var j = 1; j < lineItem.length; j++) {
             lineItem[j] = parseInt(lineItem[j]);
             lineValue[i] = lineItem;
         }
@@ -96,7 +132,7 @@ function drawLineChart(lineArgs) {
 
     var data = new google.visualization.DataTable();
 
-    data.addColumn('number', lineArgs.hAxis);
+    data.addColumn('string', lineArgs.hAxis);
 
 
     var lineName = lineArgs.lineName;
@@ -111,12 +147,14 @@ function drawLineChart(lineArgs) {
         chart: {
             title: lineArgs.title,
             subtitle: lineArgs.subTitle
-        }
+        },
+        curveType: 'function',
+        legend: { position: 'bottom' }
     };
 
-    var chart = new google.charts.Line(document.getElementById('line'));
+    var chart = new google.visualization.LineChart(document.getElementById('line'));
 
-    chart.draw(data, google.charts.Line.convertOptions(options));
+    chart.draw(data, options);
 }
 
 function changeCommodityInput() {
