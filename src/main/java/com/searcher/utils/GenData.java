@@ -20,7 +20,7 @@ import java.sql.*;
  * Created by carl on 5/8/17.
  */
 public class GenData {
-    private static final String URL = "jdbc:mysql://localhost:3306/gData?serverTimezone=GMT";
+    private static final String URL = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 
