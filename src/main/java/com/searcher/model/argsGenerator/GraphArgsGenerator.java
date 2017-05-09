@@ -1,5 +1,6 @@
 package com.searcher.model.argsGenerator;
 
+import com.searcher.model.entity.ComboArgs;
 import com.searcher.model.entity.LineArgs;
 import com.searcher.model.entity.PieArgs;
 import com.searcher.model.entity.SankeyArgs;
@@ -26,6 +27,7 @@ public class GraphArgsGenerator {
     private PieArgsGenerator pieArgsGenerator;
     private SankeyArgsGenerator sankeyArgsGenerator;
     private LineArgsGenerator lineArgsGenerator;
+    private ComboArgsGenerator comboArgsGenerator;
 
     public GraphArgsGenerator(
             String commodityLevel,
@@ -66,6 +68,12 @@ public class GraphArgsGenerator {
                     "Sales of All Factories",
                     "",
                     "Year");
+
+            String[] queries_c = {SQLStatments.SumSaleTransactionAllFactoryTimeSum, SQLStatments.AvgSaleTransactionAllFactoryTime};
+            comboArgsGenerator = new ComboArgsGenerator(queries_c,
+                    "Total Sales and Average Sales of All Factories",
+                    "Amount",
+                    "Year");
         }
     }
 
@@ -95,13 +103,24 @@ public class GraphArgsGenerator {
         }
     }
 
+    public ComboArgs generateComboArgs(){
+        if (getComboArgsGenerator() !=null){
+            return getComboArgsGenerator().generateComboArgs();
+        }
+        else {
+            return null;
+        }
+    }
+
     public static void main(String[] args){
         GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
         graphArgsGenerator.processData();
 
         PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
         LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
+        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
+
         System.out.println("");
     }
 
