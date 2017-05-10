@@ -17,11 +17,39 @@ public class ComboArgsGenerator {
     private String vAxis;
     private String hAxis;
 
+    private String factoryParam;
+    private String brandParam;
+    private String medicineParam;
+    private int yearParam;
+    private int quarterParam;
+    private int monthParam;
+
     public ComboArgsGenerator(String[] queries, String title, String vAxis, String hAxis){
-        this.queries = queries;
         this.title = title;
         this.vAxis = vAxis;
         this.hAxis = hAxis;
+
+        this.queries = queries;
+        this.factoryParam ="";
+        this.brandParam ="";
+        this.medicineParam ="";
+        this.yearParam =-1;
+        this.quarterParam =-1;
+        this.monthParam =-1;
+    }
+
+    public ComboArgsGenerator(String[] queries, String title, String vAxis, String hAxis, String factoryParam, int yearParam){
+        this.title = title;
+        this.vAxis = vAxis;
+        this.hAxis = hAxis;
+
+        this.queries = queries;
+        this.factoryParam =factoryParam;
+        this.brandParam ="";
+        this.medicineParam ="";
+        this.yearParam =yearParam;
+        this.quarterParam =-1;
+        this.monthParam =-1;
     }
 
     /**
@@ -36,15 +64,40 @@ public class ComboArgsGenerator {
 
             /* Try to catch name list first */
             MySQLConnection mySQLConnection = new MySQLConnection();
-            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByFactoryYear(getQueries()[0]);
-            // Default add first as "Year"
-            tempList.add("Year");
-            while(resultSet_0.next()){
-                if (tempList.contains( resultSet_0.getString("factoryName") )){
+            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+
+            // Decide levels
+            String commodityLvlLbl = "factoryName";
+            String timeLvlLbl = "year";
+            // Default add first as time level
+            if (getQuarterParam() >0){
+                tempList.add("Month");
+                timeLvlLbl = "month";
+            }
+            else if (getYearParam() >0){
+                tempList.add("Quarter");
+                timeLvlLbl = "quarter";
+            }
+            else {
+                tempList.add("Year");
+                timeLvlLbl = "year";
+            }
+
+            if (!getBrandParam().isEmpty()){
+                commodityLvlLbl = "medicineName";
+            }
+            else if (!getFactoryParam().isEmpty()){
+                commodityLvlLbl = "brandName";
+            }
+            else {
+                commodityLvlLbl = "factoryName";
+            }
+
+            while(resultSet_0.next()) {
+                if (tempList.contains(resultSet_0.getString(commodityLvlLbl))) {
                     break;
-                }
-                else {
-                    tempList.add( resultSet_0.getString("factoryName") );
+                } else {
+                    tempList.add(resultSet_0.getString(commodityLvlLbl));
                 }
             }
             // Add last as "Average"
@@ -53,21 +106,21 @@ public class ComboArgsGenerator {
 
             // Add data
             resultSet_0.beforeFirst();
-            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByFactoryYear(getQueries()[1]);
+            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
-            int tempYear =-1;
+            int tempTime =-1;
             int count =0;
             tempList = new ArrayList<String>();
             while(resultSet_0.next()){
-                if (tempYear != resultSet_0.getInt("Year")){
+                if (tempTime != resultSet_0.getInt(timeLvlLbl)){
                     if (count !=0){
                         resultSet_1.next();
                         tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
                         comboArgs.addItemList(tempList);
                     }
-                    tempYear = resultSet_0.getInt("Year");
+                    tempTime = resultSet_0.getInt(timeLvlLbl);
                     tempList = new ArrayList<String>();
-                    tempList.add(Integer.toString(tempYear));
+                    tempList.add(Integer.toString(tempTime));
                     count++;
                 }
                 tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );

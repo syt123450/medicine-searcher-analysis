@@ -2,6 +2,7 @@ package com.searcher.model;
 
 import com.searcher.model.argsGenerator.GraphArgsGenerator;
 import com.searcher.model.entity.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 
@@ -9,30 +10,53 @@ import java.util.ArrayList;
  * Created by ss on 2017/5/5.
  */
 
-
+@Data
 public class DataProvider {
 
-    public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
-        GraphCollection graphCollection = new GraphCollection();
+    GraphCollection graphCollection;
 
-        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
+    public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
+        graphCollection = new GraphCollection();
+
+        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator(webRequestBean);
         graphArgsGenerator.processData();
+
         PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
         LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
         ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
 
-        graphCollection.setDrawPie(true);
-        graphCollection.setDrawCombo(true);
-        graphCollection.setDrawSankey(true);
-        graphCollection.setDrawLine(true);
+        this.autoGraphDecisions(webRequestBean);
+
         graphCollection.setPieArgs(pieArgs);
         graphCollection.setComboArgs(comboArgs);
-//        graphCollection.setSankeyArgs(sankeyArgs);
-        graphCollection.setSankeyArgs(mockSankeyArgsGenerator());
+        graphCollection.setSankeyArgs(sankeyArgs);
         graphCollection.setLineArgs(lineArgs);
 
         return graphCollection;
+    }
+
+    public void autoGraphDecisions(WebRequestBean webRequestBean){
+        if (webRequestBean.getCommodityLevel().isEmpty() && webRequestBean.getTimeLevel().isEmpty()){
+            getGraphCollection().setDrawLine(true);
+            getGraphCollection().setDrawPie(true);
+            getGraphCollection().setDrawCombo(true);
+            getGraphCollection().setDrawSankey(true);
+        }
+        else if (!webRequestBean.getCommodityLevel().isEmpty() && !webRequestBean.getTimeLevel().isEmpty()){
+            if (webRequestBean.getCommodityLevel().equals("factory") && webRequestBean.getTimeLevel().equals("year")){
+                getGraphCollection().setDrawPie(true);
+                getGraphCollection().setDrawLine(true);
+                getGraphCollection().setDrawCombo(true);
+                getGraphCollection().setDrawSankey(true);
+            }
+        }
+        else {
+            getGraphCollection().setDrawLine(false);
+            getGraphCollection().setDrawPie(false);
+            getGraphCollection().setDrawCombo(false);
+            getGraphCollection().setDrawSankey(false);
+        }
     }
 
     public PieArgs mockPieArgsGenerator(){

@@ -17,33 +17,74 @@ public class LineArgsGenerator {
     private String title;
     private String subTitle;
     private String hAxis;
+    private String factoryParam;
+    private String brandParam;
+    private String medicineParam;
+    private int yearParam;
+    private int quarterParam;
+    private int monthParam;
 
     public LineArgsGenerator(String query, String title, String subTitle, String hAxis){
-        this.query = query;
         this.title = title;
         this.subTitle = subTitle;
         this.hAxis = hAxis;
+
+        this.query = query;
+        this.factoryParam ="";
+        this.brandParam ="";
+        this.medicineParam ="";
+        this.yearParam =-1;
+        this.quarterParam =-1;
+        this.monthParam =-1;
+    }
+
+    public LineArgsGenerator(String query, String title, String subTitle, String hAxis, String factoryParam, int yearParam){
+        this.title = title;
+        this.subTitle = subTitle;
+        this.hAxis = hAxis;
+
+        this.query = query;
+        this.factoryParam =factoryParam;
+        this.brandParam ="";
+        this.medicineParam ="";
+        this.yearParam =yearParam;
+        this.quarterParam =-1;
+        this.monthParam =-1;
     }
 
     public LineArgs generateLineArgs(){
         LineArgs lineArgs = new LineArgs(this.getTitle(), this.getSubTitle(), this.getHAxis());
 
+        // Decide column label
+        String timeColLbl = "year";
+        if (getQuarterParam()>0){
+            timeColLbl = "month";
+        }
+        else if (getYearParam()>0){
+            timeColLbl = "quarter";
+        }
+        else {
+            timeColLbl = "year";
+        }
+
+
+
         MySQLConnection mySQLConnection = new MySQLConnection();
-        ResultSet resultSet = mySQLConnection.calcSaleSumByFactoryYear(getQuery());
+        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQuery(),getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
         if (resultSet !=null){
             try {
                 ArrayList<String> lineName = new ArrayList<String>();
                 ArrayList<String> tempList = new ArrayList<String>();
-                int year = 0;
+                int compareValue = 0;
                 int count = 0;
                 while(resultSet.next()){
-                    if (resultSet.getInt("year") !=year){
+                    if (resultSet.getInt(timeColLbl) !=compareValue){
                         if (count !=0){
                             lineArgs.addItemList(tempList);
                         }
                         tempList = new ArrayList<String>();
-                        year = resultSet.getInt("year");
-                        tempList.add(Integer.toString(year));
+                        compareValue = resultSet.getInt(timeColLbl);
+                        tempList.add(Integer.toString(compareValue));
                         count++;
 
                     }
