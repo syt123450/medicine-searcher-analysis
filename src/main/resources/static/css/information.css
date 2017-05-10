@@ -38,3 +38,7 @@ div.col-sm-9 div {
 #factory, #brand, #medicine, #year, #quarter, #month {
     display: none;
 }
+
+#resultArea {
+    display: none;
+}

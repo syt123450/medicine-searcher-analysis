@@ -84,7 +84,7 @@
     </div>
 
 
-    <div></div>
+    <img id="decoratedImg" style="margin-top: 20px; width: 100%;" src="img/1.jpg">
 
     <div id="resultArea" class="row">
         <nav class="col-sm-3" id="myScrollspy">
@@ -121,6 +121,9 @@
         google.charts.load('current', {'packages': ['corechart', 'sankey', 'line']});
 
         $("#show").click(function () {
+
+            $("#decoratedImg").hide();
+            $("#resultArea").show();
 
             var year = ($("#year input").val() == "")? 0 : parseInt($("#year input").val());
             var quarter = ($("#quarter input").val() == "")? 0 : parseInt($("#quarter input").val());
