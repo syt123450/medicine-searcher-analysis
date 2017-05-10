@@ -20,7 +20,7 @@ function drawComboChart(comboArgs) {
         vAxis: {title: comboArgs.vAxis},
         hAxis: {title: comboArgs.hAxis},
         seriesType: 'bars',
-        series: {5: {type: 'line'}}
+        series: {6: {type: 'line'}}
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById('combo'));
