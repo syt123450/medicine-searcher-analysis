@@ -135,11 +135,19 @@ public class LineArgsGenerator {
                 ArrayList<String> lineName = new ArrayList<String>();
                 ArrayList<String> tempList = new ArrayList<String>();
                 int timeComparison = 0;     // temp time value used to compare with the time value from SQL result to decide if a new list needed
-                int count = 0;
+                int count = 0;              // count of SQL result iteration
+                int listSize = -1;           // monitor size of each arrayList
                 while(resultSet.next()){
                     if (resultSet.getInt(timeColLbl) !=timeComparison){
                         if (count !=0){
                             lineArgs.addItemList(tempList);
+                            // Check if all lists have the same size
+                            if (listSize <0){
+                                listSize = tempList.size();
+                            }
+                            else if (tempList.size() !=listSize){
+                                return null;
+                            }
                         }
                         tempList = new ArrayList<String>();
                         timeComparison = resultSet.getInt(timeColLbl);
@@ -156,6 +164,8 @@ public class LineArgsGenerator {
 
             } catch (Exception what){
                 what.printStackTrace();
+            } finally {
+                mySQLConnection.close();
             }
         }
 

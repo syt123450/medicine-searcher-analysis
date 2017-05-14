@@ -131,12 +131,12 @@ public class ComboArgsGenerator {
 
 
         ComboArgs comboArgs = new ComboArgs(this.getTitle(), this.getVAxis(), this.getHAxis());
+        MySQLConnection mySQLConnection = new MySQLConnection();
 
         try {
             ArrayList<String> tempList = new ArrayList<String>();
 
             /* Try to catch name list first */
-            MySQLConnection mySQLConnection = new MySQLConnection();
             ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             // Decide levels
@@ -185,6 +185,7 @@ public class ComboArgsGenerator {
 
             int tempTime =-1;
             int count =0;
+            int listSize =-1;
             tempList = new ArrayList<String>();
             while(resultSet_0.next()){
                 if (tempTime != resultSet_0.getInt(timeLvlLbl)){
@@ -192,6 +193,12 @@ public class ComboArgsGenerator {
                         resultSet_1.next();
                         tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
                         comboArgs.addItemList(tempList);
+                        if (listSize <0){
+                            listSize = tempList.size();
+                        }
+                        else if (tempList.size() !=listSize){
+                            return null;
+                        }
                     }
                     tempTime = resultSet_0.getInt(timeLvlLbl);
                     tempList = new ArrayList<String>();
@@ -203,10 +210,18 @@ public class ComboArgsGenerator {
             resultSet_1.next();
             tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
             comboArgs.addItemList(tempList);
+            if (listSize <0){
+                listSize = tempList.size();
+            }
+            else if (tempList.size() !=listSize){
+                return null;
+            }
 
             mySQLConnection.close();
         } catch (Exception what){
             what.printStackTrace();
+        } finally {
+            mySQLConnection.close();
         }
 
 
