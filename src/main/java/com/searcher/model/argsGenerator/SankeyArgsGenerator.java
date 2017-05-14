@@ -153,7 +153,7 @@ public class SankeyArgsGenerator {
                     count++;
                 }
                 if (count >=3){
-                    // Ignore other medicine out of TOP 5 of a brand
+                    // Ignore other medicine out of TOP 3 of a brand
                 }
                 else {
                     dulpNameCheck = resultSet_1.getString("brandName");
