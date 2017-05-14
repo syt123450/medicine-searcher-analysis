@@ -145,7 +145,7 @@ ORDER BY c.quarter, m.brandName, totalSum DESC
 GROUP BY t.quarter
 ;
 
-#// (NFL,NTL) Sankey part0
+#// (1F,1Y) Sankey part0
 SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
 FROM SaleTransaction s, Medicine m, Calendar c
 WHERE s.medicineKey <> -1
@@ -156,7 +156,7 @@ GROUP BY m.brandName, m.factoryName
 ORDER BY m.factoryName, totalSum DESC
 ;
 
-#// (NFL,NTL) Sankey part1
+#// (1F,1Y) Sankey part1
 SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName
 FROM SaleTransaction s, Medicine m, Calendar c
 WHERE s.medicineKey <> -1
@@ -207,14 +207,25 @@ AND c.month >= 1
 AND c.month <=12
 AND s.medicineKey = m.medicineKey
 AND s.calendarKey = c.calendarKey
-GROUP BY m.medicineName, m.brandName, m.factoryName
+GROUP BY m.medicineName, m.brandName, m.factoryName DESC
 ;
 
 
+SELECT SUM(s.totalPrice) as totalSum, c.month, c.quarter, c.year
+FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey <> -1
+AND m.factoryName = 'Greenstone LLC'
+AND m.brandName like '%%'
+AND m.medicineName like '%%'
+AND c.year >= 2014
+AND c.year <= 2014
+AND c.quarter >= 1
+AND c.quarter <= 4
+AND c.month >= 1
+AND c.month <=12
+AND s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+GROUP BY c.month, c.quarter, c.year
+ORDER BY c.year, c.quarter, c.month ASC
+;
 
-
-SELECT * FROM SaleTransaction s, calendar c, medicine m
-WHERE c.year =2014
-AND m.factoryID =5
-AND s.medicineKey =m.medicineKey
-AND c.calendarKey =s.calendarKey

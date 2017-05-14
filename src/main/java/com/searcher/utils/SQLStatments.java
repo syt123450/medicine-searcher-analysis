@@ -191,6 +191,12 @@ public class SQLStatments {
 
 
 
+
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** *****           General Cases             ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
     public static final String SumSaleTransactionPieFrame
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
@@ -210,8 +216,34 @@ public class SQLStatments {
             "GROUP BY #$1$# " +
             "ORDER BY totalSum DESC " +
             ";";
+
     // Sample #$1$# : " m.medicineName, m.brandName, m.factoryName "
     public static final String PieArgsFactories = " m.factoryName ";
     public static final String PieArgsFactory = " m.brandName, m.factoryName ";
     public static final String PieArgsBrand = " m.medicineName, m.brandName, m.factoryName ";
+
+
+    public static final String SumSaleTransactionLineFrame
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND m.factoryName = ? " +
+            "AND m.brandName like ? " +
+            "AND m.medicineName like ? " +
+            "AND c.year >= ? " +
+            "AND c.year <= ? " +
+            "AND c.quarter >= ? " +
+            "AND c.quarter <= ? " +
+            "AND c.month >= ? " +
+            "AND c.month <= ? " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY #$1$# " +
+            "ORDER BY #$1$# ASC " +
+            ";";
+
+    public static final String LineArgsYears = " c.year ";
+    public static final String LineArgsYear = " c.year, c.quarter ";
+    public static final String LineArgsQuarter = " c.year, c.quarter, c.month ";
 }

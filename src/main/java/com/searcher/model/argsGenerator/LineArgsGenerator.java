@@ -3,6 +3,7 @@ package com.searcher.model.argsGenerator;
 import com.searcher.model.entity.LineArgs;
 import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
+import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
 import javax.sound.sampled.Line;
@@ -70,6 +71,38 @@ public class LineArgsGenerator {
         this.title = "";
         this.subTitle = "";
         this.hAxis = "";
+    }
+
+    public void analyzeParameters(){
+        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+        if (getCommodityLevel().equals("medicine")){
+
+        }
+        else if (getCommodityLevel().equals("brand")){
+            setTitle("Shares of " + getBrandParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Shares of " + getFactoryParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Shares of All Factories");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        this.setQuery(queryFrame);
     }
 
     public LineArgs generateLineArgs(){
