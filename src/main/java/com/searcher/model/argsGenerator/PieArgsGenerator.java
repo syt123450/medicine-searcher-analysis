@@ -79,13 +79,13 @@ public class PieArgsGenerator {
         }
 
         if (getTimeLevel().equals("month")){
-            setTitle(getTitle() + " in " + getMonthParam());
+            setTitle(getTitle() + " in Month" + getMonthParam());
         }
         else if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in " + getQuarterParam());
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
         }
         else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in " + getYearParam());
+            setTitle(getTitle() + " in Year " + getYearParam());
         }
         else {
             // getTimeLevel() ==null

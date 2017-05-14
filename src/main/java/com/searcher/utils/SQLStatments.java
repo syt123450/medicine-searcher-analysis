@@ -6,6 +6,7 @@ package com.searcher.utils;
 public class SQLStatments {
     public static final String delimeter_1 = "#$1$#";
     public static final String delimeter_2 = "#$2$#";
+    public static final String delimeter_3 = "#$3$#";
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** ***** ***** *****   Special   ***** ***** ***** ***** ***** */
@@ -217,7 +218,6 @@ public class SQLStatments {
             "ORDER BY totalSum DESC " +
             ";";
 
-    // Sample #$1$# : " m.medicineName, m.brandName, m.factoryName "
     public static final String PieArgsFactories = " m.factoryName ";
     public static final String PieArgsFactory = " m.brandName, m.factoryName ";
     public static final String PieArgsBrand = " m.medicineName, m.brandName, m.factoryName ";
@@ -228,7 +228,7 @@ public class SQLStatments {
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
             "FROM SaleTransaction s, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
-            "AND m.factoryName = ? " +
+            "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
             "AND m.medicineName like ? " +
             "AND c.year >= ? " +
@@ -243,7 +243,65 @@ public class SQLStatments {
             "ORDER BY #$1$# ASC " +
             ";";
 
-    public static final String LineArgsYears = " c.year ";
-    public static final String LineArgsYear = " c.year, c.quarter ";
-    public static final String LineArgsQuarter = " c.year, c.quarter, c.month ";
+    public static final String LineArgsYears = " c.year, m.factoryName ";
+    public static final String LineArgsYear = " c.year, c.quarter, m.factoryName ";
+    public static final String LineArgsQuarter = " c.year, c.quarter, c.month, m.factoryName ";
+
+
+    public static final String SumSaleTransactionCombo_0
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND m.factoryName like ? " +
+            "AND m.brandName like ? " +
+            "AND m.medicineName like ? " +
+            "AND c.year >= ? " +
+            "AND c.year <= ? " +
+            "AND c.quarter >= ? " +
+            "AND c.quarter <= ? " +
+            "AND c.month >= ? " +
+            "AND c.month <= ? " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY #$1$#, #$2$# " +
+            "ORDER BY #$2$#, #$1$#, totalSum DESC " +
+            ";";
+    public static final String ComboArgsFactories = " m.factoryName ";
+    public static final String ComboArgsFactory = " m.factoryName, m.brandName ";
+    public static final String ComboArgsBrand = " m.factoryName, m.brandName, m.medicineName ";
+
+    public static final String ComboArgsYears = " c.year ";
+    public static final String ComboArgsYear = " c.quarter, c.year ";
+    public static final String ComboArgsQuarter = " c.month, c.quarter, c.year ";
+
+
+    public static final String SumSaleTransactionCombo_1
+            =
+            "SELECT AVG(t.totalSum) as avgSum, #$3$# " +
+            "FROM ( " +
+            "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND m.factoryName like ? " +
+            "AND m.brandName like ? " +
+            "AND m.medicineName like ? " +
+            "AND c.year >= ? " +
+            "AND c.year <= ? " +
+            "AND c.quarter >= ? " +
+            "AND c.quarter <= ? " +
+            "AND c.month >= ? " +
+            "AND c.month <= ? " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY #$1$#, #$2$# " +
+            "ORDER BY #$2$#, #$1$#, totalSum DESC " +
+            ") as t " +
+            "GROUP BY #$3$# " +
+            ";";
+    public static final String ComboArgsTYears = "t.year";
+    public static final String ComboArgsTYear = "t.quarter, t.year";
+    public static final String ComboArgsTQuarter = "t.month, t.quarter, t.year";
+
+
 }

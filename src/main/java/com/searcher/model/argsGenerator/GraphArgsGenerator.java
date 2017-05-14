@@ -165,17 +165,33 @@ public class GraphArgsGenerator {
 //        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
 
         WebRequestBean webRequestBean = new WebRequestBean();
-        webRequestBean.setCommodityLevel("factory");
-        webRequestBean.setFactory("Greenstone LLC");
+
+
+
+        webRequestBean.setCommodityLevel("");
+        webRequestBean.setFactory("");
         webRequestBean.setBrand("");
         webRequestBean.setMedicine("");
-        webRequestBean.setTimeLevel("year");
-        webRequestBean.setYear(2014);
+        webRequestBean.setTimeLevel("");
+        webRequestBean.setYear(0);
         webRequestBean.setQuarter(0);
         webRequestBean.setMonth(0);
 
+
+        webRequestBean.setCommodityLevel("factory");
+        webRequestBean.setFactory("Greenstone LLC");
+        webRequestBean.setTimeLevel("year");
+        webRequestBean.setYear(2014);
+
+
+
         PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
+        LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
+        ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
+
         PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
+        LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
+        ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
 
         System.out.println("");
     }
