@@ -63,61 +63,58 @@ public class GraphArgsGenerator {
      * Based on provided parameters from constructor,
      * use proper SQL to catch data from MYSQL
      */
-    public void processData(){
-        // Case 1: Both level is empty
-        if (this.getCommodityLevel().isEmpty() && this.getTimeLevel().isEmpty()){
-            // Generate pieArgs
-            pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransaction,
-                    "Shares SaleTransaction of All Factories");
-
-            // Generate sankeyArgs
-            String[] queries = {SQLStatments.SumSaleTransactionAll_0, SQLStatments.SumSaleTransactionAll_1};
-            sankeyArgsGenerator = new SankeyArgsGenerator(queries,
-                    "Distributions of Top Medicines for All Factories");
-
-            // Generate lineArgs
-            lineArgsGenerator = new LineArgsGenerator(SQLStatments.SumSaleTransactionAllFactoryTime,
-                    "Sales of All Factories",
-                    "",
-                    "Year");
-
-            // Generate comboArgs
-            String[] queries_c = {SQLStatments.SumSaleTransactionAllFactoryTimeSum, SQLStatments.AvgSaleTransactionAllFactoryTime};
-            comboArgsGenerator = new ComboArgsGenerator(queries_c,
-                    "Total Sales and Average Sales of All Factories",
-                    "Amount",
-                    "Year");
-        }
-        // Case 2: 1 specific factory with 1 specific year
-        else if (this.getCommodityLevel().equals("factory") && this.getTimeLevel().equals("year")){
-            if ( !this.getFactoryPara().isEmpty() && this.getYearPara() !=0){
-                // Generate pieArgs
-                pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransaction1F1Y_Pie,
-                        "Sale Shares of Each Brand of " + getFactoryPara(), this.getFactoryPara(), this.getYearPara());
-
-                // Generate lineArgs
-                lineArgsGenerator = new LineArgsGenerator(SQLStatments.SumSaleTransaction1F1Y_Line,
-                        "Sale Trend of Each Quarter in " + getYearPara(),
-                        "",
-                        "Quarter", this.getFactoryPara(), this.getYearPara());
-
-                // Generate comboArgs
-                String[] queries_c = {SQLStatments.SumSaleTransaction1F1Y_Combo_0, SQLStatments.SumSaleTransaction1F1Y_Combo_1};
-                comboArgsGenerator = new ComboArgsGenerator(queries_c,
-                        "Total Sales and Average Sales of " + this.getFactoryPara(),
-                        "Amount",
-                        "Quarter", this.getFactoryPara(), this.getYearPara());
-
-                // Generate sankeyArgs
-                String[] queries = {SQLStatments.SumSaleTransaction1F1Y_Sankey_0, SQLStatments.SumSaleTransaction1F1Y_Sankey_1};
-                sankeyArgsGenerator = new SankeyArgsGenerator(queries,
-                        "Distributions of Top Medicines for " + getFactoryPara(), this.getFactoryPara(), this.getYearPara());
-            }
-        }
-
-
-
-    }
+//    public void processData(){
+//        // Case 1: Both level is empty
+//        if (this.getCommodityLevel().isEmpty() && this.getTimeLevel().isEmpty()){
+//            // Generate pieArgs
+//            pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransaction,
+//                    "Shares SaleTransaction of All Factories");
+//
+//            // Generate sankeyArgs
+//            String[] queries = {SQLStatments.SumSaleTransactionAll_0, SQLStatments.SumSaleTransactionAll_1};
+//            sankeyArgsGenerator = new SankeyArgsGenerator(queries,
+//                    "Distributions of Top Medicines for All Factories");
+//
+//            // Generate lineArgs
+//            lineArgsGenerator = new LineArgsGenerator(SQLStatments.SumSaleTransactionAllFactoryTime,
+//                    "Sales of All Factories",
+//                    "",
+//                    "Year");
+//
+//            // Generate comboArgs
+//            String[] queries_c = {SQLStatments.SumSaleTransactionAllFactoryTimeSum, SQLStatments.AvgSaleTransactionAllFactoryTime};
+//            comboArgsGenerator = new ComboArgsGenerator(queries_c,
+//                    "Total Sales and Average Sales of All Factories",
+//                    "Amount",
+//                    "Year");
+//        }
+//        // Case 2: 1 specific factory with 1 specific year
+//        else if (this.getCommodityLevel().equals("factory") && this.getTimeLevel().equals("year")){
+//            if ( !this.getFactoryPara().isEmpty() && this.getYearPara() !=0){
+//                // Generate pieArgs
+//                pieArgsGenerator = new PieArgsGenerator(SQLStatments.SumSaleTransaction1F1Y_Pie,
+//                        "Sale Shares of Each Brand of " + getFactoryPara(), this.getFactoryPara(), this.getYearPara());
+//
+//                // Generate lineArgs
+//                lineArgsGenerator = new LineArgsGenerator(SQLStatments.SumSaleTransaction1F1Y_Line,
+//                        "Sale Trend of Each Quarter in " + getYearPara(),
+//                        "",
+//                        "Quarter", this.getFactoryPara(), this.getYearPara());
+//
+//                // Generate comboArgs
+//                String[] queries_c = {SQLStatments.SumSaleTransaction1F1Y_Combo_0, SQLStatments.SumSaleTransaction1F1Y_Combo_1};
+//                comboArgsGenerator = new ComboArgsGenerator(queries_c,
+//                        "Total Sales and Average Sales of " + this.getFactoryPara(),
+//                        "Amount",
+//                        "Quarter", this.getFactoryPara(), this.getYearPara());
+//
+//                // Generate sankeyArgs
+//                String[] queries = {SQLStatments.SumSaleTransaction1F1Y_Sankey_0, SQLStatments.SumSaleTransaction1F1Y_Sankey_1};
+//                sankeyArgsGenerator = new SankeyArgsGenerator(queries,
+//                        "Distributions of Top Medicines for " + getFactoryPara(), this.getFactoryPara(), this.getYearPara());
+//            }
+//        }
+//    }
 
     public PieArgs generatePieArgs(){
         if (getPieArgsGenerator() !=null){
