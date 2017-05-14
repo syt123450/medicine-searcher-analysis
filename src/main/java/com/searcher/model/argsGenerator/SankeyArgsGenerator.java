@@ -3,6 +3,7 @@ package com.searcher.model.argsGenerator;
 import com.searcher.model.entity.SankeyArgs;
 import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
+import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
 import java.sql.ResultSet;
@@ -63,21 +64,49 @@ public class SankeyArgsGenerator {
         this.title ="";
     }
 
+    public void analyzeParameters(){
+        String queryFrame_0 = SQLStatments.SumSaleTransactionSankey_0;
+        String queryFrame_1 = SQLStatments.SumSaleTransactionSankey_1;
+        if (getCommodityLevel().equals("factory")){
+            setTitle("Medicine Distribution of " + getFactoryParam());
+
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Medicine Distribution of All Factories");
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        String[] queries_s = {queryFrame_0, queryFrame_1};
+        this.setQueries(queries_s);
+    }
+
     public SankeyArgs generateSankeyArgs(){
         if ( getCommodityLevel().equals("brand")||getCommodityLevel().equals("medicine") ){
             return null;
         }
-
-
+        this.analyzeParameters();
 
         SankeyArgs sankeyArgs = new SankeyArgs(this.getTitle());
+
+        MySQLConnection mySQLConnection = new MySQLConnection();
 
         // Add data from SQL call
         try {
             String tempFactoryName = "";
             String tempBrandName = "";
             int count =0;
-            MySQLConnection mySQLConnection = new MySQLConnection();
+            int listSize =-1;
+
             ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             ArrayList<String> dulpNameCheckList = new ArrayList<String>();
@@ -105,6 +134,12 @@ public class SankeyArgsGenerator {
                     }
                     tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );
                     sankeyArgs.addItemList(tempList);
+                    if (listSize <0){
+                        listSize = tempList.size();
+                    }
+                    else if (tempList.size() !=listSize){
+                        return null;
+                    }
                 }
             }
 
@@ -128,6 +163,12 @@ public class SankeyArgsGenerator {
                         tempList.add(resultSet_1.getString("medicineName"));
                         tempList.add( Double.toString(resultSet_1.getDouble("totalSum")) );
                         sankeyArgs.addItemList(tempList);
+                        if (listSize <0){
+                            listSize = tempList.size();
+                        }
+                        else if (tempList.size() !=listSize){
+                            return null;
+                        }
                     }
                     else {
                         count--;
@@ -137,6 +178,8 @@ public class SankeyArgsGenerator {
             mySQLConnection.close();
         } catch (Exception what){
             what.printStackTrace();
+        } finally {
+            mySQLConnection.close();
         }
 
         return sankeyArgs;

@@ -74,32 +74,35 @@ public class LineArgsGenerator {
     }
 
     public void analyzeParameters(){
-        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+        String queryFrame = SQLStatments.SumSaleTransactionLineFrame;
         if (getCommodityLevel().equals("medicine")){
-
+            setTitle("Sale Trend of " + getMedicineParam());
         }
         else if (getCommodityLevel().equals("brand")){
-            setTitle("Shares of " + getBrandParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
+            setTitle("Sale Trend of " + getBrandParam());
         }
         else if (getCommodityLevel().equals("factory")){
-            setTitle("Shares of " + getFactoryParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+            setTitle("Sale Trend of " + getFactoryParam());
         }
         else {
             // getCommodityLevel() ==null
-            setTitle("Shares of All Factories");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+            setTitle("Sale Trend of All Factories");
         }
 
         if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in " + getQuarterParam());
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+            setHAxis("Month");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsQuarter);
         }
         else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in " + getYearParam());
+            setTitle(getTitle() + " in Year " + getYearParam());
+            setHAxis("Quarter");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsYear);
         }
         else {
             // getTimeLevel() ==null
+            setHAxis("Year");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsYears);
         }
 
         this.setQuery(queryFrame);
@@ -109,7 +112,7 @@ public class LineArgsGenerator {
         if (getTimeLevel().equals("month")){
             return null;
         }
-
+        this.analyzeParameters();
 
         LineArgs lineArgs = new LineArgs(this.getTitle(), this.getSubTitle(), this.getHAxis());
 
@@ -125,26 +128,31 @@ public class LineArgsGenerator {
             timeColLbl = "year";
         }
 
-
-
         MySQLConnection mySQLConnection = new MySQLConnection();
         ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQuery(),getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
         if (resultSet !=null){
             try {
                 ArrayList<String> lineName = new ArrayList<String>();
                 ArrayList<String> tempList = new ArrayList<String>();
-                int compareValue = 0;
-                int count = 0;
+                int timeComparison = 0;     // temp time value used to compare with the time value from SQL result to decide if a new list needed
+                int count = 0;              // count of SQL result iteration
+                int listSize = -1;           // monitor size of each arrayList
                 while(resultSet.next()){
-                    if (resultSet.getInt(timeColLbl) !=compareValue){
+                    if (resultSet.getInt(timeColLbl) !=timeComparison){
                         if (count !=0){
                             lineArgs.addItemList(tempList);
+                            // Check if all lists have the same size
+                            if (listSize <0){
+                                listSize = tempList.size();
+                            }
+                            else if (tempList.size() !=listSize){
+                                return null;
+                            }
                         }
                         tempList = new ArrayList<String>();
-                        compareValue = resultSet.getInt(timeColLbl);
-                        tempList.add(Integer.toString(compareValue));
+                        timeComparison = resultSet.getInt(timeColLbl);
+                        tempList.add(Integer.toString(timeComparison));
                         count++;
-
                     }
                     if (count <=1){
                         lineName.add(resultSet.getString("factoryName"));
@@ -156,6 +164,8 @@ public class LineArgsGenerator {
 
             } catch (Exception what){
                 what.printStackTrace();
+            } finally {
+                mySQLConnection.close();
             }
         }
 

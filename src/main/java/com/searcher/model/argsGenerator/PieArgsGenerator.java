@@ -79,13 +79,13 @@ public class PieArgsGenerator {
         }
 
         if (getTimeLevel().equals("month")){
-            setTitle(getTitle() + " in " + getMonthParam());
+            setTitle(getTitle() + " in Month" + getMonthParam());
         }
         else if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in " + getQuarterParam());
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
         }
         else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in " + getYearParam());
+            setTitle(getTitle() + " in Year " + getYearParam());
         }
         else {
             // getTimeLevel() ==null
@@ -127,6 +127,7 @@ public class PieArgsGenerator {
         MySQLConnection mySQLConnection = new MySQLConnection();
         ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQuery(), getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
+        int listSize = -1;
         if (resultSet !=null){
             try {
                 while (resultSet.next()){
@@ -135,10 +136,20 @@ public class PieArgsGenerator {
                     tempList.add(resultSet.getString(columnLabel));
                     tempList.add(Double.toString(resultSet.getDouble("totalSum")));
 
+                    if (listSize <0){
+                        listSize = tempList.size();
+                    }
+                    else if (tempList.size() !=listSize){
+                        return null;
+                    }
+
                     pieArgs.addItemList(tempList);
+
                 }
             } catch (Exception what){
                 what.printStackTrace();
+            } finally {
+                mySQLConnection.close();
             }
         }
         mySQLConnection.close();

@@ -18,18 +18,6 @@ public class DataProvider {
     public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
         graphCollection = new GraphCollection();
 
-
-//        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator(webRequestBean);
-//        graphArgsGenerator.processData();
-
-//        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
-//        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
-//        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
-
-//        this.autoGraphDecisions(webRequestBean);
-
-
         PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
         LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
         ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
@@ -72,28 +60,6 @@ public class DataProvider {
         return graphCollection;
     }
 
-    public void autoGraphDecisions(WebRequestBean webRequestBean){
-        if (webRequestBean.getCommodityLevel().isEmpty() && webRequestBean.getTimeLevel().isEmpty()){
-            getGraphCollection().setDrawLine(true);
-            getGraphCollection().setDrawPie(true);
-            getGraphCollection().setDrawCombo(true);
-            getGraphCollection().setDrawSankey(true);
-        }
-        else if (!webRequestBean.getCommodityLevel().isEmpty() && !webRequestBean.getTimeLevel().isEmpty()){
-            if (webRequestBean.getCommodityLevel().equals("factory") && webRequestBean.getTimeLevel().equals("year")){
-                getGraphCollection().setDrawPie(true);
-                getGraphCollection().setDrawLine(true);
-                getGraphCollection().setDrawCombo(true);
-                getGraphCollection().setDrawSankey(true);
-            }
-        }
-        else {
-            getGraphCollection().setDrawLine(false);
-            getGraphCollection().setDrawPie(false);
-            getGraphCollection().setDrawCombo(false);
-            getGraphCollection().setDrawSankey(false);
-        }
-    }
 
     public PieArgs mockPieArgsGenerator(){
         // Mock PieArgs

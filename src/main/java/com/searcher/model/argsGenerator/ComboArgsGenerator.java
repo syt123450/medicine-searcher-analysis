@@ -3,6 +3,7 @@ package com.searcher.model.argsGenerator;
 import com.searcher.model.entity.ComboArgs;
 import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
+import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
 import java.sql.ResultSet;
@@ -71,6 +72,53 @@ public class ComboArgsGenerator {
         this.vAxis = "";
     }
 
+    public void analyzeParameters(){
+        setVAxis("Amount");
+        String queryFrame_0 = SQLStatments.SumSaleTransactionCombo_0;
+        String queryFrame_1 = SQLStatments.SumSaleTransactionCombo_1;
+        if (getCommodityLevel().equals("brand")){
+            setTitle("Total and Average Sales of " + getBrandParam());
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsBrand);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsBrand);
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Total and Average Sales of " + getFactoryParam());
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactory);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactory);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Total and Average Sales of All Factories");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactories);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactories);
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+            setHAxis("Month");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsQuarter);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsQuarter);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTQuarter);
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+            setHAxis("Quarter");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYear);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYear);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTYear);
+        }
+        else {
+            // getTimeLevel() ==null
+            setHAxis("Year");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYears);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYears);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTYears);
+        }
+
+        String[] queries_c = {queryFrame_0, queryFrame_1};
+        this.setQueries(queries_c);
+    }
+
     /**
      * Assume all SQL are ordered Properly
      * @return
@@ -79,15 +127,16 @@ public class ComboArgsGenerator {
         if(getCommodityLevel().equals("medicine") ||getTimeLevel().equals("month")){
             return null;
         }
+        this.analyzeParameters();
 
 
         ComboArgs comboArgs = new ComboArgs(this.getTitle(), this.getVAxis(), this.getHAxis());
+        MySQLConnection mySQLConnection = new MySQLConnection();
 
         try {
             ArrayList<String> tempList = new ArrayList<String>();
 
             /* Try to catch name list first */
-            MySQLConnection mySQLConnection = new MySQLConnection();
             ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             // Decide levels
@@ -117,6 +166,7 @@ public class ComboArgsGenerator {
                 commodityLvlLbl = "factoryName";
             }
 
+            /* Generate name list */
             while(resultSet_0.next()) {
                 if (tempList.contains(resultSet_0.getString(commodityLvlLbl))) {
                     break;
@@ -128,12 +178,14 @@ public class ComboArgsGenerator {
             tempList.add("Average");
             comboArgs.addItemList(tempList);
 
-            // Add data
+            /* Add data */
+            // reset sql_0 curser to the first
             resultSet_0.beforeFirst();
             ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             int tempTime =-1;
             int count =0;
+            int listSize =-1;
             tempList = new ArrayList<String>();
             while(resultSet_0.next()){
                 if (tempTime != resultSet_0.getInt(timeLvlLbl)){
@@ -141,6 +193,12 @@ public class ComboArgsGenerator {
                         resultSet_1.next();
                         tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
                         comboArgs.addItemList(tempList);
+                        if (listSize <0){
+                            listSize = tempList.size();
+                        }
+                        else if (tempList.size() !=listSize){
+                            return null;
+                        }
                     }
                     tempTime = resultSet_0.getInt(timeLvlLbl);
                     tempList = new ArrayList<String>();
@@ -152,10 +210,18 @@ public class ComboArgsGenerator {
             resultSet_1.next();
             tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
             comboArgs.addItemList(tempList);
+            if (listSize <0){
+                listSize = tempList.size();
+            }
+            else if (tempList.size() !=listSize){
+                return null;
+            }
 
             mySQLConnection.close();
         } catch (Exception what){
             what.printStackTrace();
+        } finally {
+            mySQLConnection.close();
         }
 
 
