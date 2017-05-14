@@ -21,36 +21,36 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages: ["corechart"]});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(requestYesterdayData);
 
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Language', 'Speakers (in millions)'],
-                ['spatheraphy', 13], ['firefly', 83], ['hydralyzine', 1.4],
-                ['lyrica', 2.3], ['aspirin', 46], ['celebrex', 300],
-                ['avocado', 38], ['theraseptin', 5.5], ['fluconazole', 5],
-                ['luxe', 20], ['halls', 33], ['ginsamin', 1.5],
-                ['pediatric', 72], ['tinted', 2.9], ['sensodyne', 33],
-                ['amlodipine', 29], ['pain relief', 0.01], ['celebrex', 6.5],
-                ['moistrurizer', 2.5], ['sun scream', 61], ['caldesen', 74], ['digoxin', 52]
-            ]);
-
-            var options = {
-                title: 'Brands Share',
-                legend: 'none',
-                pieSliceText: 'label',
-//                is3D: true,
-                slices: {
-                    4: {offset: 0.2},
-                    12: {offset: 0.3},
-                    14: {offset: 0.4},
-                    15: {offset: 0.5}
-                }
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-            chart.draw(data, options);
-        }
+//        function drawChart() {
+//            var data = google.visualization.arrayToDataTable([
+//                ['Language', 'Speakers (in millions)'],
+//                ['spatheraphy', 13], ['firefly', 83], ['hydralyzine', 1.4],
+//                ['lyrica', 2.3], ['aspirin', 46], ['celebrex', 300],
+//                ['avocado', 38], ['theraseptin', 5.5], ['fluconazole', 5],
+//                ['luxe', 20], ['halls', 33], ['ginsamin', 1.5],
+//                ['pediatric', 72], ['tinted', 2.9], ['sensodyne', 33],
+//                ['amlodipine', 29], ['pain relief', 0.01], ['celebrex', 6.5],
+//                ['moistrurizer', 2.5], ['sun scream', 61], ['caldesen', 74], ['digoxin', 52]
+//            ]);
+//
+//            var options = {
+//                title: 'Brands Share',
+//                legend: 'none',
+//                pieSliceText: 'label',
+////                is3D: true,
+//                slices: {
+//                    4: {offset: 0.2},
+//                    12: {offset: 0.3},
+//                    14: {offset: 0.4},
+//                    15: {offset: 0.5}
+//                }
+//            };
+//
+//            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+//            chart.draw(data, options);
+//        }
 
 
         function requestYesterdayData() {
@@ -66,35 +66,35 @@
             });
         }
 
-//        function drawPieChart(pieArgs) {
-//
-//            var pieValue = pieArgs.argsData;
-//
-//            for (var i = 1; i < pieValue.length; i++) {
-//                var pieItem = pieValue[i];
-//                for (var j = 1; j < pieItem.length; j++) {
-//                    pieItem[j] = parseInt(pieItem[j]);
-//                    pieValue[i] = pieItem;
-//                }
-//            }
-//
-//            var data = google.visualization.arrayToDataTable(pieValue);
-//
-//            var options = {
-//                title: pieArgs.title,
-//                legend: 'none',
-//                pieSliceText: 'label',
-//                slices: {
-//                    4: {offset: 0.2},
-//                    12: {offset: 0.3},
-//                    14: {offset: 0.4},
-//                    15: {offset: 0.5}
-//                }
-//            };
-//
-//            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-//            chart.draw(data, options);
-//        }
+        function drawPieChart(pieArgs) {
+
+            var pieValue = pieArgs.argsData;
+
+            for (var i = 1; i < pieValue.length; i++) {
+                var pieItem = pieValue[i];
+                for (var j = 1; j < pieItem.length; j++) {
+                    pieItem[j] = parseInt(pieItem[j]);
+                    pieValue[i] = pieItem;
+                }
+            }
+
+            var data = google.visualization.arrayToDataTable(pieValue);
+
+            var options = {
+                title: pieArgs.title,
+                legend: 'none',
+                pieSliceText: 'label',
+                slices: {
+                    4: {offset: 0.2},
+                    12: {offset: 0.3},
+                    14: {offset: 0.4},
+                    15: {offset: 0.5}
+                }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
 
     </script>
 
