@@ -4,6 +4,8 @@ package com.searcher.utils;
  * Created by zchholmes on 2017/5/8.
  */
 public class SQLStatments {
+    public static final String delimeter_1 = "#$1$#";
+    public static final String delimeter_2 = "#$2$#";
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** ***** ***** *****   Special   ***** ***** ***** ***** ***** */
@@ -186,4 +188,30 @@ public class SQLStatments {
             "GROUP BY m.medicineName, m.brandName, m.factoryName " +
             "ORDER BY m.factoryName, totalSum DESC " +
             ";";
+
+
+
+    public static final String SumSaleTransactionPieFrame
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
+            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "WHERE s.medicineKey <> -1 " +
+            "AND m.factoryName like ? " +
+            "AND m.brandName like ? " +
+            "AND m.medicineName like ? " +
+            "AND c.year >= ? " +
+            "AND c.year <= ? " +
+            "AND c.quarter >= ? " +
+            "AND c.quarter <= ? " +
+            "AND c.month >= ? " +
+            "AND c.month <= ? " +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY #$1$# " +
+            "ORDER BY totalSum DESC " +
+            ";";
+    // Sample #$1$# : " m.medicineName, m.brandName, m.factoryName "
+    public static final String PieArgsFactories = " m.factoryName ";
+    public static final String PieArgsFactory = " m.brandName, m.factoryName ";
+    public static final String PieArgsBrand = " m.medicineName, m.brandName, m.factoryName ";
 }

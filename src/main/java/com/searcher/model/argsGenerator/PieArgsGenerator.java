@@ -1,6 +1,7 @@
 package com.searcher.model.argsGenerator;
 
 import com.searcher.model.entity.PieArgs;
+import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
 import com.searcher.utils.SQLStatments;
 import lombok.Data;
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 public class PieArgsGenerator {
     private String query;
     private String title;
+    private String commodityLevel;
     private String factoryParam;
     private String brandParam;
     private String medicineParam;
+    private String timeLevel;
     private int yearParam;
     private int quarterParam;
     private int monthParam;
@@ -45,7 +48,60 @@ public class PieArgsGenerator {
         this.monthParam =-1;
     }
 
+    public PieArgsGenerator(WebRequestBean webRequestBean){
+        this.commodityLevel =webRequestBean.getCommodityLevel();
+        this.factoryParam =webRequestBean.getFactory();
+        this.brandParam =webRequestBean.getBrand();
+        this.medicineParam =webRequestBean.getMedicine();
+        this.timeLevel =webRequestBean.getTimeLevel();
+        this.yearParam =webRequestBean.getYear();
+        this.quarterParam =webRequestBean.getQuarter();
+        this.monthParam =webRequestBean.getMonth();
+
+        this.title ="";
+        this.query ="";
+    }
+
+    public void analyzeParameters(){
+        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+        if (getCommodityLevel().equals("brand")){
+            setTitle("Shares of " + getBrandParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Shares of " + getFactoryParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Shares of All Factories");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+        }
+
+        if (getTimeLevel().equals("month")){
+            setTitle(getTitle() + " in " + getMonthParam());
+        }
+        else if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        this.setQuery(queryFrame);
+    }
+
     public PieArgs generatePieArgs(){
+        if (getCommodityLevel().equals("medicine")){
+            return null;
+        }
+        this.analyzeParameters();
+
+
+
         PieArgs pieArgs = new PieArgs(this.getTitle());
 
         // Add the default 1st ArrayList

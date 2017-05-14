@@ -1,6 +1,7 @@
 package com.searcher.model.argsGenerator;
 
 import com.searcher.model.entity.ComboArgs;
+import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
 import lombok.Data;
 
@@ -17,9 +18,11 @@ public class ComboArgsGenerator {
     private String vAxis;
     private String hAxis;
 
+    private String commodityLevel;
     private String factoryParam;
     private String brandParam;
     private String medicineParam;
+    private String timeLevel;
     private int yearParam;
     private int quarterParam;
     private int monthParam;
@@ -52,11 +55,32 @@ public class ComboArgsGenerator {
         this.monthParam =-1;
     }
 
+    public ComboArgsGenerator(WebRequestBean webRequestBean){
+        this.commodityLevel =webRequestBean.getCommodityLevel();
+        this.factoryParam =webRequestBean.getFactory();
+        this.brandParam =webRequestBean.getBrand();
+        this.medicineParam =webRequestBean.getMedicine();
+        this.timeLevel =webRequestBean.getTimeLevel();
+        this.yearParam =webRequestBean.getYear();
+        this.quarterParam =webRequestBean.getQuarter();
+        this.monthParam =webRequestBean.getMonth();
+
+        this.queries = new String[0];
+        this.title = "";
+        this.hAxis = "";
+        this.vAxis = "";
+    }
+
     /**
      * Assume all SQL are ordered Properly
      * @return
      */
     public ComboArgs generateComboArgs(){
+        if(getCommodityLevel().equals("medicine") ||getTimeLevel().equals("month")){
+            return null;
+        }
+
+
         ComboArgs comboArgs = new ComboArgs(this.getTitle(), this.getVAxis(), this.getHAxis());
 
         try {

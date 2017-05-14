@@ -1,6 +1,7 @@
 package com.searcher.model.argsGenerator;
 
 import com.searcher.model.entity.SankeyArgs;
+import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
 import lombok.Data;
 
@@ -15,9 +16,11 @@ public class SankeyArgsGenerator {
     private String[] queries;
     private String title;
 
+    private String commodityLevel;
     private String factoryParam;
     private String brandParam;
     private String medicineParam;
+    private String timeLevel;
     private int yearParam;
     private int quarterParam;
     private int monthParam;
@@ -46,7 +49,27 @@ public class SankeyArgsGenerator {
         this.monthParam =-1;
     }
 
+    public SankeyArgsGenerator(WebRequestBean webRequestBean){
+        this.commodityLevel =webRequestBean.getCommodityLevel();
+        this.factoryParam =webRequestBean.getFactory();
+        this.brandParam =webRequestBean.getBrand();
+        this.medicineParam =webRequestBean.getMedicine();
+        this.timeLevel =webRequestBean.getTimeLevel();
+        this.yearParam =webRequestBean.getYear();
+        this.quarterParam =webRequestBean.getQuarter();
+        this.monthParam =webRequestBean.getMonth();
+
+        this.queries =new String[0];
+        this.title ="";
+    }
+
     public SankeyArgs generateSankeyArgs(){
+        if ( getCommodityLevel().equals("brand")||getCommodityLevel().equals("medicine") ){
+            return null;
+        }
+
+
+
         SankeyArgs sankeyArgs = new SankeyArgs(this.getTitle());
 
         // Add data from SQL call

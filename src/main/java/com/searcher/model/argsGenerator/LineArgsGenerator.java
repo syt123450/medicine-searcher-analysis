@@ -1,6 +1,7 @@
 package com.searcher.model.argsGenerator;
 
 import com.searcher.model.entity.LineArgs;
+import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
 import lombok.Data;
 
@@ -17,9 +18,12 @@ public class LineArgsGenerator {
     private String title;
     private String subTitle;
     private String hAxis;
+
+    private String commodityLevel;
     private String factoryParam;
     private String brandParam;
     private String medicineParam;
+    private String timeLevel;
     private int yearParam;
     private int quarterParam;
     private int monthParam;
@@ -52,7 +56,28 @@ public class LineArgsGenerator {
         this.monthParam =-1;
     }
 
+    public LineArgsGenerator(WebRequestBean webRequestBean){
+        this.commodityLevel =webRequestBean.getCommodityLevel();
+        this.factoryParam =webRequestBean.getFactory();
+        this.brandParam =webRequestBean.getBrand();
+        this.medicineParam =webRequestBean.getMedicine();
+        this.timeLevel =webRequestBean.getTimeLevel();
+        this.yearParam =webRequestBean.getYear();
+        this.quarterParam =webRequestBean.getQuarter();
+        this.monthParam =webRequestBean.getMonth();
+
+        this.query = "";
+        this.title = "";
+        this.subTitle = "";
+        this.hAxis = "";
+    }
+
     public LineArgs generateLineArgs(){
+        if (getTimeLevel().equals("month")){
+            return null;
+        }
+
+
         LineArgs lineArgs = new LineArgs(this.getTitle(), this.getSubTitle(), this.getHAxis());
 
         // Decide column label

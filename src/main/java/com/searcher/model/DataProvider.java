@@ -1,6 +1,6 @@
 package com.searcher.model;
 
-import com.searcher.model.argsGenerator.GraphArgsGenerator;
+import com.searcher.model.argsGenerator.*;
 import com.searcher.model.entity.*;
 import lombok.Data;
 
@@ -18,20 +18,56 @@ public class DataProvider {
     public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
         graphCollection = new GraphCollection();
 
-        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator(webRequestBean);
-        graphArgsGenerator.processData();
 
-        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
-        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
-        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
+//        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator(webRequestBean);
+//        graphArgsGenerator.processData();
 
-        this.autoGraphDecisions(webRequestBean);
+//        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
+//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+//        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
+//        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
 
-        graphCollection.setPieArgs(pieArgs);
-        graphCollection.setComboArgs(comboArgs);
-        graphCollection.setSankeyArgs(sankeyArgs);
-        graphCollection.setLineArgs(lineArgs);
+//        this.autoGraphDecisions(webRequestBean);
+
+
+        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
+        LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
+        ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
+        SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
+
+        PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
+        LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
+        ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
+        SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
+
+        if (pieArgs!=null){
+            graphCollection.setDrawPie(true);
+            graphCollection.setPieArgs(pieArgs);
+        }
+        else {
+            graphCollection.setDrawPie(false);
+        }
+        if (lineArgs!=null){
+            graphCollection.setDrawLine(true);
+            graphCollection.setLineArgs(lineArgs);
+        }
+        else {
+            graphCollection.setDrawLine(false);
+        }
+        if (comboArgs!=null){
+            graphCollection.setDrawCombo(true);
+            graphCollection.setComboArgs(comboArgs);
+        }
+        else {
+            graphCollection.setDrawCombo(false);
+        }
+        if (sankeyArgs!=null){
+            graphCollection.setDrawSankey(true);
+            graphCollection.setSankeyArgs(sankeyArgs);
+        }
+        else {
+            graphCollection.setDrawSankey(false);
+        }
 
         return graphCollection;
     }

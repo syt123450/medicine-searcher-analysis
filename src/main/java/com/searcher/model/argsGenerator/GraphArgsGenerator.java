@@ -114,6 +114,9 @@ public class GraphArgsGenerator {
                         "Distributions of Top Medicines for " + getFactoryPara(), this.getFactoryPara(), this.getYearPara());
             }
         }
+
+
+
     }
 
     public PieArgs generatePieArgs(){
@@ -153,13 +156,26 @@ public class GraphArgsGenerator {
 
     public static void main(String[] args){
 //        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
-        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("factory", "year","Greenstone LLC","","",2014,0,0);
-        graphArgsGenerator.processData();
+//        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("factory", "year","Greenstone LLC","","",2014,0,0);
+//        graphArgsGenerator.processData();
 
-        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
-        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
-        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
+//        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
+//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
+//        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
+//        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
+
+        WebRequestBean webRequestBean = new WebRequestBean();
+        webRequestBean.setCommodityLevel("factory");
+        webRequestBean.setFactory("Greenstone LLC");
+        webRequestBean.setBrand("");
+        webRequestBean.setMedicine("");
+        webRequestBean.setTimeLevel("year");
+        webRequestBean.setYear(2014);
+        webRequestBean.setQuarter(0);
+        webRequestBean.setMonth(0);
+
+        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
+        PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
 
         System.out.println("");
     }

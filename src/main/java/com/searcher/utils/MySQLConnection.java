@@ -84,33 +84,54 @@ public class MySQLConnection {
 
     public ResultSet calcSaleSumByParam(String query, String factoryName, String brandName, String medicineName, int year, int quarter, int month){
         try {
+            query = query.replace("!", "!!")
+                    .replace("%", "!%")
+                    .replace("_", "!_")
+                    .replace("[", "![");
             preStmt = conn.prepareStatement(query);
 
-            int i =1;
             if (!factoryName.isEmpty()){
-                preStmt.setString(i, factoryName);
-                i++;
+                preStmt.setString(1, factoryName);
+            }
+            else {
+                preStmt.setString(1, "%%");
             }
             if (!brandName.isEmpty()){
-                preStmt.setString(i, brandName);
-                i++;
+                preStmt.setString(2, brandName);
+            }
+            else {
+                preStmt.setString(2, "%%");
             }
             if (!medicineName.isEmpty()){
-                preStmt.setString(i, medicineName);
-                i++;
+                preStmt.setString(3, medicineName);
+            }
+            else {
+                preStmt.setString(3, "%%");
             }
 
             if (year >0){
-                preStmt.setInt(i, year);
-                i++;
+                preStmt.setInt(4, year);
+                preStmt.setInt(5, year);
+            }
+            else {
+                preStmt.setInt(4, 2012);
+                preStmt.setInt(5, 2017);
             }
             if (quarter >0){
-                preStmt.setInt(i, year);
-                i++;
+                preStmt.setInt(6, quarter);
+                preStmt.setInt(7, quarter);
+            }
+            else {
+                preStmt.setInt(6, 1);
+                preStmt.setInt(7, 4);
             }
             if (month >0){
-                preStmt.setInt(i, year);
-                i++;
+                preStmt.setInt(8, month);
+                preStmt.setInt(9, month);
+            }
+            else {
+                preStmt.setInt(8, 1);
+                preStmt.setInt(9, 12);
             }
 
             retSet = preStmt.executeQuery();

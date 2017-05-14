@@ -166,3 +166,55 @@ AND	s.medicineKey = m.medicineKey
 GROUP BY m.medicineName, m.brandName, m.factoryName
 ORDER BY m.factoryName, totalSum DESC
 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
+FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey <> -1
+AND m.factoryName = 'Greenstone LLC'
+AND c.year = 2014
+AND	s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+GROUP BY m.brandName, m.factoryName
+;
+
+
+SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName
+FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey <> -1
+AND m.factoryName like '%Greenstone LLC%'
+AND m.brandName like '%%'
+AND m.medicineName like '%%'
+AND c.year >= 2014
+AND c.year <= 2014
+AND c.quarter >= 1
+AND c.quarter <= 4
+AND c.month >= 1
+AND c.month <=12
+AND s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+GROUP BY m.medicineName, m.brandName, m.factoryName
+;
+
+
+
+
+SELECT * FROM SaleTransaction s, calendar c, medicine m
+WHERE c.year =2014
+AND m.factoryID =5
+AND s.medicineKey =m.medicineKey
+AND c.calendarKey =s.calendarKey
