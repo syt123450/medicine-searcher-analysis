@@ -3,6 +3,7 @@ package com.searcher.model.argsGenerator;
 import com.searcher.model.entity.SankeyArgs;
 import com.searcher.model.entity.WebRequestBean;
 import com.searcher.utils.MySQLConnection;
+import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
 import java.sql.ResultSet;
@@ -63,12 +64,37 @@ public class SankeyArgsGenerator {
         this.title ="";
     }
 
+    public void analyzeParameters(){
+        String queryFrame_0 = SQLStatments.SumSaleTransactionSankey_0;
+        String queryFrame_1 = SQLStatments.SumSaleTransactionSankey_1;
+        if (getCommodityLevel().equals("factory")){
+            setTitle("Medicine Distribution of " + getFactoryParam());
+
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Medicine Distribution of All Factories");
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        String[] queries_s = {queryFrame_0, queryFrame_1};
+        this.setQueries(queries_s);
+    }
+
     public SankeyArgs generateSankeyArgs(){
         if ( getCommodityLevel().equals("brand")||getCommodityLevel().equals("medicine") ){
             return null;
         }
-
-
+        this.analyzeParameters();
 
         SankeyArgs sankeyArgs = new SankeyArgs(this.getTitle());
 
