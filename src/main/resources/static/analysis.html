@@ -143,6 +143,16 @@
 
             console.log(postBody);
 
+            $("#commodity").val("");
+            $("#factory input").val("");
+            $("#brand input").val("");
+            $("#medicine input").val("");
+
+            $("#time").val("");
+            $("#year input").val("");
+            $("#quarter input").val("");
+            $("#month input").val("");
+
             $.ajax({
                 url: '/API/query',
                 type: 'POST',
