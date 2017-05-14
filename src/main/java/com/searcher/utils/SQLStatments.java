@@ -10,6 +10,23 @@ public class SQLStatments {
 
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** *****   Special   ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    // Pie for yesterday
+    public static final String yesterdayPie
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
+                    "FROM SaleTransaction s, Medicine m, Calendar c " +
+                    "WHERE s.medicineKey <> -1 " +
+                    "AND c.fullDate = subdate(current_date, 1) " +
+                    "AND s.medicineKey = m.medicineKey " +
+                    "AND s.calendarKey = c.calendarKey " +
+                    "GROUP BY m.factoryName " +
+                    ";";
+
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** *****           General Cases             ***** ***** ***** */
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
 
@@ -167,24 +184,6 @@ public class SQLStatments {
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
 
-
-//    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
-//    /* ***** ***** ***** ***** *****   Special   ***** ***** ***** ***** ***** */
-//    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
-//
-//    // Pie for yesterday
-//    public static final String yesterdayPie
-//            =
-//            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
-//                    "FROM SaleTransaction s, Medicine m, Calendar c " +
-//                    "WHERE s.medicineKey <> -1 " +
-//                    "AND c.fullDate = subdate(current_date, 1) " +
-//                    "AND s.medicineKey = m.medicineKey " +
-//                    "AND s.calendarKey = c.calendarKey " +
-//                    "GROUP BY m.factoryName " +
-//                    ";";
-//
-//
 //    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
 //    /* ***** ***** *****        No Factory & No Year         ***** ***** ***** */
 //    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
