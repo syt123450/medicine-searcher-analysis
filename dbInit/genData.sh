@@ -9,5 +9,5 @@ mysql -u ultimate -psesame < ./medicine.sql
 mysql -u ultimate -psesame < ./calendar.sql
 mysql -u ultimate -psesame < ./saleTransaction.sql
 
-mysql -u ultimate -psesame < ./dropTbl.sql
+#mysql -u ultimate -psesame < ./dropTbl.sql
 

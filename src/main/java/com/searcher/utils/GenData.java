@@ -24,11 +24,13 @@ public class GenData {
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        updateMedicineTbl();
 //        updateCalendarTbl();
 //        updateSaleTransactionTbl() ;
-//    }
+        //getCalendarKey(2017, 1);
+        updateSaleTransactionTbl();
+    }
 
 //    public static void updateMedicineTbl() {
 //        ResultSet medicineRS = null;
@@ -144,7 +146,7 @@ public class GenData {
                 int year        = cRS.getInt("year");
                 int month       = cRS.getInt("month");
                 int date        = cRS.getInt("date");
-                String fullDate = Integer.toString(year)+"/"+Integer.toString(month)+"/"+Integer.toString(date);
+                String fullDate = Integer.toString(year)+"-"+Integer.toString(month)+"-"+Integer.toString(date);
 
                 fullDateSql = String.format("update calendar set fullDate='%s' where year=%d and month=%d and date=%d", fullDate, year, month, date );
                 updateFullDateStmt = conn.createStatement();
@@ -185,4 +187,77 @@ public class GenData {
 //
 //        }
 //    }
+
+    public static void updateSaleTransactionTbl() {
+        //String updateSaleTransactionSQL = "UPDATE saleTransaction SET quantity=?, calendarKey=?, medicineId=?, medicineKey=?, storeId=?, storeKey=?, customerId=?, customerKey=?, totalPrice=?";
+        String insertSaleTransactionSQL = "INSERT INTO saleTransaction (quantity,calendarKey,medicineId,medicineKey,storeId,storeKey,customerId,customerKey,totalPrice) values (?,?,?,?,?,?,?,?,?) ";
+        String selectMedicineSQL = "SELECT * FROM medicine";
+        int cKey = -1;
+        int maxStoreNum = 50;
+        int minStoreNum = 1;
+        int maxCustomerNum = 2000;
+        int maxQuantity = 20;
+        int minQuantity = 1;
+
+
+        try {
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);    //connect to mysql
+
+            PreparedStatement selectStmt = conn.prepareStatement(selectMedicineSQL);
+            for ( int i = 1; i <=12; i++) {
+                cKey = getCalendarKey(2017, i);
+                ResultSet medicineRS = selectStmt.executeQuery(selectMedicineSQL);
+
+                while (medicineRS.next()) {
+                    int medicineKey = medicineRS.getInt("medicineKey");
+                    int medicineId = medicineRS.getInt("medicineId");
+                    int storeId = ((int) (Math.random() * (maxStoreNum - minStoreNum))) + minStoreNum;
+                    int customerId = ((int) (Math.random() * (maxStoreNum - minStoreNum))) + minStoreNum;
+                    int quantity = ((int) (Math.random() * (maxQuantity - minQuantity))) + minQuantity;
+                    double totalPrice = medicineRS.getDouble("price") * quantity;
+
+                    PreparedStatement updateStmt = conn.prepareStatement(insertSaleTransactionSQL);
+                    updateStmt.setInt(1, quantity);
+                    updateStmt.setInt(2, cKey);
+                    updateStmt.setInt(3, medicineId);
+                    updateStmt.setInt(4, medicineKey);
+                    updateStmt.setInt(5, storeId);
+                    updateStmt.setInt(6, storeId); //storeKey = storeId
+                    updateStmt.setInt(7, customerId);
+                    updateStmt.setInt(8, customerId);//customerKey = customerId
+                    updateStmt.setDouble(9, totalPrice);
+
+                    updateStmt.execute();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static int getCalendarKey( int year, int month ) {
+        String selectSQL = "SELECT  *  FROM  calendar";
+        int key = -1;
+
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
+
+            // iterate through the java resultset
+            while (rs.next()){
+                if ( (rs.getInt("year") == year) && (rs.getInt("month") == month) ) {
+                    key = rs.getInt("calendarKey");
+                    break;
+                }
+            }
+
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
+
+        return key;
+    }
 }

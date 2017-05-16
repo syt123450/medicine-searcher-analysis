@@ -1,4 +1,4 @@
-USE 226analysis;
+USE 226analysis ;
 
 CREATE TABLE customerOperation (
     customerId      INT         NOT NULL,
