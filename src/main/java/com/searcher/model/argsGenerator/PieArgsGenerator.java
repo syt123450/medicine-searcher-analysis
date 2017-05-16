@@ -29,9 +29,11 @@ public class PieArgsGenerator {
         this.title = title;
 
         this.query = query;
+        this.commodityLevel ="";
         this.factoryParam ="";
         this.brandParam ="";
         this.medicineParam ="";
+        this.timeLevel ="";
         this.yearParam =-1;
         this.quarterParam =-1;
         this.monthParam =-1;
@@ -63,35 +65,37 @@ public class PieArgsGenerator {
     }
 
     public void analyzeParameters(){
-        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
-        if (getCommodityLevel().equals("brand")){
-            setTitle("Shares of " + getBrandParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
-        }
-        else if (getCommodityLevel().equals("factory")){
-            setTitle("Shares of " + getFactoryParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
-        }
-        else {
-            // getCommodityLevel() ==null
-            setTitle("Shares of All Factories");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
-        }
+        if (this.getQuery().isEmpty()){
+            String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+            if (getCommodityLevel().equals("brand")){
+                setTitle("Shares of " + getBrandParam());
+                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
+            }
+            else if (getCommodityLevel().equals("factory")){
+                setTitle("Shares of " + getFactoryParam());
+                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+            }
+            else {
+                // getCommodityLevel() ==null
+                setTitle("Shares of All Factories");
+                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+            }
 
-        if (getTimeLevel().equals("month")){
-            setTitle(getTitle() + " in Month" + getMonthParam());
-        }
-        else if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in Quarter " + getQuarterParam());
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in Year " + getYearParam());
-        }
-        else {
-            // getTimeLevel() ==null
-        }
+            if (getTimeLevel().equals("month")){
+                setTitle(getTitle() + " in Month" + getMonthParam());
+            }
+            else if (getTimeLevel().equals("quarter")){
+                setTitle(getTitle() + " in Quarter " + getQuarterParam());
+            }
+            else if (getTimeLevel().equals(("year"))){
+                setTitle(getTitle() + " in Year " + getYearParam());
+            }
+            else {
+                // getTimeLevel() ==null
+            }
 
-        this.setQuery(queryFrame);
+            this.setQuery(queryFrame);
+        }
     }
 
     public PieArgs generatePieArgs(){

@@ -16,14 +16,24 @@ public class SQLStatments {
     // Pie for yesterday
     public static final String yesterdayPie
             =
-            "SELECT SUM(s.totalPrice) as totalSum, m.factoryName " +
-                    "FROM SaleTransaction s, Medicine m, Calendar c " +
-                    "WHERE s.medicineKey <> -1 " +
-                    "AND c.fullDate = subdate(current_date, 1) " +
-                    "AND s.medicineKey = m.medicineKey " +
-                    "AND s.calendarKey = c.calendarKey " +
-                    "GROUP BY m.factoryName " +
-                    ";";
+            " SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
+            " FROM SaleTransaction s, Medicine m, Calendar c " +
+            " WHERE s.medicineKey <> -1 " +
+            " AND m.factoryName like ? " +
+            " AND m.brandName like ? " +
+            " AND m.medicineName like ? " +
+            " AND c.year >= ? " +
+            " AND c.year <= ? " +
+            " AND c.quarter >= ? " +
+            " AND c.quarter <= ? " +
+            " AND c.month >= ? " +
+            " AND c.month <= ? " +
+            " AND c.fullDate = subdate(current_date, 1) " +
+            " AND s.medicineKey = m.medicineKey " +
+            " AND s.calendarKey = c.calendarKey " +
+            " GROUP BY m.brandName, m.factoryName " +
+            " ORDER BY totalSum DESC " +
+            " ;";
 
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
