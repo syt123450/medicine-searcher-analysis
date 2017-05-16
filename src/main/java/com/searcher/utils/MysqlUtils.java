@@ -24,13 +24,18 @@ public class MysqlUtils {
     private static final String PASSWORD = "sesame";
 
     public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
-        SimpleCalendar s = new SimpleCalendar();
+        Calendar c  = Calendar.getInstance();
+        int year    = c.get(Calendar.YEAR);
+        int month   = c.get(Calendar.MONTH) + 1;   // 0 to 11
+        int date    = c.get(Calendar.DAY_OF_MONTH);
+        int quarter = c.get(Calendar.MONTH)/3 + 1;
+        String fullDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(date);
 
         // Insert calender for TODAY
-        insertIntoCalenderTbl(s);
+        insertIntoCalenderTbl(fullDate, date, month, quarter, year);
 
         // Get calendarKey
-        int cKey = getCalendarKeyOfDate( s.getFullDate() );
+        int cKey = getCalendarKeyOfDate( fullDate );
 
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
@@ -39,13 +44,18 @@ public class MysqlUtils {
     }
 
     public static void persistSearchTransaction(ArrayList<SearchTransactionBean> searchTransactionBeans) {
-        SimpleCalendar s = new SimpleCalendar();
+        Calendar c  = Calendar.getInstance();
+        int year    = c.get(Calendar.YEAR);
+        int month   = c.get(Calendar.MONTH) + 1;   // 0 to 11
+        int date    = c.get(Calendar.DAY_OF_MONTH);
+        int quarter = c.get(Calendar.MONTH)/3 + 1;
+        String fullDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(date);
 
         // Insert calender for TODAY
-        insertIntoCalenderTbl(s);
+        insertIntoCalenderTbl(fullDate, date, month, quarter, year);
 
         // Get calendarKey
-        int cKey = getCalendarKeyOfDate( s.getFullDate() );
+        int cKey = getCalendarKeyOfDate(fullDate);
 
         for ( int idx = 0; idx < searchTransactionBeans.size(); idx++ ) {
             SearchTransactionBean searchTransaction = searchTransactionBeans.get(idx);
@@ -65,14 +75,30 @@ public class MysqlUtils {
         int customerKey   = getCustomerKeyFromId(customerId);
         double totalPrice = saleTransaction.getTotalPrice();
 
-        //!!! TO-DO later: change format
-        String sql = String.format( "INSERT INTO saleTransaction " +
-                                    " (quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice)" +
-                                    " VALUES " +
-                                    "(%d, %d, %d, %d, %d, %d, %d, %d, %f)",
-                                    quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice);
+        String insertSQL = "INSERT INTO saleTransaction " +
+                     " (quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice)" +
+                     " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        runMysqlWithUpdate( sql );
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+
+            PreparedStatement prepareStmt = conn.prepareStatement(insertSQL);
+            prepareStmt.setInt(1, quantity);
+            prepareStmt.setInt(2, calendarKey);
+            prepareStmt.setInt(3, medicineId);
+            prepareStmt.setInt(4, medicineKey);
+            prepareStmt.setInt(5, storeId);
+            prepareStmt.setInt(6, storeKey);
+            prepareStmt.setInt(7, customerId);
+            prepareStmt.setInt(8, customerKey);
+            prepareStmt.setDouble(9, totalPrice);
+
+            prepareStmt.execute();
+
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
     }
 
     private static void insertIntoSearchTransactionTbl(SearchTransactionBean searchTransaction, int calendarKey ) {
@@ -84,49 +110,69 @@ public class MysqlUtils {
         int storeKey    = getStoreKeyFromId(storeId);
         int customerKey = getCustomerKeyFromId(customerId);
 
-        //!!! TO-DO later: change format
-        String sql = String.format( "INSERT INTO searchTransaction " +
-                                    " (medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey)" +
-                                    " VALUES " +
-                                    "(%d, %d, %d, %d, %d, %d, %d)",
-                                    medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey);
+        String insertSQL = "INSERT INTO searchTransaction " +
+                           " (medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey)" +
+                           " VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        runMysqlWithUpdate( sql );
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+
+            PreparedStatement prepareStmt = conn.prepareStatement(insertSQL);
+            prepareStmt.setInt(1, medicineId);
+            prepareStmt.setInt(2, medicineKey);
+            prepareStmt.setInt(3, storeId);
+            prepareStmt.setInt(4, storeKey);
+            prepareStmt.setInt(5, customerId);
+            prepareStmt.setInt(6, customerKey);
+            prepareStmt.setInt(7, calendarKey);
+
+            prepareStmt.execute();
+
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
     }
 
-    private static void insertIntoCalenderTbl( SimpleCalendar c ) {
-        //!!! TO-DO later: change format
-        String sql = String.format( "INSERT INTO calendar" +
-                                    "(fullDate, date, month, quarter, year)" +
-                                    " VALUES " +
-                                    "('%s', %d, %d, %d, %d)",
-                                    c.getFullDate(), c.getDay(), c.getMonth(), c.getQuarter(), c.getYear() );
+    private static void insertIntoCalenderTbl(String fullDate, int date, int month, int quarter, int year) {
+        String insertSQL = "INSERT INTO calendar" +
+                           "(fullDate, date, month, quarter, year)" +
+                           " VALUES (?, ?, ?, ?, ?)";
 
-        runMysqlWithUpdate( sql );
+        try {
+            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
+
+            PreparedStatement prepareStmt = conn.prepareStatement(insertSQL);
+            prepareStmt.setString(1, fullDate);
+            prepareStmt.setInt(2, date);
+            prepareStmt.setInt(3, month);
+            prepareStmt.setInt(4, quarter);
+            prepareStmt.setInt(5, year);
+
+            prepareStmt.execute();
+
+            conn.close();
+        }catch( Exception e ){
+            e.printStackTrace();
+        }
     }
 
     private static int getCalendarKeyOfDate( String date ) {
-        String sql = "SELECT calendarKey, fullDate FROM calendar";
-        ResultSet rs = null;
+        String selectSQL = "SELECT calendarKey, fullDate FROM calendar WHERE fullDate = ?";
         int key = -1;
 
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            preparedStatement.setString(1, date);
 
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
 
             // iterate through the java resultset
-            while (rs.next())
-            {
-                String fullDate = rs.getString("fullDate" );
-                if ( fullDate.equals(date) ) {
-                    key = rs.getInt("calendarKey");
-                    break;
-                }
+            if (rs.next()){
+                key = rs.getInt("calendarKey");
             }
 
-            stmt.close();
             conn.close();
         }catch( Exception e ){
             e.printStackTrace();
@@ -136,27 +182,21 @@ public class MysqlUtils {
     }
 
     private static int getMedicineKeyFromId( int mId ) {
-        String sql = "SELECT medicineKey, medicineId FROM medicine";
-        ResultSet rs = null;
+        String selectSQL = "SELECT medicineKey, medicineId FROM medicine WHERE medicineId = ?";
         int mKey = -1;
 
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            preparedStatement.setInt(1, mId);
 
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
 
             // iterate through the java resultset
-            while (rs.next())
-            {
-                int medicineId = rs.getInt("medicineId" );
-                if ( medicineId == mId ) {
-                    mKey = rs.getInt("medicineKey");
-                    break;
-                }
+            if(rs.next()){
+                mKey = rs.getInt("medicineKey");
             }
 
-            stmt.close();
             conn.close();
         }catch( Exception e ){
             e.printStackTrace();
@@ -166,27 +206,21 @@ public class MysqlUtils {
     }
 
     private static int getStoreKeyFromId( int sId ) {
-        String sql = "SELECT storeKey, storeId FROM store";
-        ResultSet rs = null;
+        String selectSQL = "SELECT storeKey, storeId FROM store WHERE storeId = ?";
         int sKey = -1;
 
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            preparedStatement.setInt(1, sId);
 
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
 
             // iterate through the java resultset
-            while (rs.next())
-            {
-                int storeId = rs.getInt("storeId" );
-                if ( storeId == sId ) {
-                    sKey = rs.getInt("storeKey");
-                    break;
-                }
+            if (rs.next()) {
+                sKey = rs.getInt("storeKey");
             }
 
-            stmt.close();
             conn.close();
         }catch( Exception e ){
             e.printStackTrace();
@@ -196,46 +230,27 @@ public class MysqlUtils {
     }
 
     private static int getCustomerKeyFromId( int cId ) {
-        String sql = "SELECT customerKey, customerId FROM customer";
-        ResultSet rs = null;
+        String selectSQL = "SELECT customerKey, customerId FROM customer WHERE customerId = ?";
         int cKey = -1;
 
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
+            PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+            preparedStatement.setInt(1, cId);
 
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = preparedStatement.executeQuery(selectSQL);
 
             // iterate through the java resultset
-            while (rs.next())
-            {
-                int customerId = rs.getInt("customerId" );
-                if ( customerId == cId ) {
-                    cKey = rs.getInt("customerKey");
-                    break;
-                }
+            if (rs.next()) {
+                cKey = rs.getInt("customerKey");
             }
 
-            stmt.close();
             conn.close();
         }catch( Exception e ){
             e.printStackTrace();
         }
 
         return cKey;
-    }
-
-    private static void runMysqlWithUpdate( String sql ) {
-        try {
-            Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
-            Statement stmt    = conn.createStatement();
-
-            stmt.executeUpdate(sql);
-            stmt.close();
-            conn.close();
-        }catch( Exception e ){
-            e.printStackTrace();
-        }
     }
 
     //Test code, will DELETE
@@ -265,57 +280,4 @@ public class MysqlUtils {
         //s.add(new SearchTransactionBean(6, 7, 8));
         //persistSearchTransaction(s);
     //}
-}
-
-class SimpleCalendar {
-    private Calendar c = null;
-
-    SimpleCalendar(){
-        c = Calendar.getInstance();
-    }
-
-    public int getYear() {
-        int year = 0;
-
-        if ( c != null )
-            year = c.get(Calendar.YEAR);
-
-        return year;
-    }
-
-    public int getMonth() {
-        int month = 0;
-
-        if ( c != null )
-            month = c.get(Calendar.MONTH) + 1;   // 0 to 11
-
-        return month;
-    }
-
-    public int getDay() {
-        int day = 0;
-
-        if ( c != null )
-            day = c.get(Calendar.DAY_OF_MONTH);
-
-        return day;
-    }
-
-    public int getQuarter() {
-        int quarter = 0;
-
-        if ( c != null )
-            quarter = c.get(Calendar.MONTH)/3 + 1;
-
-        return quarter;
-    }
-
-    public String getFullDate() {
-        String fullDate = null;
-
-        if ( c!= null )
-            fullDate = getYear() + "-" + getMonth() + "-" + getDay();
-
-        return fullDate;
-    }
 }

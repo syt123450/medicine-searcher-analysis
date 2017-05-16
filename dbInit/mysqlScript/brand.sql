@@ -1,0 +1,201 @@
+USE 226analysis;
+
+CREATE TABLE brand( 
+    brandId     INT             NOT NULL,
+    brandName   VARCHAR(200)    NOT NULL,
+    factoryId   INT             NOT NULL,   
+    PRIMARY KEY (brandId)
+);
+
+
+insert into brand (brandId, brandName, factoryId) values (1, 'CATTLE HAIR AND EPITHELIA', 1);
+insert into brand (brandId, brandName, factoryId) values (2, 'Nu Skin Nu Colour', 1);
+insert into brand (brandId, brandName, factoryId) values (3, 'AN ADC WRINKLE', 1);
+insert into brand (brandId, brandName, factoryId) values (4, 'Viagra', 1);
+insert into brand (brandId, brandName, factoryId) values (5, 'Opahl', 1);
+
+insert into brand (brandId, brandName, factoryId) values (6, 'DERMOPLUS MEDICATED', 2);
+insert into brand (brandId, brandName, factoryId) values (7, 'Presidents Choice', 2);
+insert into brand (brandId, brandName, factoryId) values (8, 'LivRelief', 2);
+insert into brand (brandId, brandName, factoryId) values (9, 'ondansetron hydrochloride', 2);
+insert into brand (brandId, brandName, factoryId) values (10, 'GENGRAF', 2);
+
+insert into brand (brandId, brandName, factoryId) values (11, 'Bahia Grass', 3);
+insert into brand (brandId, brandName, factoryId) values (12, 'Nettle', 3);
+insert into brand (brandId, brandName, factoryId) values (13, 'kids cough cold and throat', 3);
+insert into brand (brandId, brandName, factoryId) values (14, 'Petroleum Skin Protectant', 3);
+insert into brand (brandId, brandName, factoryId) values (15, 'Lari-Clear', 3);
+
+insert into brand (brandId, brandName, factoryId) values (16, 'Simvastatin', 4);
+insert into brand (brandId, brandName, factoryId) values (17, 'Meprobamate', 4);
+insert into brand (brandId, brandName, factoryId) values (18, 'DONEPEZIL HYDROCHLORIDE', 4);
+insert into brand (brandId, brandName, factoryId) values (19, 'YOUTH FULL TINTED MOISTURIZER', 4);
+insert into brand (brandId, brandName, factoryId) values (20, 'Dexamethasone', 4);
+
+insert into brand (brandId, brandName, factoryId) values (21, 'Mesna', 5);
+insert into brand (brandId, brandName, factoryId) values (22, 'Golden Sunshine Far Infrared COOL Herbal', 5);
+insert into brand (brandId, brandName, factoryId) values (23, 'Loperamide Hydrochloride', 5);
+insert into brand (brandId, brandName, factoryId) values (24, 'Glipizide', 5);
+insert into brand (brandId, brandName, factoryId) values (25, 'Cardizem', 5);
+
+insert into brand (brandId, brandName, factoryId) values (26, 'Anti-Bacterial Gentle Foaming Hand', 6);
+insert into brand (brandId, brandName, factoryId) values (27, 'ShopRite Ni Calm', 6);
+insert into brand (brandId, brandName, factoryId) values (28, 'Melt In Sunscreen Milk Broad Spectrum SPF 60 Face and Body', 6);
+insert into brand (brandId, brandName, factoryId) values (29, 'Aveeno Baby Eczema Therapy Soothing Bath Treatment', 6);
+insert into brand (brandId, brandName, factoryId) values (30, 'Hydrochlorothiazide', 6);
+
+#insert into brand (brandId, brandName, factoryId) values (31, 'Allergy', 2);
+#insert into brand (brandId, brandName, factoryId) values (32, 'Shopko Antibacterial Hand Sanitizer', 2);
+#insert into brand (brandId, brandName, factoryId) values (33, 'Pramipexole Dihydrochloride', 2);
+#insert into brand (brandId, brandName, factoryId) values (34, 'THE FLOWER UV INTENSE PACT', 2);
+#insert into brand (brandId, brandName, factoryId) values (35, 'Lucky Super Soft', 2);
+#insert into brand (brandId, brandName, factoryId) values (36, 'cephalexin', 2);
+#insert into brand (brandId, brandName, factoryId) values (37, 'BETULA LENTA POLLEN', 2);
+#insert into brand (brandId, brandName, factoryId) values (38, 'Zonisamide', 2);
+#insert into brand (brandId, brandName, factoryId) values (39, 'Oxygen', 2);
+#insert into brand (brandId, brandName, factoryId) values (40, 'Valstar', 2);
+#insert into brand (brandId, brandName, factoryId) values (41, 'DR. IASO', 2);
+#insert into brand (brandId, brandName, factoryId) values (42, 'Isoniazid', 2);
+#insert into brand (brandId, brandName, factoryId) values (43, 'DOUBLE PERFECTION LUMIERE', 2);
+#insert into brand (brandId, brandName, factoryId) values (44, 'Cough Relief', 2);
+#insert into brand (brandId, brandName, factoryId) values (45, 'One Seed Juniper', 2);
+#insert into brand (brandId, brandName, factoryId) values (46, 'Western Mugwort Sage', 2);
+#insert into brand (brandId, brandName, factoryId) values (47, 'Doribax', 2);
+#insert into brand (brandId, brandName, factoryId) values (48, 'Methimazole', 2);
+#insert into brand (brandId, brandName, factoryId) values (49, 'Oxygen', 2);
+#insert into brand (brandId, brandName, factoryId) values (50, 'Mirapex', 2);
+#insert into brand (brandId, brandName, factoryId) values (51, 'Lidocaine Hydrochloride', 2);
+#insert into brand (brandId, brandName, factoryId) values (52, 'Paroxetine', 2);
+#insert into brand (brandId, brandName, factoryId) values (53, 'Gabapentin', 2);
+#insert into brand (brandId, brandName, factoryId) values (54, 'Methylin', 2);
+#insert into brand (brandId, brandName, factoryId) values (55, 'Pantoprazole Sodium', 2);
+#insert into brand (brandId, brandName, factoryId) values (56, 'Diclofenac Sodium', 2);
+#insert into brand (brandId, brandName, factoryId) values (57, 'Good Sense Mucus Relief', 2);
+#insert into brand (brandId, brandName, factoryId) values (58, 'Paroxetine', 2);
+#insert into brand (brandId, brandName, factoryId) values (59, 'Omeprazole', 2);
+#insert into brand (brandId, brandName, factoryId) values (60, 'BioTPres', 2);
+#
+#
+#insert into brand (brandId, brandName, factoryId) values (61, 'Camphor, Menthol', 3);
+#insert into brand (brandId, brandName, factoryId) values (62, 'sunmark ibuprofen', 3);
+#insert into brand (brandId, brandName, factoryId) values (63, 'Amoxicillin', 3);
+#insert into brand (brandId, brandName, factoryId) values (64, 'Luminous Live Aura CC', 3);
+#insert into brand (brandId, brandName, factoryId) values (65, 'GENOTROPIN', 3);
+#insert into brand (brandId, brandName, factoryId) values (66, 'SPF-60', 3);
+#insert into brand (brandId, brandName, factoryId) values (67, 'Acyclovir', 3);
+#insert into brand (brandId, brandName, factoryId) values (68, 'citalopram hydrobromide', 3);
+#insert into brand (brandId, brandName, factoryId) values (69, 'Topamax', 3);
+#insert into brand (brandId, brandName, factoryId) values (70, 'Cold and Sinus Maximum Strength', 3);
+#insert into brand (brandId, brandName, factoryId) values (71, 'Premier Value Chest Congestion Relief', 3);
+#insert into brand (brandId, brandName, factoryId) values (72, 'Ampicillin', 3);
+#insert into brand (brandId, brandName, factoryId) values (73, 'Pollens - Weeds and Garden Plants, Nettle Urtica dioica', 3);
+#insert into brand (brandId, brandName, factoryId) values (74, 'Glipizide', 3);
+#insert into brand (brandId, brandName, factoryId) values (75, 'Gemfibrozil', 3);
+#insert into brand (brandId, brandName, factoryId) values (76, 'Ultra-TechneKow', 3);
+#insert into brand (brandId, brandName, factoryId) values (77, 'Imari Seduction', 3);
+#insert into brand (brandId, brandName, factoryId) values (78, 'Depression Complex', 3);
+#insert into brand (brandId, brandName, factoryId) values (79, 'Defensol D', 3);
+#insert into brand (brandId, brandName, factoryId) values (80, 'UltrasolSunscreen', 3);
+#insert into brand (brandId, brandName, factoryId) values (81, 'Ephedrine Sulfate', 3);
+#insert into brand (brandId, brandName, factoryId) values (82, 'TRAMADOL HYDROCHLORIDE', 3);
+#insert into brand (brandId, brandName, factoryId) values (83, 'Persantine', 3);
+#insert into brand (brandId, brandName, factoryId) values (84, 'Lidocaine Hydrochloride and Epinephrine', 3);
+#insert into brand (brandId, brandName, factoryId) values (85, 'Salicylic Acid 6 percent', 3);
+#insert into brand (brandId, brandName, factoryId) values (86, 'LBEL MAXIMUM COMFORT AND LONG-LASTING FOUNDATION SPF 10', 3);
+#insert into brand (brandId, brandName, factoryId) values (87, 'Ulta Red Raspberry Anti-Bacterial Deep Cleansing', 3);
+#insert into brand (brandId, brandName, factoryId) values (88, 'ANTI BACTERIAL HAND SANITIZER', 3);
+#insert into brand (brandId, brandName, factoryId) values (89, 'Colocynthis Kit Refill', 3);
+#insert into brand (brandId, brandName, factoryId) values (90, 'COLLAGEN HD FOUNDATION', 3);
+#
+#insert into brand (brandId, brandName, factoryId) values (91, 'Vomiting Diarrhea', 4);
+#insert into brand (brandId, brandName, factoryId) values (92, 'LAMIVUDINE', 4);
+#insert into brand (brandId, brandName, factoryId) values (93, 'Aunt Bees Five Flavors', 4);
+#insert into brand (brandId, brandName, factoryId) values (94, 'LBEL Couleur Luxe Rouge Amplifier XP amplifying SPF 15', 4);
+#insert into brand (brandId, brandName, factoryId) values (95, 'Loratadine', 4);
+#insert into brand (brandId, brandName, factoryId) values (96, 'Olanzapine', 4);
+#insert into brand (brandId, brandName, factoryId) values (97, 'Sani Professional Brand Sani-Hands', 4);
+#insert into brand (brandId, brandName, factoryId) values (98, 'Lamotrigine', 4);
+#insert into brand (brandId, brandName, factoryId) values (99, 'Lisinopril with Hydrochlorothiazide', 4);
+#insert into brand (brandId, brandName, factoryId) values (100, 'Phendimetrazine Tartrate', 4);
+#insert into brand (brandId, brandName, factoryId) values (101, 'Levofloxacin', 4);
+#insert into brand (brandId, brandName, factoryId) values (102, 'Nicotine Polacrilex, Coated Mint Flavor', 4);
+#insert into brand (brandId, brandName, factoryId) values (103, 'Pramipexole Dihydrochloride', 4);
+#insert into brand (brandId, brandName, factoryId) values (104, 'Aspirin', 4);
+#insert into brand (brandId, brandName, factoryId) values (105, 'TOPIRAMATE', 4);
+#insert into brand (brandId, brandName, factoryId) values (106, 'Fluvoxamine Maleate', 4);
+#insert into brand (brandId, brandName, factoryId) values (107, 'Ondansetron', 4);
+#insert into brand (brandId, brandName, factoryId) values (108, 'Prostatone', 4);
+#insert into brand (brandId, brandName, factoryId) values (109, 'Antiperspirant', 4);
+#insert into brand (brandId, brandName, factoryId) values (110, 'pseudoephedrine hydrochloride', 4);
+#insert into brand (brandId, brandName, factoryId) values (111, 'Ondansetron', 4);
+#insert into brand (brandId, brandName, factoryId) values (112, 'ACTEMRA', 4);
+#insert into brand (brandId, brandName, factoryId) values (113, 'omeprazole', 4);
+#insert into brand (brandId, brandName, factoryId) values (114, 'Azathioprine', 4);
+#insert into brand (brandId, brandName, factoryId) values (115, 'triamcinolone acetonide', 4);
+#insert into brand (brandId, brandName, factoryId) values (116, 'Thiothixene', 4);
+#insert into brand (brandId, brandName, factoryId) values (117, 'Thyrostat', 4);
+#insert into brand (brandId, brandName, factoryId) values (118, 'SKIN 79 The Prestige Beblesh Balm (5g)', 4);
+#insert into brand (brandId, brandName, factoryId) values (119, 'Treatment Set TS333176', 4);
+#insert into brand (brandId, brandName, factoryId) values (120, 'levomefolate calcium and schizochytrium dha', 4);
+#
+#insert into brand (brandId, brandName, factoryId) values (121, 'GABA', 5);
+#insert into brand (brandId, brandName, factoryId) values (122, 'ADVANCED HYDRO-LIQUID COMPACT (REFILL)', 5);
+#insert into brand (brandId, brandName, factoryId) values (123, 'Naproxen', 5);
+#insert into brand (brandId, brandName, factoryId) values (124, 'Antiseptic', 5);
+#insert into brand (brandId, brandName, factoryId) values (125, 'TRANZGEL', 5);
+#insert into brand (brandId, brandName, factoryId) values (126, 'Fluconazole', 5);
+#insert into brand (brandId, brandName, factoryId) values (127, 'Category II', 5);
+#insert into brand (brandId, brandName, factoryId) values (128, 'Qualaquin', 5);
+#insert into brand (brandId, brandName, factoryId) values (129, 'CEFPODOXIME PROXETIL', 5);
+#insert into brand (brandId, brandName, factoryId) values (130, 'AK-Con', 5);
+#insert into brand (brandId, brandName, factoryId) values (131, 'Metaproterenol Sulfate', 5);
+#insert into brand (brandId, brandName, factoryId) values (132, 'Nateglinide', 5);
+#insert into brand (brandId, brandName, factoryId) values (133, 'Ibuprofen', 5);
+#insert into brand (brandId, brandName, factoryId) values (134, 'Levetiracetam', 5);
+#insert into brand (brandId, brandName, factoryId) values (135, 'Aspergillus terreus', 5);
+#insert into brand (brandId, brandName, factoryId) values (136, 'Lactated Ringers', 5);
+#insert into brand (brandId, brandName, factoryId) values (137, 'Publix', 5);
+#insert into brand (brandId, brandName, factoryId) values (138, 'GRAPHITES', 5);
+#insert into brand (brandId, brandName, factoryId) values (139, 'Ondansetron Hydrochloride', 5);
+#insert into brand (brandId, brandName, factoryId) values (140, 'Geum Gentian 1 Special Order', 5);
+#insert into brand (brandId, brandName, factoryId) values (141, 'DayTime Cold and Flu', 5);
+#insert into brand (brandId, brandName, factoryId) values (142, 'Senna- S', 5);
+#insert into brand (brandId, brandName, factoryId) values (143, 'Sodium Bicarbonate', 5);
+#insert into brand (brandId, brandName, factoryId) values (144, 'Koh Gen DoTriple Lighting', 5);
+#insert into brand (brandId, brandName, factoryId) values (145, 'Ultram', 5);
+#insert into brand (brandId, brandName, factoryId) values (146, 'Nifedipine', 5);
+#insert into brand (brandId, brandName, factoryId) values (147, 'Colchicine', 5);
+#insert into brand (brandId, brandName, factoryId) values (148, 'Chlorpromazine Hydrochloride', 5);
+#insert into brand (brandId, brandName, factoryId) values (149, 'Myferon 150 Forte', 5);
+#insert into brand (brandId, brandName, factoryId) values (150, 'Daytime Multi-Symptom Cold Relief', 5);
+#
+#insert into brand (brandId, brandName, factoryId) values (151, 'LBEL COULEUR LUXE AMPLIFIER XP', 6);
+#insert into brand (brandId, brandName, factoryId) values (152, 'Clotrimazole', 6);
+#insert into brand (brandId, brandName, factoryId) values (153, 'amoxicillin and clavulanate potassium', 6);
+#insert into brand (brandId, brandName, factoryId) values (154, 'Daytime Cold and Flu Relief', 6);
+#insert into brand (brandId, brandName, factoryId) values (155, 'Tindamax', 6);
+#insert into brand (brandId, brandName, factoryId) values (156, 'Nabumetone', 6);
+#insert into brand (brandId, brandName, factoryId) values (157, 'Propranolol Hydrochloride', 6);
+#insert into brand (brandId, brandName, factoryId) values (158, 'Digoxin', 6);
+#insert into brand (brandId, brandName, factoryId) values (159, 'Lovenox', 6);
+#insert into brand (brandId, brandName, factoryId) values (160, 'Quality Choice Nighttime Severe Cold and Cough', 6);
+#insert into brand (brandId, brandName, factoryId) values (161, 'JIANZE FIRST AID ANTISEPTIC SKIN TOWELETTE', 6);
+#insert into brand (brandId, brandName, factoryId) values (162, 'Methocarbamol', 6);
+#insert into brand (brandId, brandName, factoryId) values (163, 'Good Neighbor Pharmacy headache relief', 6);
+#insert into brand (brandId, brandName, factoryId) values (164, 'Ranitidine', 6);
+#insert into brand (brandId, brandName, factoryId) values (165, 'Pancreas Meteoric Iron Special Order', 6);
+#insert into brand (brandId, brandName, factoryId) values (166, 'Sucralfate', 6);
+#insert into brand (brandId, brandName, factoryId) values (167, 'LBEL EFFET PARFAIT MINERAL NATURAL SKIN EFFECT MOUSSE FOUNDATION SPF 16', 6);
+#insert into brand (brandId, brandName, factoryId) values (168, 'Lactulose', 6);
+#insert into brand (brandId, brandName, factoryId) values (169, 'YAM DOUBLE CARE FLUID', 6);
+#insert into brand (brandId, brandName, factoryId) values (170, 'Hydromorphone HCl', 6);
+#insert into brand (brandId, brandName, factoryId) values (171, 'Articula', 6);
+#insert into brand (brandId, brandName, factoryId) values (172, 'Stool Softener', 6);
+#insert into brand (brandId, brandName, factoryId) values (173, 'Erythromycin', 6);
+#insert into brand (brandId, brandName, factoryId) values (174, 'Clarins Broad Spectrum SPF 30 Sunscreen for Sun-Sensitive Areas', 6);
+#insert into brand (brandId, brandName, factoryId) values (175, 'Atenolol', 6);
+#insert into brand (brandId, brandName, factoryId) values (176, 'ARTISS', 6);
+#insert into brand (brandId, brandName, factoryId) values (177, 'DONEPEZIL HYDROCHLORIDE', 6);
+#insert into brand (brandId, brandName, factoryId) values (178, 'SACCHAROMYCES CEREVISIAE', 6);
+#insert into brand (brandId, brandName, factoryId) values (179, 'Carisoprodol', 6);
+#insert into brand (brandId, brandName, factoryId) values (180, 'YS Solution Intensive AC Care', 6);
