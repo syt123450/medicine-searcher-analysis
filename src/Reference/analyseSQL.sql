@@ -221,7 +221,50 @@ ORDER BY c.year, c.quarter, m.factoryName ASC
 
 
 
+***************
 
+ SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
+ FROM SaleTransaction s, Medicine m, Calendar c
+ WHERE s.medicineKey <> -1
+ AND m.factoryName like '%%'
+ AND m.brandName like '%%'
+ AND m.medicineName like '%%'
+ AND c.year >= 2012
+ AND c.year <= 2017
+ AND c.quarter >= 1
+ AND c.quarter <= 4
+ AND c.month >= 1
+ AND c.month <= 12
+ AND c.fullDate = subdate(current_date, 1)
+ AND s.medicineKey = m.medicineKey
+ AND s.calendarKey = c.calendarKey
+ GROUP BY m.brandName, m.factoryName
+ ORDER BY totalSum DESC
+ ;
+
+***************
+
+
+
+
+SELECT SUM(s.totalPrice) as totalSum, m.factoryName, m.brandName, c.quarter, c.year
+FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey <> -1
+AND m.factoryName = 'greenstone llc'
+AND c.year = 2014
+AND s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+GROUP BY m.factoryName, m.brandName, c.quarter, c.year
+ORDER BY c.quarter, c.year, m.factoryName, m.brandName, totalSum DESC
+;
+
+
+SELECT COUNT(1) FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+AND m.factoryId =5
+AND c.year =2017
+;
 
 
 #$1$#:
@@ -237,14 +280,32 @@ ORDER BY c.year, c.quarter, m.factoryName ASC
  t.quarter, t.year
  t.month, t.quarter, t.year
 
+SELECT SUM(s.totalPrice) as totalSum, m.factoryName, m.brandName, c.quarter, c.year
+FROM SaleTransaction s, Medicine m, Calendar c
+WHERE s.medicineKey <> -1
+AND m.factoryId =5
+AND m.brandName like '%%'
+AND m.medicineName like '%%'
+AND c.year >= 2017
+AND c.year <= 2017
+AND c.quarter >= 1
+AND c.quarter <= 4
+AND c.month >= 1
+AND c.month <=12
+AND s.medicineKey = m.medicineKey
+AND s.calendarKey = c.calendarKey
+GROUP BY m.factoryName, m.brandName, c.quarter, c.year
+ORDER BY c.quarter, c.year, m.factoryName, m.brandName, totalSum DESC
+;
+
 SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$#
 FROM SaleTransaction s, Medicine m, Calendar c
 WHERE s.medicineKey <> -1
-AND m.factoryName like '%%'
+AND m.factoryName like '%greenstone llc%'
 AND m.brandName like '%%'
 AND m.medicineName like '%%'
-AND c.year >= 0
-AND c.year <= 9999
+AND c.year >= 2014
+AND c.year <= 2014
 AND c.quarter >= 1
 AND c.quarter <= 4
 AND c.month >= 1
@@ -279,27 +340,6 @@ GROUP BY #$3$#
 
 
 
-#// (NFL,NTL) Sankey part0
-SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
-FROM SaleTransaction s, Medicine m, Calendar c
-WHERE s.medicineKey <> -1
-AND c.year >=2012
-AND	s.medicineKey = m.medicineKey
-GROUP BY m.brandName, m.factoryName
-ORDER BY m.factoryName, totalSum DESC
-;
-
-#// (1F,1Y) Sankey part0
-SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
-FROM SaleTransaction s, Medicine m, Calendar c
-WHERE s.medicineKey <> -1
-AND m.factoryName = 'Greenstone LLC'
-AND c.year = 2014
-AND	s.medicineKey = m.medicineKey
-GROUP BY m.brandName, m.factoryName
-ORDER BY m.factoryName, totalSum DESC
-;
-
 SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName
 FROM SaleTransaction s, Medicine m, Calendar c
 WHERE s.medicineKey <> -1
@@ -318,28 +358,6 @@ GROUP BY m.brandName, m.factoryName
 ORDER BY m.factoryName, totalSum DESC
 ;
 
-
-
-#// (1F,1Y) Sankey part1
-SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName
-FROM SaleTransaction s, Medicine m, Calendar c
-WHERE s.medicineKey <> -1
-AND m.factoryName = 'Greenstone LLC'
-AND c.year = 2014
-AND	s.medicineKey = m.medicineKey
-GROUP BY m.medicineName, m.brandName, m.factoryName
-ORDER BY m.factoryName, totalSum DESC
-;
-
-#// (NFL,NTL) Sankey part1
-SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName
-FROM SaleTransaction s, Medicine m, Calendar c
-WHERE s.medicineKey <> -1
-AND c.year >=2012
-AND	s.medicineKey = m.medicineKey
-GROUP BY m.medicineName, m.brandName, m.factoryName
-ORDER BY m.factoryName, totalSum DESC
-;
 
 SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName
 FROM SaleTransaction s, Medicine m, Calendar c

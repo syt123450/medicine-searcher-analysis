@@ -84,10 +84,10 @@ public class MySQLConnection {
 
     public ResultSet calcSaleSumByParam(String query, String factoryName, String brandName, String medicineName, int year, int quarter, int month){
         try {
-            query = query.replace("!", "!!")
-                    .replace("%", "!%")
-                    .replace("_", "!_")
-                    .replace("[", "![");
+//            query = query.replace("!", "!!")
+//                    .replace("%", "!%")
+//                    .replace("_", "!_")
+//                    .replace("[", "![");
             preStmt = conn.prepareStatement(query);
 
             if (!factoryName.isEmpty()){
