@@ -36,7 +36,6 @@ public class MysqlUtils {
 
         // Get calendarKey
         int cKey = getCalendarKeyOfDate( fullDate );
-
         for ( int idx = 0; idx < saleTransactionBeans.size(); idx++ ) {
             SaleTransactionBean saleTransaction = saleTransactionBeans.get(idx);
             insertIntoSaleTransactionTbl(saleTransaction, cKey);
@@ -64,34 +63,24 @@ public class MysqlUtils {
     }
 
     private static void insertIntoSaleTransactionTbl(SaleTransactionBean saleTransaction, int calendarKey ) {
-        //int saleTransId   = saleTransaction.getSaleTransactionId();     //Mongodb Obj ID
-        int quantity      = saleTransaction.getQuantity();
         long time         = saleTransaction.getTime();
-        int medicineId    = saleTransaction.getMedicineId();
-        int medicineKey   = getMedicineKeyFromId(medicineId);
-        int storeId       = saleTransaction.getStoreId();
-        int storeKey      = getStoreKeyFromId(storeId);
-        int customerId    = saleTransaction.getCustomerId();
-        int customerKey   = getCustomerKeyFromId(customerId);
+        int medicineKey   = saleTransaction.getMedicineId();
+        int storeKey      = saleTransaction.getStoreId();
+        int customerKey   = saleTransaction.getCustomerId();
         double totalPrice = saleTransaction.getTotalPrice();
 
         String insertSQL = "INSERT INTO saleTransaction " +
-                     " (quantity, calendarKey, medicineId, medicineKey, storeId, storeKey, customerId, customerKey, totalPrice)" +
-                     " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+                     " (calendarKey, medicineKey, storeKey, customerKey, totalPrice)" +
+                     " VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
 
             PreparedStatement prepareStmt = conn.prepareStatement(insertSQL);
-            prepareStmt.setInt(1, quantity);
-            prepareStmt.setInt(2, calendarKey);
-            prepareStmt.setInt(3, medicineId);
-            prepareStmt.setInt(4, medicineKey);
-            prepareStmt.setInt(5, storeId);
-            prepareStmt.setInt(6, storeKey);
-            prepareStmt.setInt(7, customerId);
-            prepareStmt.setInt(8, customerKey);
-            prepareStmt.setDouble(9, totalPrice);
+            prepareStmt.setInt(1, calendarKey);
+            prepareStmt.setInt(2, medicineKey);
+            prepareStmt.setInt(3, storeKey);
+            prepareStmt.setInt(4, customerKey);
+            prepareStmt.setDouble(5, totalPrice);
 
             prepareStmt.execute();
 
@@ -271,8 +260,8 @@ public class MysqlUtils {
         //System.out.println(getCustomerKeyFromId(5));
 
         //ArrayList<SaleTransactionBean> s = new ArrayList<>();
-        //s.add( new SaleTransactionBean(10,1509005131L, 3, 2, 3, 123.45) );
-        //s.add( new SaleTransactionBean(12,1509005132L, 4, 3, 2, 345.45 ) );
+        //s.add( new SaleTransactionBean( 1000, 1000, 2000, 123456) );
+        //s.add( new SaleTransactionBean( 2000, 2000, 3000, 234567) );
         //persistSaleTransaction(s);
 
         //ArrayList<SearchTransactionBean> s = new ArrayList<>();

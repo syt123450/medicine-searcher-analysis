@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class SaleTransactionBean {
     //private int _id;            //Mongodb Obj ID
-    private int quantity;
+    //private int quantity;
     private long time;
     private int medicineId;
     //private int medicineKey;
@@ -18,6 +18,13 @@ public class SaleTransactionBean {
     private int customerId;
     //private int customerKey;
     private double totalPrice;
+
+    //public SaleTransactionBean( int mId, int sId, int cId, double tPrice ){
+    //    medicineId = mId;
+    //    storeId    = sId;
+    //    customerId = cId;
+    //    totalPrice = tPrice;
+    //}
 
     //public int getSaleTransactionId()  {
     //    return _id;
