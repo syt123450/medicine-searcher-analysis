@@ -94,6 +94,9 @@ public class PieArgsGenerator {
                 // getTimeLevel() ==null
             }
 
+            // Choose proper table
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+
             this.setQuery(queryFrame);
         }
     }

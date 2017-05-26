@@ -115,6 +115,10 @@ public class ComboArgsGenerator {
             queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTYears);
         }
 
+        // Choose proper Table
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+
         String[] queries_c = {queryFrame_0, queryFrame_1};
         this.setQueries(queries_c);
     }

@@ -4,9 +4,13 @@ package com.searcher.utils;
  * Created by zchholmes on 2017/5/8.
  */
 public class SQLStatments {
+    /* Delimeters */
+    // Limit "SELECT" and "GROUP BY" items and conditions
     public static final String delimeter_1 = "#$1$#";
     public static final String delimeter_2 = "#$2$#";
     public static final String delimeter_3 = "#$3$#";
+    // Limit target tables
+    public static final String delimeter_t = "#$t$#";
 
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
@@ -39,11 +43,12 @@ public class SQLStatments {
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** *****           General Cases             ***** ***** ***** */
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    public static final String TableSaleTransaction = " SaleTransaction s ";
 
     public static final String SumSaleTransactionPieFrame
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -68,7 +73,7 @@ public class SQLStatments {
     public static final String SumSaleTransactionLineFrame
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -93,7 +98,7 @@ public class SQLStatments {
     public static final String SumSaleTransactionCombo_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -123,7 +128,7 @@ public class SQLStatments {
             "SELECT AVG(t.totalSum) as avgSum, #$3$# " +
             "FROM ( " +
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -150,7 +155,7 @@ public class SQLStatments {
     public static final String SumSaleTransactionSankey_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -161,15 +166,15 @@ public class SQLStatments {
             "AND c.quarter <= ? " +
             "AND c.month >= ? " +
             "AND c.month <= ? " +
-            "AND s.medicineKey = m.medicineKey\n" +
-            "AND s.calendarKey = c.calendarKey\n" +
-            "GROUP BY m.brandName, m.factoryName\n" +
+            "AND s.medicineKey = m.medicineKey " +
+            "AND s.calendarKey = c.calendarKey " +
+            "GROUP BY m.brandName, m.factoryName " +
             "ORDER BY m.factoryName, totalSum DESC " +
             ";";
 
     public static final String SumSaleTransactionSankey_1
             = "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName " +
-            "FROM SaleTransaction s, Medicine m, Calendar c " +
+            "FROM #$t$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +

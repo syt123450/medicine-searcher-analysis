@@ -175,10 +175,11 @@ public class GraphArgsGenerator {
         webRequestBean.setMonth(0);
 
 
-//        webRequestBean.setCommodityLevel("factory");
-//        webRequestBean.setFactory("Greenstone LLC");
-//        webRequestBean.setTimeLevel("year");
-//        webRequestBean.setYear(2014);
+        webRequestBean.setCommodityLevel("factory");
+        webRequestBean.setFactory("Physicians Total Care, Inc.");
+        webRequestBean.setTimeLevel("month");
+        webRequestBean.setYear(2017);
+        webRequestBean.setMonth(5);
 
 
 

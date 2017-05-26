@@ -86,6 +86,10 @@ public class SankeyArgsGenerator {
             // getTimeLevel() ==null
         }
 
+        // Choose proper table
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+
         String[] queries_s = {queryFrame_0, queryFrame_1};
         this.setQueries(queries_s);
     }

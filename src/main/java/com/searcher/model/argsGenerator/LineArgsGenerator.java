@@ -105,6 +105,9 @@ public class LineArgsGenerator {
             queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsYears);
         }
 
+        // Choose proper table
+        queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+
         this.setQuery(queryFrame);
     }
 

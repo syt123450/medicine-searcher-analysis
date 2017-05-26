@@ -27,15 +27,17 @@ public class ETLDumper implements Runnable {
 
         while (true) {
             try {
-//                String responseContent1 = Request.Get(SALE_ETL_ADDRESS).execute().returnContent().asString();
-//                System.out.println(responseContent1);
-//                ArrayList<SaleTransactionBean> saleTransactionBeans = gson.fromJson(responseContent1, new TypeToken<ArrayList<SaleTransactionBean>>(){}.getType());
-//                MysqlUtils.persistSaleTransaction(saleTransactionBeans);
+                String responseContent1 = Request.Get(SALE_ETL_ADDRESS).execute().returnContent().asString();
+                System.out.println(responseContent1);
+                ArrayList<SaleTransactionBean> saleTransactionBeans = gson.fromJson(responseContent1,
+                        new TypeToken<ArrayList<SaleTransactionBean>>(){}.getType());
+                MysqlUtils.persistSaleTransaction(saleTransactionBeans);
 
-//                String responseContent2 = Request.Get(SEARCH_ETL_ADDRESS).execute().returnContent().asString();
-//                System.out.println(responseContent2);
-//                ArrayList<SearchTransactionBean> searchTransactionBeans = gson.fromJson(responseContent1, new TypeToken<ArrayList<SearchTransactionBean>>(){}.getType());
-//                MysqlUtils.persistSearchTransaction(searchTransactionBeans);
+                String responseContent2 = Request.Get(SEARCH_ETL_ADDRESS).execute().returnContent().asString();
+                System.out.println(responseContent2);
+                ArrayList<SearchTransactionBean> searchTransactionBeans = gson.fromJson(responseContent1,
+                        new TypeToken<ArrayList<SearchTransactionBean>>(){}.getType());
+                MysqlUtils.persistSearchTransaction(searchTransactionBeans);
 
                 Thread.sleep(DUMP_INTERVAL);
 
@@ -43,7 +45,6 @@ public class ETLDumper implements Runnable {
 
             }
         }
-
     }
 
 //    public static void main( String[] args ) {
