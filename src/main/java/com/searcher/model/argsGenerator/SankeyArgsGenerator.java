@@ -15,13 +15,9 @@ import java.util.ArrayList;
  */
 @Data
 public class SankeyArgsGenerator extends ArgsGenerator{
-    private String[] queries;
 
     public SankeyArgsGenerator(WebRequestBean webRequestBean){
         super(webRequestBean);
-
-        // Initialize parameter
-        this.queries =new String[0];
     }
 
     /**
@@ -53,8 +49,8 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
         queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
 
-        String[] queries_s = {queryFrame_0, queryFrame_1};
-        this.setQueries(queries_s);
+        String[] queriesAry = {queryFrame_0, queryFrame_1};
+        this.setQueries(queriesAry);
     }
 
     /**

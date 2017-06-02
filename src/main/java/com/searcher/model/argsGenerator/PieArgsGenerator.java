@@ -15,13 +15,9 @@ import java.util.ArrayList;
  */
 @Data
 public class PieArgsGenerator extends ArgsGenerator{
-    private String query;
 
     public PieArgsGenerator(WebRequestBean webRequestBean){
         super(webRequestBean);
-
-        // Initialize parameter
-        this.query ="";
     }
 
     /**
@@ -33,47 +29,47 @@ public class PieArgsGenerator extends ArgsGenerator{
         super();
 
         // Initialize parameter
-        this.query = query;
+        String[] queriesAry = { query };
+        this.setQueries(queriesAry);
     }
 
     /**
      * Analyze inputs and prepare to Generate
      */
     public void analyzeParameters(){
-        if (this.getQuery().isEmpty()){
-            String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
-            if (getCommodityLevel().equals("brand")){
-                setTitle("Shares of " + getBrandParam());
-                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
-            }
-            else if (getCommodityLevel().equals("factory")){
-                setTitle("Shares of " + getFactoryParam());
-                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
-            }
-            else {
-                // getCommodityLevel() ==null
-                setTitle("Shares of All Factories");
-                queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
-            }
-
-            if (getTimeLevel().equals("month")){
-                setTitle(getTitle() + " in Month" + getMonthParam());
-            }
-            else if (getTimeLevel().equals("quarter")){
-                setTitle(getTitle() + " in Quarter " + getQuarterParam());
-            }
-            else if (getTimeLevel().equals(("year"))){
-                setTitle(getTitle() + " in Year " + getYearParam());
-            }
-            else {
-                // getTimeLevel() ==null
-            }
-
-            // Choose proper table
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
-
-            this.setQuery(queryFrame);
+        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+        if (getCommodityLevel().equals("brand")){
+            setTitle("Shares of " + getBrandParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
         }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Shares of " + getFactoryParam());
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Shares of All Factories");
+            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+        }
+
+        if (getTimeLevel().equals("month")){
+            setTitle(getTitle() + " in Month" + getMonthParam());
+        }
+        else if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        // Choose proper table
+        queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+
+        String[] queriesAry = { queryFrame };
+        this.setQueries(queriesAry);
     }
 
     /**
@@ -111,7 +107,7 @@ public class PieArgsGenerator extends ArgsGenerator{
 
         // Add data from SQL call
         MySQLConnection mySQLConnection = new MySQLConnection();
-        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQuery(), getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0], getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
         int listSize = -1;
         if (resultSet !=null){

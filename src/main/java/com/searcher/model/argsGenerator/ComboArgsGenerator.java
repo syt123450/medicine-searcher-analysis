@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 @Data
 public class ComboArgsGenerator extends ArgsGenerator{
-    private String[] queries;
     private String vAxis;
     private String hAxis;
 
@@ -23,7 +22,6 @@ public class ComboArgsGenerator extends ArgsGenerator{
         super(webRequestBean);
 
         // Initialize parameters
-        this.queries = new String[0];
         this.hAxis = "";
         this.vAxis = "";
     }
@@ -78,8 +76,8 @@ public class ComboArgsGenerator extends ArgsGenerator{
         queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
         queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
 
-        String[] queries_c = {queryFrame_0, queryFrame_1};
-        this.setQueries(queries_c);
+        String[] queriesAry = {queryFrame_0, queryFrame_1};
+        this.setQueries(queriesAry);
     }
 
     /**

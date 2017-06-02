@@ -17,7 +17,6 @@ import java.util.ArrayList;
 @Data
 public class LineArgsGenerator extends ArgsGenerator{
     /* Customized parameters for Line Chart Generator */
-    private String query;       // Query used for gathering data from Database
     private String subTitle;    // Subtitle of the Line Chart
     private String hAxis;       // Horizontal Axis Name
 
@@ -25,7 +24,6 @@ public class LineArgsGenerator extends ArgsGenerator{
         super(webRequestBean);
 
         // Initialize parameters
-        this.query = "";
         this.subTitle = "";
         this.hAxis = "";
     }
@@ -68,7 +66,8 @@ public class LineArgsGenerator extends ArgsGenerator{
         // Choose proper table
         queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
 
-        this.setQuery(queryFrame);
+        String[] queriesAry = { queryFrame };
+        this.setQueries(queriesAry);
     }
 
     /**
@@ -96,7 +95,7 @@ public class LineArgsGenerator extends ArgsGenerator{
         }
 
         MySQLConnection mySQLConnection = new MySQLConnection();
-        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQuery(),getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
         if (resultSet !=null){
             try {
                 ArrayList<String> lineName = new ArrayList<String>();

@@ -21,6 +21,7 @@ public class ArgsGenerator {
     private int monthParam;             // User Inputted Month
 
     private String title;               // Title of the Chart
+    private String[] queries;           // Queries used to gather Data from Database
 
     /**
      * Default Constructor
@@ -36,6 +37,7 @@ public class ArgsGenerator {
         this.monthParam =-1;
 
         this.title = "";
+        this.queries = new String[0];
     }
 
     /**
@@ -53,6 +55,7 @@ public class ArgsGenerator {
         this.monthParam =webRequestBean.getMonth();
 
         this.title = "";
+        this.queries = new String[0];
     }
 
     /**
