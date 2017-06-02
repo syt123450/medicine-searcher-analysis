@@ -8,26 +8,37 @@ import java.util.ArrayList;
 
 /**
  * Created by ss on 2017/5/5.
+ * Class used to call different Chart Arguments Generators to provide the required, processed and trimmed
+ * data parameters based on the requirement caught from the user.
  */
-
 @Data
 public class DataProvider {
-
+    // GraphCollection to hold all charts data
     GraphCollection graphCollection;
 
+    /**
+     * Based on the webRequestBean provided by the user, to call different Chart Generators and determine if it
+     * is valid to display on the front end.
+     * @param webRequestBean
+     * @return GraphCollection Object which contains necessary data for all Charts
+     */
     public GraphCollection getGraphAnalyse(WebRequestBean webRequestBean){
+        // Initialize the graphCollection
         graphCollection = new GraphCollection();
 
+        // Initialize and process each Chart Generator
         PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
         LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
         ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
         SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
 
+        // Catch necessary data
         PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
         LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
         ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
         SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
 
+        // Determine if to display the chart
         if (pieArgs!=null){
             graphCollection.setDrawPie(true);
             graphCollection.setPieArgs(pieArgs);
@@ -57,10 +68,12 @@ public class DataProvider {
             graphCollection.setDrawSankey(false);
         }
 
+        // Return all charts related data
         return graphCollection;
     }
 
 
+    /* Mock methods for Chart Argument tests */
     public PieArgs mockPieArgsGenerator(){
         // Mock PieArgs
         PieArgs pieArgs = new PieArgs("Indian Language Use");

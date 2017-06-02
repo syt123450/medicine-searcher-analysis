@@ -6,33 +6,34 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/5.
+ * Chart Argument used to draw a Combo Chart
  */
 @Data
-public class ComboArgs {
+public class ComboArgs extends ChartArgs{
 
-    private String title;
-    private String vAxis;
-    private String hAxis;
-    private ArrayList<ArrayList<String>> argsData;
+    /* Customized parameters for Line Chart */
+    private String vAxis;       // Verticle Axis Name
+    private String hAxis;       // Horizontal Axis Name
 
+    /**
+     * Default Constructor
+     */
     public ComboArgs(){
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = "";
+        super();
         this.vAxis = "";
         this.hAxis = "";
     }
 
+    /**
+     * Constructor used by providing title, vAxis and hAxis as parameters
+     * @param title
+     * @param vAxis
+     * @param hAxis
+     */
     public ComboArgs(String title, String vAxis, String hAxis){
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = title;
+        super();
+        this.setTitle(title);
         this.vAxis = vAxis;
         this.hAxis = hAxis;
     }
-
-    public void addItemList(ArrayList<String> itemList){
-        ArrayList<ArrayList<String>> tempList = this.getArgsData();
-        tempList.add(itemList);
-        this.setArgsData(tempList);
-    }
-
 }

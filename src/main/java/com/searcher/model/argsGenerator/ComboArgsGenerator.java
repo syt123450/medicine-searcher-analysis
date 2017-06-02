@@ -11,67 +11,26 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/8.
+ * Generate Combo Chart Arguments for drawing Combo Chart
  */
 @Data
-public class ComboArgsGenerator {
+public class ComboArgsGenerator extends ArgsGenerator{
     private String[] queries;
-    private String title;
     private String vAxis;
     private String hAxis;
 
-    private String commodityLevel;
-    private String factoryParam;
-    private String brandParam;
-    private String medicineParam;
-    private String timeLevel;
-    private int yearParam;
-    private int quarterParam;
-    private int monthParam;
-
-    public ComboArgsGenerator(String[] queries, String title, String vAxis, String hAxis){
-        this.title = title;
-        this.vAxis = vAxis;
-        this.hAxis = hAxis;
-
-        this.queries = queries;
-        this.factoryParam ="";
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =-1;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
-
-    public ComboArgsGenerator(String[] queries, String title, String vAxis, String hAxis, String factoryParam, int yearParam){
-        this.title = title;
-        this.vAxis = vAxis;
-        this.hAxis = hAxis;
-
-        this.queries = queries;
-        this.factoryParam =factoryParam;
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =yearParam;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
-
     public ComboArgsGenerator(WebRequestBean webRequestBean){
-        this.commodityLevel =webRequestBean.getCommodityLevel();
-        this.factoryParam =webRequestBean.getFactory();
-        this.brandParam =webRequestBean.getBrand();
-        this.medicineParam =webRequestBean.getMedicine();
-        this.timeLevel =webRequestBean.getTimeLevel();
-        this.yearParam =webRequestBean.getYear();
-        this.quarterParam =webRequestBean.getQuarter();
-        this.monthParam =webRequestBean.getMonth();
+        super(webRequestBean);
 
+        // Initialize parameters
         this.queries = new String[0];
-        this.title = "";
         this.hAxis = "";
         this.vAxis = "";
     }
 
+    /**
+     * Analyze inputs and prepare to Generate
+     */
     public void analyzeParameters(){
         setVAxis("Amount");
         String queryFrame_0 = SQLStatments.SumSaleTransactionCombo_0;
@@ -124,8 +83,10 @@ public class ComboArgsGenerator {
     }
 
     /**
-     * Assume all SQL are ordered Properly
-     * @return
+     * Process based on the analysis
+     * Note:
+     *  Assume all SQL are ordered Properly
+     * @return  null or proper ComboArgs object
      */
     public ComboArgs generateComboArgs(){
         if(getCommodityLevel().equals("medicine") ||getTimeLevel().equals("month")){

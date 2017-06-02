@@ -9,9 +9,15 @@ import java.sql.ResultSet;
 
 /**
  * Created by zchholmes on 2017/5/8.
+ *
+ * DEPRECATED
+ *
+ * FOR DEBUG USE ONLY.
+ *
+ * Class used to handle all kinds of Chart Generators
  */
 @Data
-public class GraphArgsGenerator {
+public class ArgsGeneratorManager {
     private String commodityLevel;
     private String timeLevel;
     private String factoryPara;
@@ -26,7 +32,7 @@ public class GraphArgsGenerator {
     private LineArgsGenerator lineArgsGenerator;
     private ComboArgsGenerator comboArgsGenerator;
 
-    public GraphArgsGenerator(
+    public ArgsGeneratorManager(
             String commodityLevel,
             String timeLevel,
             String factoryPara,
@@ -47,7 +53,7 @@ public class GraphArgsGenerator {
         this.monthPara = monthPara;
     }
 
-    public GraphArgsGenerator(WebRequestBean webRequestBean){
+    public ArgsGeneratorManager(WebRequestBean webRequestBean){
         this.commodityLevel = webRequestBean.getCommodityLevel();
         this.timeLevel = webRequestBean.getTimeLevel();
         this.factoryPara = webRequestBean.getFactory();
@@ -151,15 +157,19 @@ public class GraphArgsGenerator {
         }
     }
 
+    /**
+     * Main method used for Chart Arguments tests
+     * @param args
+     */
     public static void main(String[] args){
-//        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("", "","","","",0,0,0);
-//        GraphArgsGenerator graphArgsGenerator = new GraphArgsGenerator("factory", "year","Greenstone LLC","","",2014,0,0);
-//        graphArgsGenerator.processData();
+//        ArgsGeneratorManager argsGeneratorManager = new ArgsGeneratorManager("", "","","","",0,0,0);
+//        ArgsGeneratorManager argsGeneratorManager = new ArgsGeneratorManager("factory", "year","Greenstone LLC","","",2014,0,0);
+//        argsGeneratorManager.processData();
 
-//        PieArgs pieArgs = graphArgsGenerator.generatePieArgs();
-//        SankeyArgs sankeyArgs = graphArgsGenerator.generateSankeyArgs();
-//        LineArgs lineArgs = graphArgsGenerator.generateLineArgs();
-//        ComboArgs comboArgs = graphArgsGenerator.generateComboArgs();
+//        PieArgs pieArgs = argsGeneratorManager.generatePieArgs();
+//        SankeyArgs sankeyArgs = argsGeneratorManager.generateSankeyArgs();
+//        LineArgs lineArgs = argsGeneratorManager.generateLineArgs();
+//        ComboArgs comboArgs = argsGeneratorManager.generateComboArgs();
 
         WebRequestBean webRequestBean = new WebRequestBean();
 

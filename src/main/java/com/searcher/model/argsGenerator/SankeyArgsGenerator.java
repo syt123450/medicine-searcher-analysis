@@ -11,59 +11,22 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/8.
+ * Generate Sankey Chart Arguments for drawing Sankey Chart
  */
 @Data
-public class SankeyArgsGenerator {
+public class SankeyArgsGenerator extends ArgsGenerator{
     private String[] queries;
-    private String title;
-
-    private String commodityLevel;
-    private String factoryParam;
-    private String brandParam;
-    private String medicineParam;
-    private String timeLevel;
-    private int yearParam;
-    private int quarterParam;
-    private int monthParam;
-
-    public SankeyArgsGenerator(String[] queries, String title){
-        this.title = title;
-
-        this.queries = queries;
-        this.factoryParam ="";
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =-1;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
-
-    public SankeyArgsGenerator(String[] queries, String title, String factoryParam, int yearParam){
-        this.title = title;
-
-        this.queries = queries;
-        this.factoryParam =factoryParam;
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =yearParam;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
 
     public SankeyArgsGenerator(WebRequestBean webRequestBean){
-        this.commodityLevel =webRequestBean.getCommodityLevel();
-        this.factoryParam =webRequestBean.getFactory();
-        this.brandParam =webRequestBean.getBrand();
-        this.medicineParam =webRequestBean.getMedicine();
-        this.timeLevel =webRequestBean.getTimeLevel();
-        this.yearParam =webRequestBean.getYear();
-        this.quarterParam =webRequestBean.getQuarter();
-        this.monthParam =webRequestBean.getMonth();
+        super(webRequestBean);
 
+        // Initialize parameter
         this.queries =new String[0];
-        this.title ="";
     }
 
+    /**
+     * Analyze inputs and prepare to Generate
+     */
     public void analyzeParameters(){
         String queryFrame_0 = SQLStatments.SumSaleTransactionSankey_0;
         String queryFrame_1 = SQLStatments.SumSaleTransactionSankey_1;
@@ -94,6 +57,10 @@ public class SankeyArgsGenerator {
         this.setQueries(queries_s);
     }
 
+    /**
+     * Process based on the analysis
+     * @return  null or proper SankeyArgs object
+     */
     public SankeyArgs generateSankeyArgs(){
         if ( getCommodityLevel().equals("brand")||getCommodityLevel().equals("medicine") ){
             return null;

@@ -9,23 +9,14 @@ import java.util.ArrayList;
  */
 
 @Data
-public class SankeyArgs {
-    private String title;
-    private ArrayList<ArrayList<String>> argsData;
+public class SankeyArgs extends ChartArgs{
 
-    public SankeyArgs(){
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = "";
-    }
-
+    /**
+     * Constructor used by providing title
+     * @param title
+     */
     public SankeyArgs(String title) {
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = title;
-    }
-
-    public void addItemList(ArrayList<String> itemList){
-        ArrayList<ArrayList<String>> tempList = this.getArgsData();
-        tempList.add(itemList);
-        this.setArgsData(tempList);
+        super();
+        this.setTitle(title);
     }
 }

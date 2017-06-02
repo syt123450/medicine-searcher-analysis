@@ -6,28 +6,18 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/5.
+ * Chart Argument used to draw a Pie Chart
  */
 
 @Data
-public class PieArgs {
+public class PieArgs extends ChartArgs{
 
-    private String title;
-    private ArrayList<ArrayList<String>> argsData;
-
-    public PieArgs(){
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = "";
-    }
-
+    /**
+     * Constructor used by providing title
+     * @param title
+     */
     public PieArgs(String title){
-        this.argsData = new ArrayList<ArrayList<String>>();
-        this.title = title;
+        super();
+        this.setTitle(title);
     }
-
-    public void addItemList(ArrayList<String> itemList){
-        ArrayList<ArrayList<String>> tempList = this.getArgsData();
-        tempList.add(itemList);
-        this.setArgsData(tempList);
-    }
-
 }

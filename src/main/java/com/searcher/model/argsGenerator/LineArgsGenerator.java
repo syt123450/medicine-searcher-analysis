@@ -12,67 +12,27 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/8.
+ * Generate Line Chart Arguments for drawing Line Chart
  */
 @Data
-public class LineArgsGenerator {
-    private String query;
-    private String title;
-    private String subTitle;
-    private String hAxis;
-
-    private String commodityLevel;
-    private String factoryParam;
-    private String brandParam;
-    private String medicineParam;
-    private String timeLevel;
-    private int yearParam;
-    private int quarterParam;
-    private int monthParam;
-
-    public LineArgsGenerator(String query, String title, String subTitle, String hAxis){
-        this.title = title;
-        this.subTitle = subTitle;
-        this.hAxis = hAxis;
-
-        this.query = query;
-        this.factoryParam ="";
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =-1;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
-
-    public LineArgsGenerator(String query, String title, String subTitle, String hAxis, String factoryParam, int yearParam){
-        this.title = title;
-        this.subTitle = subTitle;
-        this.hAxis = hAxis;
-
-        this.query = query;
-        this.factoryParam =factoryParam;
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =yearParam;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
+public class LineArgsGenerator extends ArgsGenerator{
+    /* Customized parameters for Line Chart Generator */
+    private String query;       // Query used for gathering data from Database
+    private String subTitle;    // Subtitle of the Line Chart
+    private String hAxis;       // Horizontal Axis Name
 
     public LineArgsGenerator(WebRequestBean webRequestBean){
-        this.commodityLevel =webRequestBean.getCommodityLevel();
-        this.factoryParam =webRequestBean.getFactory();
-        this.brandParam =webRequestBean.getBrand();
-        this.medicineParam =webRequestBean.getMedicine();
-        this.timeLevel =webRequestBean.getTimeLevel();
-        this.yearParam =webRequestBean.getYear();
-        this.quarterParam =webRequestBean.getQuarter();
-        this.monthParam =webRequestBean.getMonth();
+        super(webRequestBean);
 
+        // Initialize parameters
         this.query = "";
-        this.title = "";
         this.subTitle = "";
         this.hAxis = "";
     }
 
+    /**
+     * Analyze inputs and prepare to Generate
+     */
     public void analyzeParameters(){
         String queryFrame = SQLStatments.SumSaleTransactionLineFrame;
         if (getCommodityLevel().equals("medicine")){
@@ -111,6 +71,10 @@ public class LineArgsGenerator {
         this.setQuery(queryFrame);
     }
 
+    /**
+     * Process based on the analysis
+     * @return  null or proper LineArgs object
+     */
     public LineArgs generateLineArgs(){
         if (getTimeLevel().equals("month")){
             return null;

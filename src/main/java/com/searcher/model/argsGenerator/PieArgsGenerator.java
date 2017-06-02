@@ -11,59 +11,34 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/8.
+ * Generate Pie Chart Arguments for drawing Pie Chart
  */
 @Data
-public class PieArgsGenerator {
+public class PieArgsGenerator extends ArgsGenerator{
     private String query;
-    private String title;
-    private String commodityLevel;
-    private String factoryParam;
-    private String brandParam;
-    private String medicineParam;
-    private String timeLevel;
-    private int yearParam;
-    private int quarterParam;
-    private int monthParam;
-
-    public PieArgsGenerator(String query, String title){
-        this.title = title;
-
-        this.query = query;
-        this.commodityLevel ="";
-        this.factoryParam ="";
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.timeLevel ="";
-        this.yearParam =-1;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
-    public PieArgsGenerator(String query, String title, String factoryParam, int yearParam){
-        this.title = title;
-
-        this.query = query;
-        this.factoryParam =factoryParam;
-        this.brandParam ="";
-        this.medicineParam ="";
-        this.yearParam =yearParam;
-        this.quarterParam =-1;
-        this.monthParam =-1;
-    }
 
     public PieArgsGenerator(WebRequestBean webRequestBean){
-        this.commodityLevel =webRequestBean.getCommodityLevel();
-        this.factoryParam =webRequestBean.getFactory();
-        this.brandParam =webRequestBean.getBrand();
-        this.medicineParam =webRequestBean.getMedicine();
-        this.timeLevel =webRequestBean.getTimeLevel();
-        this.yearParam =webRequestBean.getYear();
-        this.quarterParam =webRequestBean.getQuarter();
-        this.monthParam =webRequestBean.getMonth();
+        super(webRequestBean);
 
-        this.title ="";
+        // Initialize parameter
         this.query ="";
     }
 
+    /**
+     * Special Constructor for "Yesterday Sale Information"
+     * @param query
+     * @param title
+     */
+    public PieArgsGenerator(String query, String title){
+        super();
+
+        // Initialize parameter
+        this.query = query;
+    }
+
+    /**
+     * Analyze inputs and prepare to Generate
+     */
     public void analyzeParameters(){
         if (this.getQuery().isEmpty()){
             String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
@@ -101,6 +76,10 @@ public class PieArgsGenerator {
         }
     }
 
+    /**
+     * Process based on the analysis
+     * @return  null or proper PieArgs object
+     */
     public PieArgs generatePieArgs(){
         if (getCommodityLevel().equals("medicine")){
             return null;

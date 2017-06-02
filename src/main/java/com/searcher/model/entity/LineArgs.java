@@ -7,39 +7,44 @@ import java.util.ArrayList;
 
 /**
  * Created by zchholmes on 2017/5/5.
+ * Chart Argument used to draw a Line Chart
  */
-
 @Data
-public class LineArgs {
+public class LineArgs extends ChartArgs{
 
-    private String title;
-    private String subTitle;
-    private String hAxis;
-    private ArrayList<String> lineName;
-    private ArrayList<ArrayList<String>> argsData;
+    /* Customized parameters for Line Chart */
+    private String subTitle;            // Subtitle of the Line Chart
+    private String hAxis;               // Horizontal Axis Name
+    private ArrayList<String> lineName; // List of all line names (in order)
 
+    /**
+     * Default constructor
+     */
     public LineArgs(){
-        title = "";
+        super();
         subTitle = "";
         hAxis = "";
         lineName = new ArrayList<String>();
-        argsData = new ArrayList<ArrayList<String>>();
     }
 
+    /**
+     * Constructor used by providing title, subTitle and hAxis as parameters
+     * @param title
+     * @param subTitle
+     * @param hAxis
+     */
     public LineArgs(String title, String subTitle, String hAxis){
-        this.title = title;
-        this.subTitle = subTitle;
-        this.hAxis = hAxis;
-        lineName = new ArrayList<String>();
-        argsData = new ArrayList<ArrayList<String>>();
+        super();
+        this.setTitle(title);
+        this.setSubTitle(subTitle);
+        this.setHAxis(hAxis);
+        this.setLineName(new ArrayList<String>());
     }
 
-    public void addItemList(ArrayList<String> itemList){
-        ArrayList<ArrayList<String>> tempList = this.getArgsData();
-        tempList.add(itemList);
-        this.setArgsData(tempList);
-    }
-
+    /**
+     * Add a new line name to lineName list
+     * @param lineName
+     */
     public void addLineNameItem(String lineName){
         ArrayList<String> tempList = this.getLineName();
         tempList.add(lineName);
