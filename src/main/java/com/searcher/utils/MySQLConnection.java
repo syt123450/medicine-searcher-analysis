@@ -13,7 +13,7 @@ import java.sql.Time;
  * Created by zchholmes on 2017/5/8.
  */
 public class MySQLConnection {
-    private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
+    private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT&useSSL=false";
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 

@@ -377,3 +377,21 @@ GROUP BY m.medicineName, m.brandName, m.factoryName
 ORDER BY m.factoryName, totalSum DESC
 ;
 
+
+
+SELECT SUM(s.totalPrice) as totalSum,  m.factoryName , c.year
+            FROM SaleTransaction s, Medicine m, Calendar c
+            WHERE s.medicineKey <> -1
+            AND m.factoryName like "%%"
+            AND m.brandName like "%%"
+            AND m.medicineName like "%%"
+            AND c.year >= 2012
+            AND c.year <= 2017
+            AND c.quarter >= 1
+            AND c.quarter <= 4
+            AND c.month >= 1
+            AND c.month <= 12
+            AND s.medicineKey = m.medicineKey
+            AND s.calendarKey = c.calendarKey
+            GROUP BY m.factoryName, c.year
+            ORDER BY c.year, m.factoryName, totalSum DESC;
