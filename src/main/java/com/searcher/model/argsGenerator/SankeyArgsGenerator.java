@@ -48,6 +48,8 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         // Choose proper table
         queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
         queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
 
         String[] queriesAry = {queryFrame_0, queryFrame_1};
         this.setQueries(queriesAry);

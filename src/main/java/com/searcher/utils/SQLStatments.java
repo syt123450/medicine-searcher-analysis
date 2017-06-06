@@ -70,7 +70,7 @@ public class SQLStatments {
     public static final String SUM_SALE_TRANSACTION_PIE_FRAME
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -95,7 +95,7 @@ public class SQLStatments {
     public static final String SUM_SALE_TRANSACTION_LINE_FRAME
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -120,7 +120,7 @@ public class SQLStatments {
     public static final String SUM_SALE_TRANSACTION_COMBO_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -150,7 +150,7 @@ public class SQLStatments {
             "SELECT AVG(t.totalSum) as avgSum, #$3$# " +
             "FROM ( " +
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -177,7 +177,7 @@ public class SQLStatments {
     public static final String SUM_SALE_TRANSACTION_SANKEY_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -197,7 +197,7 @@ public class SQLStatments {
     public static final String SUM_SALE_TRANSACTION_SANKEY_1
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName " +
-            "FROM #$st$#, Medicine m, Calendar c " +
+            "FROM #$st$#, #$pl$#, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +

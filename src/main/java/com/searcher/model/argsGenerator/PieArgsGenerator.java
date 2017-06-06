@@ -67,8 +67,9 @@ public class PieArgsGenerator extends ArgsGenerator{
             // getTimeLevel() ==null
         }
 
-        // Choose proper table
+        // Choose proper tables
         queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
 
         String[] queriesAry = { queryFrame };
         this.setQueries(queriesAry);
