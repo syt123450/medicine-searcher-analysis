@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PieArgsGenerator extends ArgsGenerator{
 
     public PieArgsGenerator(WebRequestBean webRequestBean){
-        super(webRequestBean);
+        super(webRequestBean, ChartType.PIE);
     }
 
     /**
@@ -31,25 +31,27 @@ public class PieArgsGenerator extends ArgsGenerator{
         // Initialize parameter
         String[] queriesAry = { query };
         this.setQueries(queriesAry);
+
+        this.setChartType(ChartType.PIE);
     }
 
     /**
      * Analyze inputs and prepare to Generate
      */
     public void analyzeParameters(){
-        String queryFrame = SQLStatments.SumSaleTransactionPieFrame;
+        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_PIE_FRAME;
         if (getCommodityLevel().equals("brand")){
             setTitle("Shares of " + getBrandParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsBrand);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_BRAND);
         }
         else if (getCommodityLevel().equals("factory")){
             setTitle("Shares of " + getFactoryParam());
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactory);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORY);
         }
         else {
             // getCommodityLevel() ==null
             setTitle("Shares of All Factories");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.PieArgsFactories);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORIES);
         }
 
         if (getTimeLevel().equals("month")){
@@ -66,7 +68,7 @@ public class PieArgsGenerator extends ArgsGenerator{
         }
 
         // Choose proper table
-        queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
 
         String[] queriesAry = { queryFrame };
         this.setQueries(queriesAry);

@@ -6,11 +6,12 @@ package com.searcher.utils;
 public class SQLStatments {
     /* Delimeters */
     // Limit "SELECT" and "GROUP BY" items and conditions
-    public static final String delimeter_1 = "#$1$#";
-    public static final String delimeter_2 = "#$2$#";
-    public static final String delimeter_3 = "#$3$#";
+    public static final String DELIMITER_1 = "#$1$#";
+    public static final String DELIMITER_2 = "#$2$#";
+    public static final String DELIMITER_3 = "#$3$#";
     // Limit target tables
-    public static final String delimeter_t = "#$t$#";
+    public static final String DELIMITER_ST = "#$st$#";     // Sale Transaction related tables
+    public static final String DELIMITER_PL = "#$pl$#";     // Product Level related tables
 
 
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
@@ -18,7 +19,7 @@ public class SQLStatments {
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
 
     // Pie for yesterday
-    public static final String yesterdayPie
+    public static final String YESTERDAY_PIE
             =
             " SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
             " FROM SaleTransaction s, Medicine m, Calendar c " +
@@ -43,12 +44,33 @@ public class SQLStatments {
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
     /* ***** ***** *****           General Cases             ***** ***** ***** */
     /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
-    public static final String TableSaleTransaction = " SaleTransaction s ";
 
-    public static final String SumSaleTransactionPieFrame
+    /* Transaction Table Names */
+    // For DELIMITER_ST ("#$st$#")
+    public static final String ST_SALE_TRANSACTION = " SaleTransaction s ";
+
+    public static final String ST_MEDICINE_MONTH_TRANSACTION = " MedicineMonthTransaction s ";
+    public static final String ST_MEDICINE_QUARTER_TRANSACTION = " MedicineQuarterTransaction s ";
+    public static final String ST_MEDICINE_YEAR_TRANSACTION = " MedicineYearTransaction s ";
+
+    public static final String ST_BRAND_MONTH_TRANSACTION = " BrandMonthTransaction s ";
+    public static final String ST_BRAND_QUARTER_TRANSACTION = " BrandQuarterTransaction s ";
+    public static final String ST_BRAND_YEAR_TRANSACTION = " BrandYearTransaction s ";
+
+    public static final String ST_FACTORY_MONTH_TRANSACTION = " FactoryMonthTransaction s ";
+    public static final String ST_FACTORY_QUARTER_TRANSACTION = " FactoryQuarterTransaction s ";
+    public static final String ST_FACTORY_YEAR_TRANSACTION = " FactoryYearTransaction s ";
+
+    // For DELIMITER_PL ("#$pl$#")
+    public static final String PL_MEDICINE = " Medicine m ";
+    public static final String PL_BRAND = " Brand m ";
+    public static final String PL_FACTORY = " Factory m ";
+
+    /* SQL Frames */
+    public static final String SUM_SALE_TRANSACTION_PIE_FRAME
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -65,15 +87,15 @@ public class SQLStatments {
             "ORDER BY totalSum DESC " +
             ";";
 
-    public static final String PieArgsFactories = " m.factoryName ";
-    public static final String PieArgsFactory = " m.brandName, m.factoryName ";
-    public static final String PieArgsBrand = " m.medicineName, m.brandName, m.factoryName ";
+    public static final String PIE_ARGS_FACTORIES = " m.factoryName ";
+    public static final String PIE_ARGS_FACTORY = " m.brandName, m.factoryName ";
+    public static final String PIE_ARGS_BRAND = " m.medicineName, m.brandName, m.factoryName ";
 
 
-    public static final String SumSaleTransactionLineFrame
+    public static final String SUM_SALE_TRANSACTION_LINE_FRAME
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$# " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -90,15 +112,15 @@ public class SQLStatments {
             "ORDER BY #$1$# ASC " +
             ";";
 
-    public static final String LineArgsYears = " c.year, m.factoryName ";
-    public static final String LineArgsYear = " c.year, c.quarter, m.factoryName ";
-    public static final String LineArgsQuarter = " c.year, c.quarter, c.month, m.factoryName ";
+    public static final String LINE_ARGS_YEARS = " c.year, m.factoryName ";
+    public static final String LINE_ARGS_YEAR = " c.year, c.quarter, m.factoryName ";
+    public static final String LINE_ARGS_QUARTER = " c.year, c.quarter, c.month, m.factoryName ";
 
 
-    public static final String SumSaleTransactionCombo_0
+    public static final String SUM_SALE_TRANSACTION_COMBO_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -114,21 +136,21 @@ public class SQLStatments {
             "GROUP BY #$1$#, #$2$# " +
             "ORDER BY #$2$#, #$1$#, totalSum DESC " +
             ";";
-    public static final String ComboArgsFactories = " m.factoryName ";
-    public static final String ComboArgsFactory = " m.factoryName, m.brandName ";
-    public static final String ComboArgsBrand = " m.factoryName, m.brandName, m.medicineName ";
+    public static final String COMBO_ARGS_FACTORIES = " m.factoryName ";
+    public static final String COMBO_ARGS_FACTORY = " m.factoryName, m.brandName ";
+    public static final String COMBO_ARGS_BRAND = " m.factoryName, m.brandName, m.medicineName ";
 
-    public static final String ComboArgsYears = " c.year ";
-    public static final String ComboArgsYear = " c.quarter, c.year ";
-    public static final String ComboArgsQuarter = " c.month, c.quarter, c.year ";
+    public static final String COMBO_ARGS_YEARS = " c.year ";
+    public static final String COMBO_ARGS_YEAR = " c.quarter, c.year ";
+    public static final String COMBO_ARGS_QUARTER = " c.month, c.quarter, c.year ";
 
 
-    public static final String SumSaleTransactionCombo_1
+    public static final String SUM_SALE_TRANSACTION_COMBO_1
             =
             "SELECT AVG(t.totalSum) as avgSum, #$3$# " +
             "FROM ( " +
             "SELECT SUM(s.totalPrice) as totalSum, #$1$#, #$2$# " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -146,16 +168,16 @@ public class SQLStatments {
             ") as t " +
             "GROUP BY #$3$# " +
             ";";
-    public static final String ComboArgsTYears = "t.year";
-    public static final String ComboArgsTYear = "t.quarter, t.year";
-    public static final String ComboArgsTQuarter = "t.month, t.quarter, t.year";
+    public static final String COMBO_ARGS_T_YEARS = "t.year";
+    public static final String COMBO_ARGS_T_YEAR = "t.quarter, t.year";
+    public static final String COMBO_ARGS_T_QUARTER = "t.month, t.quarter, t.year";
 
 
 
-    public static final String SumSaleTransactionSankey_0
+    public static final String SUM_SALE_TRANSACTION_SANKEY_0
             =
             "SELECT SUM(s.totalPrice) as totalSum, m.brandName, m.factoryName " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +
@@ -172,9 +194,10 @@ public class SQLStatments {
             "ORDER BY m.factoryName, totalSum DESC " +
             ";";
 
-    public static final String SumSaleTransactionSankey_1
-            = "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName " +
-            "FROM #$t$#, Medicine m, Calendar c " +
+    public static final String SUM_SALE_TRANSACTION_SANKEY_1
+            =
+            "SELECT SUM(s.totalPrice) as totalSum, m.medicineName, m.brandName, m.factoryName " +
+            "FROM #$st$#, Medicine m, Calendar c " +
             "WHERE s.medicineKey <> -1 " +
             "AND m.factoryName like ? " +
             "AND m.brandName like ? " +

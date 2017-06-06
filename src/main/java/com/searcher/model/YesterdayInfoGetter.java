@@ -15,7 +15,7 @@ public class YesterdayInfoGetter {
 
     public PieArgs get() {
 
-        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(SQLStatments.yesterdayPie, TITLE);
+        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(SQLStatments.YESTERDAY_PIE, TITLE);
         PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
 
         return pieArgs;

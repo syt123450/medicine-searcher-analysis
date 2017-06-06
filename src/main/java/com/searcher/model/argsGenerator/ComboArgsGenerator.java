@@ -19,7 +19,7 @@ public class ComboArgsGenerator extends ArgsGenerator{
     private String hAxis;
 
     public ComboArgsGenerator(WebRequestBean webRequestBean){
-        super(webRequestBean);
+        super(webRequestBean, ChartType.COMBO);
 
         // Initialize parameters
         this.hAxis = "";
@@ -31,50 +31,50 @@ public class ComboArgsGenerator extends ArgsGenerator{
      */
     public void analyzeParameters(){
         setVAxis("Amount");
-        String queryFrame_0 = SQLStatments.SumSaleTransactionCombo_0;
-        String queryFrame_1 = SQLStatments.SumSaleTransactionCombo_1;
+        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_0;
+        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_1;
         if (getCommodityLevel().equals("brand")){
             setTitle("Total and Average Sales of " + getBrandParam());
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsBrand);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsBrand);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
         }
         else if (getCommodityLevel().equals("factory")){
             setTitle("Total and Average Sales of " + getFactoryParam());
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactory);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactory);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
         }
         else {
             // getCommodityLevel() ==null
             setTitle("Total and Average Sales of All Factories");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactories);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_1, SQLStatments.ComboArgsFactories);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
         }
 
         if (getTimeLevel().equals("quarter")){
             setTitle(getTitle() + " in Quarter " + getQuarterParam());
             setHAxis("Month");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsQuarter);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsQuarter);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTQuarter);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_QUARTER);
         }
         else if (getTimeLevel().equals(("year"))){
             setTitle(getTitle() + " in Year " + getYearParam());
             setHAxis("Quarter");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYear);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYear);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTYear);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEAR);
         }
         else {
             // getTimeLevel() ==null
             setHAxis("Year");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYears);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_2, SQLStatments.ComboArgsYears);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_3, SQLStatments.ComboArgsTYears);
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEARS);
         }
 
         // Choose proper Table
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
 
         String[] queriesAry = {queryFrame_0, queryFrame_1};
         this.setQueries(queriesAry);

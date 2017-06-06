@@ -17,15 +17,15 @@ import java.util.ArrayList;
 public class SankeyArgsGenerator extends ArgsGenerator{
 
     public SankeyArgsGenerator(WebRequestBean webRequestBean){
-        super(webRequestBean);
+        super(webRequestBean, ChartType.SANKEY);
     }
 
     /**
      * Analyze inputs and prepare to Generate
      */
     public void analyzeParameters(){
-        String queryFrame_0 = SQLStatments.SumSaleTransactionSankey_0;
-        String queryFrame_1 = SQLStatments.SumSaleTransactionSankey_1;
+        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_0;
+        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_1;
         if (getCommodityLevel().equals("factory")){
             setTitle("Medicine Distribution of " + getFactoryParam());
 
@@ -46,8 +46,8 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         }
 
         // Choose proper table
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
 
         String[] queriesAry = {queryFrame_0, queryFrame_1};
         this.setQueries(queriesAry);

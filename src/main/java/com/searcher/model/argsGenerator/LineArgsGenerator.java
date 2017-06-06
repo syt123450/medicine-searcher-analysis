@@ -6,7 +6,6 @@ import com.searcher.utils.MySQLConnection;
 import com.searcher.utils.SQLStatments;
 import lombok.Data;
 
-import javax.sound.sampled.Line;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ public class LineArgsGenerator extends ArgsGenerator{
     private String hAxis;       // Horizontal Axis Name
 
     public LineArgsGenerator(WebRequestBean webRequestBean){
-        super(webRequestBean);
+        super(webRequestBean, ChartType.LINE);
 
         // Initialize parameters
         this.subTitle = "";
@@ -32,7 +31,7 @@ public class LineArgsGenerator extends ArgsGenerator{
      * Analyze inputs and prepare to Generate
      */
     public void analyzeParameters(){
-        String queryFrame = SQLStatments.SumSaleTransactionLineFrame;
+        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_LINE_FRAME;
         if (getCommodityLevel().equals("medicine")){
             setTitle("Sale Trend of " + getMedicineParam());
         }
@@ -50,21 +49,21 @@ public class LineArgsGenerator extends ArgsGenerator{
         if (getTimeLevel().equals("quarter")){
             setTitle(getTitle() + " in Quarter " + getQuarterParam());
             setHAxis("Month");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsQuarter);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_QUARTER);
         }
         else if (getTimeLevel().equals(("year"))){
             setTitle(getTitle() + " in Year " + getYearParam());
             setHAxis("Quarter");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsYear);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEAR);
         }
         else {
             // getTimeLevel() ==null
             setHAxis("Year");
-            queryFrame = queryFrame.replace(SQLStatments.delimeter_1, SQLStatments.LineArgsYears);
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEARS);
         }
 
         // Choose proper table
-        queryFrame = queryFrame.replace(SQLStatments.delimeter_t, SQLStatments.TableSaleTransaction);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
 
         String[] queriesAry = { queryFrame };
         this.setQueries(queriesAry);
