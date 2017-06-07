@@ -29,14 +29,13 @@ public class SaleTransactionBean {
     //public int getSaleTransactionId()  {
     //    return _id;
     //}
-    //public SaleTransactionBean( int q, long t, int mId, int sId, int cId, double p ) {
-    //    quantity   = q;
-    //    time       = t;
-    //    medicineId = mId;
-    //    storeId    = sId;
-    //    customerId = cId;
-    //    totalPrice = p;
-    //}
+    public SaleTransactionBean( long t, int mId, int sId, int cId, double p ) {
+        time       = t;
+        medicineId = mId;
+        storeId    = sId;
+        customerId = cId;
+        totalPrice = p;
+    }
 
     //public int getQuantity()  {
     //    return quantity;
