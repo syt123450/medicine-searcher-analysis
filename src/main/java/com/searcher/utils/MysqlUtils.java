@@ -91,9 +91,10 @@ public class MysqlUtils {
         int customerKey   = saleTransaction.getCustomerId();
         double totalPrice = saleTransaction.getTotalPrice();
 
-        String insertSQL = "INSERT INTO saleTransaction " +
-                     " (calendarKey, medicineKey, storeKey, customerKey, totalPrice)" +
-                     " VALUES (?, ?, ?, ?, ?)";
+        String insertSQL  = "INSERT INTO saleTransaction " +
+                            " (calendarKey, medicineKey, storeKey, customerKey, totalPrice)" +
+                            " VALUES (?, ?, ?, ?, ?)";
+
         try {
             Connection conn   = DriverManager.getConnection( URL, USERNAME, PASSWORD );    //connect to mysql
 
@@ -113,13 +114,13 @@ public class MysqlUtils {
     }
 
     private static void insertIntoSearchTransactionTbl(SearchTransactionBean searchTransaction, int calendarKey ) {
-        int medicineId  = searchTransaction.getMedicineId();
-        int storeId     = searchTransaction.getStoreId();
-        int customerId  = searchTransaction.getCustomerId();
+        int medicineId   = searchTransaction.getMedicineId();
+        int storeId      = searchTransaction.getStoreId();
+        int customerId   = searchTransaction.getCustomerId();
 
-        int medicineKey = getMedicineKeyFromId(medicineId);
-        int storeKey    = getStoreKeyFromId(storeId);
-        int customerKey = getCustomerKeyFromId(customerId);
+        int medicineKey  = getMedicineKeyFromId(medicineId);
+        int storeKey     = getStoreKeyFromId(storeId);
+        int customerKey  = getCustomerKeyFromId(customerId);
 
         String insertSQL = "INSERT INTO searchTransaction " +
                            " (medicineId, medicineKey, storeId, storeKey, customerId, customerKey, calendarKey)" +
@@ -339,8 +340,6 @@ public class MysqlUtils {
         return cKey;
     }
 
-
-
     private static int getBrandIdFromMedicineId( int medicineId ) {
         String selectSQL = "SELECT brandId FROM medicine WHERE medicineId = ?";
         int brandId = -1;
@@ -363,7 +362,6 @@ public class MysqlUtils {
         }
 
         return brandId;
-
     }
 
     private static int getFactoryIdFromMeidcineId( int medicineId ) {
@@ -452,7 +450,6 @@ public class MysqlUtils {
             preparedStatement.setInt(4, 0);
             preparedStatement.setInt(5, year);
 
-
             ResultSet rs = preparedStatement.executeQuery();
 
             // iterate through the java result set
@@ -491,7 +488,6 @@ public class MysqlUtils {
             preparedStatement.setInt(4, quarter);
             preparedStatement.setInt(5, year);
 
-
             ResultSet rs = preparedStatement.executeQuery();
 
             // Iterate through the java result set
@@ -506,6 +502,7 @@ public class MysqlUtils {
 
         return cKey;
     }
+
     private static void updateMHashTbl( SaleTransactionBean saleTransaction, Hashtable<Integer, Double> mHashTbl ){
         int medicineKey   = saleTransaction.getMedicineId();
         double totalPrice = saleTransaction.getTotalPrice();
