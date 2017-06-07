@@ -1,6 +1,6 @@
 package com.searcher.Initiator;
 
-import com.searcher.model.SocketSender;
+import com.searcher.model.virtualizationModule.SocketSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
