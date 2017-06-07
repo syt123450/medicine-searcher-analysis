@@ -20,6 +20,10 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         super(webRequestBean, ChartType.SANKEY);
     }
 
+    public void determineCustomization(){
+
+    }
+
     /**
      * Analyze inputs and prepare to Generate
      */
@@ -46,10 +50,16 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         }
 
         // Choose proper table
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
         queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
         queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
 
         String[] queriesAry = {queryFrame_0, queryFrame_1};
         this.setQueries(queriesAry);

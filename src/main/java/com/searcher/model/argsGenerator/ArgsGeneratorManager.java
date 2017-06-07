@@ -185,23 +185,23 @@ public class ArgsGeneratorManager {
         webRequestBean.setMonth(0);
 
 
-        webRequestBean.setCommodityLevel("factory");
-        webRequestBean.setFactory("Physicians Total Care, Inc.");
-        webRequestBean.setTimeLevel("month");
-        webRequestBean.setYear(2017);
-        webRequestBean.setMonth(5);
+//        webRequestBean.setCommodityLevel("factory");
+//        webRequestBean.setFactory("Physicians Total Care, Inc.");
+//        webRequestBean.setTimeLevel("quarter");
+//        webRequestBean.setYear(2017);
+//        webRequestBean.setQuarter(1);
 
 
 
         PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
-        LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
-        ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
-        SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
+//        LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
+//        ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
+//        SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
 
         PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
-        LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
-        ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
-        SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
+//        LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
+//        ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
+//        SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
 
         System.out.println("");
     }
