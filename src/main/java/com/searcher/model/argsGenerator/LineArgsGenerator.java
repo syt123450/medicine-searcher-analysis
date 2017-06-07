@@ -31,16 +31,7 @@ public class LineArgsGenerator extends ArgsGenerator{
      * To determine Customized variable HAxis for Line Chart
      */
     public void determineCustomization(){
-        if (getTimeLevel().equals("quarter")){
-            setHAxis("Month");
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setHAxis("Quarter");
-        }
-        else {
-            // getTimeLevel() ==null
-            setHAxis("Year");
-        }
+        setHAxis(determineTimeAxisName());
     }
 
     /**

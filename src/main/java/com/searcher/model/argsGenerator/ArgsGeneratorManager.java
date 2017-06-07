@@ -193,15 +193,15 @@ public class ArgsGeneratorManager {
 
 
 
-        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
+//        PieArgsGenerator pieArgsGenerator = new PieArgsGenerator(webRequestBean);
 //        LineArgsGenerator lineArgsGenerator = new LineArgsGenerator(webRequestBean);
 //        ComboArgsGenerator comboArgsGenerator = new ComboArgsGenerator(webRequestBean);
-//        SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
+        SankeyArgsGenerator sankeyArgsGenerator = new SankeyArgsGenerator(webRequestBean);
 
-        PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
+//        PieArgs pieArgs = pieArgsGenerator.generatePieArgs();
 //        LineArgs lineArgs = lineArgsGenerator.generateLineArgs();
 //        ComboArgs comboArgs = comboArgsGenerator.generateComboArgs();
-//        SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
+        SankeyArgs sankeyArgs = sankeyArgsGenerator.generateSankeyArgs();
 
         System.out.println("");
     }

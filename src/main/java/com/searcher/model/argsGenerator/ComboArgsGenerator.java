@@ -27,13 +27,137 @@ public class ComboArgsGenerator extends ArgsGenerator{
     }
 
     public void determineCustomization(){
-
+        setHAxis(determineTimeAxisName());
     }
 
     /**
+     * Process based on the analysis
+     * Note:
+     *  Assume all SQL are ordered Properly
+     * @return  null or proper ComboArgs object
+     */
+    public ComboArgs generateComboArgs(){
+        if(getCommodityLevel().equals("medicine") ||getTimeLevel().equals("month")){
+            return null;
+        }
+        this.analyzeParameters();
+
+
+        ComboArgs comboArgs = new ComboArgs(this.getTitle(), this.getVAxis(), this.getHAxis());
+        MySQLConnection mySQLConnection = new MySQLConnection();
+
+        try {
+            ArrayList<String> tempList = new ArrayList<String>();
+
+            /* Try to catch name list first */
+            ResultSet resultSet_0 = mySQLConnection.calcSaleSum(getQueries()[0],
+                    SQLStatments.PRODUCT_LEVEL_DD.get(getCommodityLevel()),SQLStatments.TIME_LEVEL_DD.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+
+            // Decide levels
+            String commodityLvlLbl = "factoryName";
+            String timeLvlLbl = "year";
+            // Default add first as time level
+            if (getQuarterParam() >0){
+                tempList.add("Month");
+                timeLvlLbl = "month";
+            }
+            else if (getYearParam() >0){
+                tempList.add("Quarter");
+                timeLvlLbl = "quarter";
+            }
+            else {
+                tempList.add("Year");
+                timeLvlLbl = "year";
+            }
+
+            if (!getBrandParam().isEmpty()){
+                commodityLvlLbl = "medicineName";
+            }
+            else if (!getFactoryParam().isEmpty()){
+                commodityLvlLbl = "brandName";
+            }
+            else {
+                commodityLvlLbl = "factoryName";
+            }
+
+            /* Generate name list */
+            while(resultSet_0.next()) {
+                if (tempList.contains(resultSet_0.getString(commodityLvlLbl))) {
+                    break;
+                } else {
+                    tempList.add(resultSet_0.getString(commodityLvlLbl));
+                }
+            }
+            // Add last as "Average"
+            tempList.add("Average");
+            comboArgs.addItemList(tempList);
+
+            /* Add data */
+            // reset sql_0 curser to the first
+            resultSet_0.beforeFirst();
+            ResultSet resultSet_1 = mySQLConnection.calcSaleSum(getQueries()[1],
+                    SQLStatments.PRODUCT_LEVEL_DD.get(getCommodityLevel()),SQLStatments.TIME_LEVEL_DD.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+
+            int tempTime =-1;
+            int count =0;
+            int listSize =-1;
+            tempList = new ArrayList<String>();
+            while(resultSet_0.next()){
+                if (tempTime != resultSet_0.getInt(timeLvlLbl)){
+                    if (count !=0){
+                        resultSet_1.next();
+                        tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
+                        comboArgs.addItemList(tempList);
+                        if (listSize <0){
+                            listSize = tempList.size();
+                        }
+                        else if (tempList.size() !=listSize){
+                            return null;
+                        }
+                    }
+                    tempTime = resultSet_0.getInt(timeLvlLbl);
+                    tempList = new ArrayList<String>();
+                    tempList.add(Integer.toString(tempTime));
+                    count++;
+                }
+                tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );
+            }
+            resultSet_1.next();
+            tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
+            comboArgs.addItemList(tempList);
+            if (listSize <0){
+                listSize = tempList.size();
+            }
+            else if (tempList.size() !=listSize){
+                return null;
+            }
+
+            mySQLConnection.close();
+        } catch (Exception what){
+            what.printStackTrace();
+        } finally {
+            mySQLConnection.close();
+        }
+
+
+        return comboArgs;
+    }
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** *****   DEPRECATED & Legacy   ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    /**
+     * DEPRECATED
      * Analyze inputs and prepare to Generate
      */
-    public void analyzeParameters(){
+    public void analyzeParameters_orig(){
         setVAxis("Amount");
         String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_0;
         String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_1;
@@ -91,116 +215,4 @@ public class ComboArgsGenerator extends ArgsGenerator{
         String[] queriesAry = {queryFrame_0, queryFrame_1};
         this.setQueries(queriesAry);
     }
-
-    /**
-     * Process based on the analysis
-     * Note:
-     *  Assume all SQL are ordered Properly
-     * @return  null or proper ComboArgs object
-     */
-    public ComboArgs generateComboArgs(){
-        if(getCommodityLevel().equals("medicine") ||getTimeLevel().equals("month")){
-            return null;
-        }
-        this.analyzeParameters();
-
-
-        ComboArgs comboArgs = new ComboArgs(this.getTitle(), this.getVAxis(), this.getHAxis());
-        MySQLConnection mySQLConnection = new MySQLConnection();
-
-        try {
-            ArrayList<String> tempList = new ArrayList<String>();
-
-            /* Try to catch name list first */
-            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
-
-            // Decide levels
-            String commodityLvlLbl = "factoryName";
-            String timeLvlLbl = "year";
-            // Default add first as time level
-            if (getQuarterParam() >0){
-                tempList.add("Month");
-                timeLvlLbl = "month";
-            }
-            else if (getYearParam() >0){
-                tempList.add("Quarter");
-                timeLvlLbl = "quarter";
-            }
-            else {
-                tempList.add("Year");
-                timeLvlLbl = "year";
-            }
-
-            if (!getBrandParam().isEmpty()){
-                commodityLvlLbl = "medicineName";
-            }
-            else if (!getFactoryParam().isEmpty()){
-                commodityLvlLbl = "brandName";
-            }
-            else {
-                commodityLvlLbl = "factoryName";
-            }
-
-            /* Generate name list */
-            while(resultSet_0.next()) {
-                if (tempList.contains(resultSet_0.getString(commodityLvlLbl))) {
-                    break;
-                } else {
-                    tempList.add(resultSet_0.getString(commodityLvlLbl));
-                }
-            }
-            // Add last as "Average"
-            tempList.add("Average");
-            comboArgs.addItemList(tempList);
-
-            /* Add data */
-            // reset sql_0 curser to the first
-            resultSet_0.beforeFirst();
-            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
-
-            int tempTime =-1;
-            int count =0;
-            int listSize =-1;
-            tempList = new ArrayList<String>();
-            while(resultSet_0.next()){
-                if (tempTime != resultSet_0.getInt(timeLvlLbl)){
-                    if (count !=0){
-                        resultSet_1.next();
-                        tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
-                        comboArgs.addItemList(tempList);
-                        if (listSize <0){
-                            listSize = tempList.size();
-                        }
-                        else if (tempList.size() !=listSize){
-                            return null;
-                        }
-                    }
-                    tempTime = resultSet_0.getInt(timeLvlLbl);
-                    tempList = new ArrayList<String>();
-                    tempList.add(Integer.toString(tempTime));
-                    count++;
-                }
-                tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );
-            }
-            resultSet_1.next();
-            tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
-            comboArgs.addItemList(tempList);
-            if (listSize <0){
-                listSize = tempList.size();
-            }
-            else if (tempList.size() !=listSize){
-                return null;
-            }
-
-            mySQLConnection.close();
-        } catch (Exception what){
-            what.printStackTrace();
-        } finally {
-            mySQLConnection.close();
-        }
-
-
-        return comboArgs;
-    }
-
 }
