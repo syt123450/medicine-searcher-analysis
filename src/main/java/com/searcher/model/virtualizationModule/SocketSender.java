@@ -1,14 +1,14 @@
-package com.searcher.model;
+package com.searcher.model.virtualizationModule;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.searcher.model.virtualizationModule.RealtimeDataGetter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  * Created by ss on 2017/5/5.
  */
 public class SocketSender implements Runnable{
-
 
     private SimpMessagingTemplate simpMessagingTemplate;
     private Gson gson = new GsonBuilder().create();
