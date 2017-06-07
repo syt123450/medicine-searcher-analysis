@@ -28,46 +28,10 @@ public class LineArgsGenerator extends ArgsGenerator{
     }
 
     /**
-     * Analyze inputs and prepare to Generate
+     * To determine Customized variable HAxis for Line Chart
      */
-    public void analyzeParameters(){
-        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_LINE_FRAME;
-        if (getCommodityLevel().equals("medicine")){
-            setTitle("Sale Trend of " + getMedicineParam());
-        }
-        else if (getCommodityLevel().equals("brand")){
-            setTitle("Sale Trend of " + getBrandParam());
-        }
-        else if (getCommodityLevel().equals("factory")){
-            setTitle("Sale Trend of " + getFactoryParam());
-        }
-        else {
-            // getCommodityLevel() ==null
-            setTitle("Sale Trend of All Factories");
-        }
-
-        if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in Quarter " + getQuarterParam());
-            setHAxis("Month");
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_QUARTER);
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in Year " + getYearParam());
-            setHAxis("Quarter");
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEAR);
-        }
-        else {
-            // getTimeLevel() ==null
-            setHAxis("Year");
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEARS);
-        }
-
-        // Choose proper tables
-        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-
-        String[] queriesAry = { queryFrame };
-        this.setQueries(queriesAry);
+    public void determineCustomization(){
+        setHAxis(determineTimeAxisName());
     }
 
     /**
@@ -95,7 +59,10 @@ public class LineArgsGenerator extends ArgsGenerator{
         }
 
         MySQLConnection mySQLConnection = new MySQLConnection();
-        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+        ResultSet resultSet = mySQLConnection.calcSaleSum(getQueries()[0],
+                SQLStatments.PRODUCT_LEVEL.get(getCommodityLevel()),SQLStatments.TIME_LEVEL_DD.get(getTimeLevel()),
+                getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
         if (resultSet !=null){
             try {
                 ArrayList<String> lineName = new ArrayList<String>();
@@ -138,5 +105,59 @@ public class LineArgsGenerator extends ArgsGenerator{
         mySQLConnection.close();
 
         return lineArgs;
+    }
+
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** *****   DEPRECATED & Legacy   ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    /**
+     * DEPRECATED
+     * Analyze inputs and prepare to Generate
+     */
+    public void analyzeParameters_orig(){
+        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_LINE_FRAME;
+        if (getCommodityLevel().equals("medicine")){
+            setTitle("Sale Trend of " + getMedicineParam());
+        }
+        else if (getCommodityLevel().equals("brand")){
+            setTitle("Sale Trend of " + getBrandParam());
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Sale Trend of " + getFactoryParam());
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Sale Trend of All Factories");
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+            setHAxis("Month");
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_QUARTER);
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+            setHAxis("Quarter");
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEAR);
+        }
+        else {
+            // getTimeLevel() ==null
+            setHAxis("Year");
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.LINE_ARGS_YEARS);
+        }
+
+        // Choose proper tables
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+
+        String[] queriesAry = { queryFrame };
+        this.setQueries(queriesAry);
     }
 }

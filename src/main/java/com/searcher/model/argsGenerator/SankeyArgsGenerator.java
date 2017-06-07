@@ -20,39 +20,8 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         super(webRequestBean, ChartType.SANKEY);
     }
 
-    /**
-     * Analyze inputs and prepare to Generate
-     */
-    public void analyzeParameters(){
-        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_0;
-        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_1;
-        if (getCommodityLevel().equals("factory")){
-            setTitle("Medicine Distribution of " + getFactoryParam());
-
-        }
-        else {
-            // getCommodityLevel() ==null
-            setTitle("Medicine Distribution of All Factories");
-        }
-
-        if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in Quarter " + getQuarterParam());
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in Year " + getYearParam());
-        }
-        else {
-            // getTimeLevel() ==null
-        }
-
-        // Choose proper table
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-
-        String[] queriesAry = {queryFrame_0, queryFrame_1};
-        this.setQueries(queriesAry);
+    public void determineCustomization(){
+        // No customized settings for SANKEY Chart
     }
 
     /**
@@ -76,7 +45,10 @@ public class SankeyArgsGenerator extends ArgsGenerator{
             int count =0;
             int listSize =-1;
 
-            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+            ResultSet resultSet_0 = mySQLConnection.calcSaleSum(getQueries()[0],
+                    SQLStatments.PRODUCT_LEVEL_DD.get("factory"),SQLStatments.TIME_LEVEL.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             ArrayList<String> dulpNameCheckList = new ArrayList<String>();
             String dulpNameCheck = "";
@@ -113,7 +85,10 @@ public class SankeyArgsGenerator extends ArgsGenerator{
             }
 
             count =0;
-            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+            ResultSet resultSet_1 = mySQLConnection.calcSaleSum(getQueries()[1],
+                    SQLStatments.PRODUCT_LEVEL_DD.get("brand"),SQLStatments.TIME_LEVEL.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
             while(resultSet_1.next()){
                 if (!tempBrandName.equals(resultSet_1.getString("brandName"))){
                     count =0;
@@ -152,6 +127,53 @@ public class SankeyArgsGenerator extends ArgsGenerator{
         }
 
         return sankeyArgs;
+    }
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** *****   DEPRECATED & Legacy   ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    /**
+     * Analyze inputs and prepare to Generate
+     */
+    public void analyzeParameters_orig(){
+        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_0;
+        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_SANKEY_1;
+        if (getCommodityLevel().equals("factory")){
+            setTitle("Medicine Distribution of " + getFactoryParam());
+
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Medicine Distribution of All Factories");
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        // Choose proper table
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+
+        String[] queriesAry = {queryFrame_0, queryFrame_1};
+        this.setQueries(queriesAry);
     }
 
 }

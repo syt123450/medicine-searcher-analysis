@@ -35,44 +35,8 @@ public class PieArgsGenerator extends ArgsGenerator{
         this.setChartType(ChartType.PIE);
     }
 
-    /**
-     * Analyze inputs and prepare to Generate
-     */
-    public void analyzeParameters(){
-        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_PIE_FRAME;
-        if (getCommodityLevel().equals("brand")){
-            setTitle("Shares of " + getBrandParam());
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_BRAND);
-        }
-        else if (getCommodityLevel().equals("factory")){
-            setTitle("Shares of " + getFactoryParam());
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORY);
-        }
-        else {
-            // getCommodityLevel() ==null
-            setTitle("Shares of All Factories");
-            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORIES);
-        }
-
-        if (getTimeLevel().equals("month")){
-            setTitle(getTitle() + " in Month" + getMonthParam());
-        }
-        else if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in Quarter " + getQuarterParam());
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in Year " + getYearParam());
-        }
-        else {
-            // getTimeLevel() ==null
-        }
-
-        // Choose proper tables
-        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-
-        String[] queriesAry = { queryFrame };
-        this.setQueries(queriesAry);
+    public void determineCustomization(){
+        // No customized settings for PIE Chart
     }
 
     /**
@@ -110,7 +74,10 @@ public class PieArgsGenerator extends ArgsGenerator{
 
         // Add data from SQL call
         MySQLConnection mySQLConnection = new MySQLConnection();
-        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0], getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+        ResultSet resultSet = mySQLConnection.calcSaleSum(getQueries()[0],
+                SQLStatments.PRODUCT_LEVEL_DD.get(getCommodityLevel()),SQLStatments.TIME_LEVEL.get(getTimeLevel()),
+                getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//        ResultSet resultSet = mySQLConnection.calcSaleSumByParam(getQueries()[0], getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
         int listSize = -1;
         if (resultSet !=null){
@@ -140,5 +107,55 @@ public class PieArgsGenerator extends ArgsGenerator{
         mySQLConnection.close();
 
         return pieArgs;
+    }
+
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** *****   DEPRECATED & Legacy   ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    /**
+     * DEPRECATED
+     * Analyze inputs and prepare to Generate
+     */
+    public void analyzeParameters_orig(){
+        String queryFrame = SQLStatments.SUM_SALE_TRANSACTION_PIE_FRAME;
+        if (getCommodityLevel().equals("brand")){
+            setTitle("Shares of " + getBrandParam());
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_BRAND);
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Shares of " + getFactoryParam());
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORY);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Shares of All Factories");
+            queryFrame = queryFrame.replace(SQLStatments.DELIMITER_1, SQLStatments.PIE_ARGS_FACTORIES);
+        }
+
+        if (getTimeLevel().equals("month")){
+            setTitle(getTitle() + " in Month" + getMonthParam());
+        }
+        else if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+        }
+        else {
+            // getTimeLevel() ==null
+        }
+
+        // Choose proper tables
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame = queryFrame.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+
+        String[] queriesAry = { queryFrame };
+        this.setQueries(queriesAry);
     }
 }
