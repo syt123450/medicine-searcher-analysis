@@ -31,7 +31,7 @@ public class LineArgsGenerator extends ArgsGenerator{
      * To determine Customized variable HAxis for Line Chart
      */
     public void determineCustomization(){
-        setHAxis(determineTimeAxisName());
+        setHAxis(determineTimeHAxisName());
     }
 
     /**

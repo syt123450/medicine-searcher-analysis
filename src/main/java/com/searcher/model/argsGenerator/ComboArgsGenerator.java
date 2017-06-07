@@ -27,7 +27,7 @@ public class ComboArgsGenerator extends ArgsGenerator{
     }
 
     public void determineCustomization(){
-        setHAxis(determineTimeAxisName());
+        setHAxis(determineTimeHAxisName());
     }
 
     /**
