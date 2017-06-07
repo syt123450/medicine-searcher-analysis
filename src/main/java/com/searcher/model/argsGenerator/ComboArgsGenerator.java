@@ -26,60 +26,8 @@ public class ComboArgsGenerator extends ArgsGenerator{
         this.vAxis = "";
     }
 
-    /**
-     * Analyze inputs and prepare to Generate
-     */
-    public void analyzeParameters(){
-        setVAxis("Amount");
-        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_0;
-        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_1;
-        if (getCommodityLevel().equals("brand")){
-            setTitle("Total and Average Sales of " + getBrandParam());
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
-        }
-        else if (getCommodityLevel().equals("factory")){
-            setTitle("Total and Average Sales of " + getFactoryParam());
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
-        }
-        else {
-            // getCommodityLevel() ==null
-            setTitle("Total and Average Sales of All Factories");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
-        }
-
-        if (getTimeLevel().equals("quarter")){
-            setTitle(getTitle() + " in Quarter " + getQuarterParam());
-            setHAxis("Month");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_QUARTER);
-        }
-        else if (getTimeLevel().equals(("year"))){
-            setTitle(getTitle() + " in Year " + getYearParam());
-            setHAxis("Quarter");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEAR);
-        }
-        else {
-            // getTimeLevel() ==null
-            setHAxis("Year");
-            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
-            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEARS);
-        }
-
-        // Choose proper Table
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_SALE_TRANSACTION);
-        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
-
-        String[] queriesAry = {queryFrame_0, queryFrame_1};
-        this.setQueries(queriesAry);
+    public void determineCustomization(){
+        setHAxis(determineTimeAxisName());
     }
 
     /**
@@ -102,7 +50,10 @@ public class ComboArgsGenerator extends ArgsGenerator{
             ArrayList<String> tempList = new ArrayList<String>();
 
             /* Try to catch name list first */
-            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+            ResultSet resultSet_0 = mySQLConnection.calcSaleSum(getQueries()[0],
+                    SQLStatments.PRODUCT_LEVEL_DD.get(getCommodityLevel()),SQLStatments.TIME_LEVEL_DD.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_0 = mySQLConnection.calcSaleSumByParam(getQueries()[0],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             // Decide levels
             String commodityLvlLbl = "factoryName";
@@ -146,7 +97,10 @@ public class ComboArgsGenerator extends ArgsGenerator{
             /* Add data */
             // reset sql_0 curser to the first
             resultSet_0.beforeFirst();
-            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+            ResultSet resultSet_1 = mySQLConnection.calcSaleSum(getQueries()[1],
+                    SQLStatments.PRODUCT_LEVEL_DD.get(getCommodityLevel()),SQLStatments.TIME_LEVEL_DD.get(getTimeLevel()),
+                    getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
+//            ResultSet resultSet_1 = mySQLConnection.calcSaleSumByParam(getQueries()[1],getFactoryParam(),getBrandParam(),getMedicineParam(),getYearParam(),getQuarterParam(),getMonthParam());
 
             int tempTime =-1;
             int count =0;
@@ -193,4 +147,72 @@ public class ComboArgsGenerator extends ArgsGenerator{
         return comboArgs;
     }
 
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** *****   DEPRECATED & Legacy   ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+    /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
+
+    /**
+     * DEPRECATED
+     * Analyze inputs and prepare to Generate
+     */
+    public void analyzeParameters_orig(){
+        setVAxis("Amount");
+        String queryFrame_0 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_0;
+        String queryFrame_1 = SQLStatments.SUM_SALE_TRANSACTION_COMBO_1;
+        if (getCommodityLevel().equals("brand")){
+            setTitle("Total and Average Sales of " + getBrandParam());
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_BRAND);
+        }
+        else if (getCommodityLevel().equals("factory")){
+            setTitle("Total and Average Sales of " + getFactoryParam());
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORY);
+        }
+        else {
+            // getCommodityLevel() ==null
+            setTitle("Total and Average Sales of All Factories");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_1, SQLStatments.COMBO_ARGS_FACTORIES);
+        }
+
+        if (getTimeLevel().equals("quarter")){
+            setTitle(getTitle() + " in Quarter " + getQuarterParam());
+            setHAxis("Month");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_QUARTER);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_QUARTER);
+        }
+        else if (getTimeLevel().equals(("year"))){
+            setTitle(getTitle() + " in Year " + getYearParam());
+            setHAxis("Quarter");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEAR);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEAR);
+        }
+        else {
+            // getTimeLevel() ==null
+            setHAxis("Year");
+            queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_2, SQLStatments.COMBO_ARGS_YEARS);
+            queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_3, SQLStatments.COMBO_ARGS_T_YEARS);
+        }
+
+        // Choose proper Table
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_ST, SQLStatments.ST_TRANSACTION);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PL, SQLStatments.PL_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_COND, SQLStatments.COND_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPD, SQLStatments.PREPD_MEDICINE);
+        queryFrame_0 = queryFrame_0.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+        queryFrame_1 = queryFrame_1.replace(SQLStatments.DELIMITER_PREPT, SQLStatments.PREPT_MONTH);
+
+        String[] queriesAry = {queryFrame_0, queryFrame_1};
+        this.setQueries(queriesAry);
+    }
 }
