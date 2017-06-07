@@ -1,4 +1,4 @@
-package com.searcher.model;
+package com.searcher.model.virtualizationModule;
 
 import org.apache.http.client.fluent.Request;
 
