@@ -78,7 +78,7 @@ public abstract class ArgsGenerator {
      */
     public abstract void determineCustomization();
 
-    public String determineTimeAxisName(){
+    public String determineTimeHAxisName(){
         String ret = "";
         if (getTimeLevel().equals("quarter")){
             ret = "Month";
@@ -90,6 +90,36 @@ public abstract class ArgsGenerator {
             // getTimeLevel() ==null
             ret = "Year";
         }
+        return ret;
+    }
+
+    public String determineTimeLable(){
+        String ret = "";
+
+        return ret;
+    }
+
+    public String determineTimeLable_DD(){
+        String ret = "";
+
+        return ret;
+    }
+
+    public String determineProductLable(){
+        String ret = "factoryName";
+        if (getCommodityLevel().equals("medicine")){
+            ret = "medicineName";
+        }
+        else if (getCommodityLevel().equals("brand")){
+            ret = "brandName";
+        }
+
+        return ret;
+    }
+
+    public String determineProductLable_DD(){
+        String ret = "factoryName";
+
         return ret;
     }
 
