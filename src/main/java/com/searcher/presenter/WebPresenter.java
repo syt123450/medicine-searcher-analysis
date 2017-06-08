@@ -40,6 +40,7 @@ class WebPresenter {
     private String getYesterdayPercentage() throws Exception {
 
         PieArgs pieArgs = yesterdayInfoGetter.get();
+        System.out.println(pieArgs.getArgsData().size());
         String response = gson.toJson(pieArgs);
 
         return response;

@@ -16,7 +16,7 @@ import java.util.HashMap;
 @Service
 public class CacheDataUtils {
 
-    private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
+    private static final String URL = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
 

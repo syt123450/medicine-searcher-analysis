@@ -15,8 +15,7 @@ class ETLInitiator implements ApplicationListener<ContextRefreshedEvent>{
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        ETLDumper ETLDumper = new ETLDumper();
-        Thread dumperThread = new Thread(ETLDumper);
+        Thread dumperThread = new Thread(etlDumper);
         dumperThread.start();
     }
 }

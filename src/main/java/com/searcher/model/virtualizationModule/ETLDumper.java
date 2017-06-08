@@ -33,6 +33,7 @@ public class ETLDumper implements Runnable {
 
         while (true) {
             try {
+
                 String responseContent1 = Request.Get(SALE_ETL_ADDRESS).execute().returnContent().asString();
                 System.out.println(responseContent1);
                 ArrayList<SaleTransactionBean> saleTransactionBeans = gson.fromJson(responseContent1,
