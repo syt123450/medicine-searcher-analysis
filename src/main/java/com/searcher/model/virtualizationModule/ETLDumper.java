@@ -57,7 +57,7 @@ public class ETLDumper implements Runnable {
                 Thread.sleep(DUMP_INTERVAL);
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     }
