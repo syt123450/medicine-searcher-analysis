@@ -1,5 +1,6 @@
 package com.searcher.utils;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -13,12 +14,12 @@ import java.util.HashMap;
  * Created by ss on 2017/6/5.
  */
 
-@Service
 public class CacheDataUtils {
 
     private static final String URL = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT";
     private static final String USERNAME = "ultimate";
     private static final String PASSWORD = "sesame";
+    private static Logger logger = Logger.getLogger(CacheDataUtils.class);
 
     public static final String YESTERDAY_PIE
             =
@@ -54,6 +55,8 @@ public class CacheDataUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        logger.info("Yesterday data is: " + pieDataList);
 
         return pieDataList;
     }
