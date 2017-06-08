@@ -8,6 +8,7 @@ import com.searcher.model.entity.SaleTransactionBean;
 import com.searcher.model.entity.SearchTransactionBean;
 import com.searcher.utils.MysqlUtils;
 import org.apache.http.client.fluent.Request;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class ETLDumper implements Runnable {
     static private int DUMP_INTERVAL = 86400000;
 
     private Gson gson = new GsonBuilder().create();
+    private Logger logger = Logger.getLogger(ETLDumper.class);
     @Autowired
     RedisHelper redisHelper;
 
@@ -33,6 +35,8 @@ public class ETLDumper implements Runnable {
 
         while (true) {
             try {
+
+                logger.info("ETL dumping yesterday data to MySQL.");
 
                 String responseContent1 = Request.Get(SALE_ETL_ADDRESS).execute().returnContent().asString();
                 System.out.println(responseContent1);
@@ -45,6 +49,8 @@ public class ETLDumper implements Runnable {
                 ArrayList<SearchTransactionBean> searchTransactionBeans = gson.fromJson(responseContent1,
                         new TypeToken<ArrayList<SearchTransactionBean>>(){}.getType());
                 MysqlUtils.persistSearchTransaction(searchTransactionBeans);
+
+                logger.info("ETL dumping data to Redis.");
 
                 redisHelper.dumpYesterdayData();
 
