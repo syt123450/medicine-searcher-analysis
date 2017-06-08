@@ -100,21 +100,25 @@ public abstract class ArgsGenerator {
     }
 
     public String determineTimeLable_DD(){
-        String ret = "";
+        if (getTimeLevel().equals("quarter")){
+            return "month";
+        }
+        else if (getTimeLevel().equals("year")){
+            return "quarter";
+        }
 
-        return ret;
+        return "year";
     }
 
     public String determineProductLable(){
-        String ret = "factoryName";
         if (getCommodityLevel().equals("medicine")){
-            ret = "medicineName";
+            return "medicineName";
         }
         else if (getCommodityLevel().equals("brand")){
-            ret = "brandName";
+            return "brandName";
         }
 
-        return ret;
+        return "factoryName";
     }
 
     public String determineProductLable_DD(){

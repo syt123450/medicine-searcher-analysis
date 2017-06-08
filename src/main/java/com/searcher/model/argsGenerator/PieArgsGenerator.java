@@ -70,11 +70,12 @@ public class PieArgsGenerator extends ArgsGenerator{
             try {
                 while (resultSet.next()){
                     // Create temp arrayList to hold detailed data <[name], [totalSum]>
+                    // Each tempList contains a name of the target [name] and the [totalSum]
                     ArrayList<String> tempList = new ArrayList<String>();
 
                     // Catch data from SQL result
                     tempList.add(resultSet.getString(columnLabel));
-                    tempList.add(Double.toString(resultSet.getDouble("totalSum")));
+                    tempList.add(String.valueOf((long)resultSet.getDouble("totalSum")));
 
                     /* Verify each arrayList is constructed with the same size */
                     // Case: the first ArrayList, catch the size
