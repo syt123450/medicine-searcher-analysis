@@ -3,6 +3,7 @@ package com.searcher.model.virtualizationModule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.searcher.config.ETLConfig;
 import com.searcher.model.cacheHelper.RedisHelper;
 import com.searcher.model.entity.SaleTransactionBean;
 import com.searcher.model.entity.SearchTransactionBean;
@@ -21,10 +22,9 @@ import java.util.ArrayList;
 @Service
 public class ETLDumper implements Runnable {
 
-    static private String SALE_ETL_ADDRESS = "http://localhost:80/API/saleTransaction.php";
-    static private String SEARCH_ETL_ADDRESS = "http://localhost:80/API/searchTransaction.php";
     static private int DUMP_INTERVAL = 86400000;
-
+    @Autowired
+    private ETLConfig etlConfig;
     private Gson gson = new GsonBuilder().create();
     private Logger logger = Logger.getLogger(ETLDumper.class);
     @Autowired
@@ -37,16 +37,18 @@ public class ETLDumper implements Runnable {
             try {
 
                 logger.info("ETL dumping yesterday data to MySQL.");
+                System.out.println(etlConfig.getSearchPath());
 
-                String responseContent1 = Request.Get(SALE_ETL_ADDRESS).execute().returnContent().asString();
-                System.out.println(responseContent1);
+                logger.info("Dumping sale data from: " + etlConfig.getSalePath());
+
+                String responseContent1 = Request.Get(etlConfig.getSalePath()).execute().returnContent().asString();
                 ArrayList<SaleTransactionBean> saleTransactionBeans = gson.fromJson(responseContent1,
                         new TypeToken<ArrayList<SaleTransactionBean>>(){}.getType());
                 MysqlUtils.persistSaleTransaction(saleTransactionBeans);
 
-                String responseContent2 = Request.Get(SEARCH_ETL_ADDRESS).execute().returnContent().asString();
-                System.out.println(responseContent2);
-                ArrayList<SearchTransactionBean> searchTransactionBeans = gson.fromJson(responseContent1,
+                logger.info("Dumping search data from: " + etlConfig.getSearchPath());
+                String responseContent2 = Request.Get(etlConfig.getSearchPath()).execute().returnContent().asString();
+                ArrayList<SearchTransactionBean> searchTransactionBeans = gson.fromJson(responseContent2,
                         new TypeToken<ArrayList<SearchTransactionBean>>(){}.getType());
                 MysqlUtils.persistSearchTransaction(searchTransactionBeans);
 
