@@ -73,7 +73,7 @@ public class SankeyArgsGenerator extends ArgsGenerator{
                     if( !dulpNameCheckList.contains(dulpNameCheck) ){
                         dulpNameCheckList.add(dulpNameCheck);
                     }
-                    tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );
+                    tempList.add( String.valueOf((long)resultSet_0.getDouble("totalSum")) );
                     sankeyArgs.addItemList(tempList);
                     if (listSize <0){
                         listSize = tempList.size();
@@ -105,7 +105,7 @@ public class SankeyArgsGenerator extends ArgsGenerator{
                         ArrayList<String> tempList = new ArrayList<String>();
                         tempList.add(dulpNameCheck);
                         tempList.add(resultSet_1.getString("medicineName"));
-                        tempList.add( Double.toString(resultSet_1.getDouble("totalSum")) );
+                        tempList.add( String.valueOf((long)resultSet_1.getDouble("totalSum")) );
                         sankeyArgs.addItemList(tempList);
                         if (listSize <0){
                             listSize = tempList.size();

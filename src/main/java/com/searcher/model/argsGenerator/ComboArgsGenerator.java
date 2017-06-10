@@ -110,7 +110,7 @@ public class ComboArgsGenerator extends ArgsGenerator{
                 if (tempTime != resultSet_0.getInt(timeLvlLbl)){
                     if (count !=0){
                         resultSet_1.next();
-                        tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
+                        tempList.add( String.valueOf((long)resultSet_1.getDouble("avgSum")) );
                         comboArgs.addItemList(tempList);
                         if (listSize <0){
                             listSize = tempList.size();
@@ -124,10 +124,10 @@ public class ComboArgsGenerator extends ArgsGenerator{
                     tempList.add(Integer.toString(tempTime));
                     count++;
                 }
-                tempList.add( Double.toString(resultSet_0.getDouble("totalSum")) );
+                tempList.add( String.valueOf((long)resultSet_0.getDouble("totalSum")) );
             }
             resultSet_1.next();
-            tempList.add( Double.toString(resultSet_1.getDouble("avgSum")) );
+            tempList.add( String.valueOf((long)resultSet_1.getDouble("avgSum")) );
             comboArgs.addItemList(tempList);
             if (listSize <0){
                 listSize = tempList.size();
