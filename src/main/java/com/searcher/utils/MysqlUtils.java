@@ -357,6 +357,10 @@ public class MysqlUtils {
             }
         }
 
+        if ( brandId == -1 ) {
+            System.out.println( "failed to find the brandKey from medicineKey: " + medicineId);
+        }
+
         return brandId;
     }
 
@@ -374,6 +378,10 @@ public class MysqlUtils {
             }catch( Exception e ) {
                 e.printStackTrace();
             }
+        }
+
+        if ( factoryId == -1 ) {
+            System.out.println( "failed to find the factoryKey from medicineKey: " + medicineId );
         }
 
         return factoryId;
@@ -507,9 +515,6 @@ public class MysqlUtils {
             } else {
                 bHashTbl.put(brandKey, totalPrice);
             }
-        }else {
-            // impossible to be here
-            System.out.println("Not find brandKey!!!");
         }
     }
 
@@ -520,9 +525,6 @@ public class MysqlUtils {
             } else {
                 fHashTbl.put(factoryKey, totalPrice);
             }
-        }else {
-            // impossible to be here
-            System.out.println("Not find factoryKey!!!");
         }
     }
 
