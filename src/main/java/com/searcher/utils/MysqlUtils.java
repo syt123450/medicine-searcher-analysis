@@ -13,12 +13,12 @@ import java.util.Hashtable;
  * Created by ss on 2017/5/3.
  */
 public class MysqlUtils {
-    private static final String URL      = "jdbc:mysql://localhost:3306/finalProj?serverTimezone=GMT&useSSL=false";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "123456";
-    //private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT&useSSL=false";
-    //private static final String USERNAME = "ultimate";
-    //private static final String PASSWORD = "sesame";
+    //private static final String URL      = "jdbc:mysql://localhost:3306/finalProj?serverTimezone=GMT&useSSL=false";
+    //private static final String USERNAME = "root";
+    //private static final String PASSWORD = "123456";
+    private static final String URL      = "jdbc:mysql://localhost:3306/226analysis?serverTimezone=GMT&useSSL=false";
+    private static final String USERNAME = "ultimate";
+    private static final String PASSWORD = "sesame";
 
     public static void persistSaleTransaction(ArrayList<SaleTransactionBean> saleTransactionBeans) {
         Calendar c  = Calendar.getInstance();
@@ -649,11 +649,11 @@ public class MysqlUtils {
     }
 
     //Test code, will DELETE
-    public static void main(String[] args) {
-        ArrayList<SaleTransactionBean> s = new ArrayList<>();
-        s.add( new SaleTransactionBean( -1, 100, 1000, 2000, 123456) );
-        s.add( new SaleTransactionBean( -1, 120, 1001, 2000, 234567) );
-        s.add( new SaleTransactionBean( -1, 200, 2000, 3000, 234567) );
-        persistSaleTransaction(s);
-    }
+    //public static void main(String[] args) {
+    //    ArrayList<SaleTransactionBean> s = new ArrayList<>();
+    //    s.add( new SaleTransactionBean( -1, 100, 1000, 2000, 123456) );
+    //    s.add( new SaleTransactionBean( -1, 120, 1001, 2000, 234567) );
+    //    s.add( new SaleTransactionBean( -1, 200, 2000, 3000, 234567) );
+    //    persistSaleTransaction(s);
+    //}
 }
