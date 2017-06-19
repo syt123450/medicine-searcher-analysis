@@ -42,7 +42,7 @@ public class MysqlUtils {
 
         int year    = c.get(Calendar.YEAR);
         int month   = c.get(Calendar.MONTH) + 1;   // 0 to 11
-        int date    = c.get(Calendar.DAY_OF_MONTH);
+        int date    = c.get(Calendar.DAY_OF_MONTH) - 1;
         int quarter = c.get(Calendar.MONTH)/3 + 1;
         String fullDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(date);
 
